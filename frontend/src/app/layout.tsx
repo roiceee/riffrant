@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/nav/nav";
+import AuthProvider from "@/components/nav/authprovider";
 
 const font = Montserrat({ style: "normal", weight: "400", subsets: ["latin"] });
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light">
       <body className={font.className}>
-        <Navbar />
-        {children}
+        <AuthProvider>
+          <Navbar />
+          <div className="container mx-auto px-4 sm:px-16 md:px-24">{children}</div>
+        </AuthProvider>
       </body>
     </html>
   );
