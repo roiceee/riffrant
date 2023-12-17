@@ -1,5 +1,7 @@
+import DownvoteButton from "@/app/assets/downvote-icon";
+import UpvoteIcon from "@/app/assets/upvote-icon";
+
 interface ViewPostModalProps {
-  onClose: () => void;
   title: string;
   body: string;
   upvotes: number;
@@ -7,44 +9,54 @@ interface ViewPostModalProps {
   createdAt: string;
 }
 
-function ViewPostModal({ onClose }: ViewPostModalProps) {
+function ViewPostModal({
+  title,
+  body,
+  upvotes,
+  displayName,
+  createdAt,
+}: ViewPostModalProps) {
+  const onClose = () => {
+    const modal: any = document.getElementById("modal-post-view");
+    if (modal) {
+      modal.close();
+    }
+  };
+
   return (
-    <dialog id="modal-post-view" className="modal">
+    <dialog id="modal-post-view" className="modal prose">
       <div className="modal-box">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
             ✕
           </button>
         </form>
-        <h3 className="font-bold text-lg">What&apos;s on your mind?</h3>
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Title</span>
-            <span className="label-text">0/40</span>
+        <div className="modal-header">
+          <div className="font-semibold opacity-80 text-xs">
+            Posted by: {displayName}
           </div>
-          <input
-            type="text"
-            placeholder="Enter Title"
-            className="input input-bordered w-full"
-          />
-        </label>
+          <h3 className="mb-0 mt-2">{title}</h3>
 
-        <label className="form-control w-full">
-          <div className="label">
-            <span className="label-text">Body</span>
-            <span className="label-text">0/300</span>
+          <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
+        </div>
+        <p className="modal-body">{body}</p>
+        <div className="modal-footer flex items-center justify-between">
+          <div className="flex items-center justify-start gap-2">
+            <button className="btn btn-outline btn-success btn-sm">
+              <UpvoteIcon />
+            </button>
+            <span className=" text-lg">
+              <b>{upvotes}</b>
+            </span>
+            <button className="btn btn-outline btn-error btn-sm">
+              <DownvoteButton />
+            </button>
           </div>
-          <textarea
-            placeholder="Enter Body"
-            className="textarea textarea-bordered textarea-sm w-full"
-            style={{ minHeight: "200px" }}
-          />
-        </label>
-        <div className="modal-action">
-          <button className="btn btn-accent">Post</button>
-          <button className="btn" onClick={onClose}>
-            Cancel
-          </button>
+          <div className="modal-action mt-0">
+            <button className="btn" onClick={onClose}>
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </dialog>

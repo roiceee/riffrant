@@ -5,6 +5,7 @@ import style from "./post-card.module.css";
 import _ from "lodash";
 
 interface PostCardProps {
+  onClick: () => void;
   title: string;
   displayName: string;
   body: string;
@@ -18,11 +19,14 @@ function PostCard({
   body,
   upvotes,
   createdAt,
+  onClick,
 }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary">
-      <div className="prose">
-        <div className="font-semibold opacity-80 text-xs">Posted by: {displayName}</div>
+      <div className="prose" onClick={onClick}>
+        <div className="font-semibold opacity-80 text-xs">
+          Posted by: {displayName}
+        </div>
         <h3 className="mb-0 mt-2">{title}</h3>
 
         <div className="font-semibold opacity-80 text-xs">{createdAt}</div>

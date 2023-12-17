@@ -11,11 +11,39 @@ import ScrollToTopButton from "@/components/scroll-to-top-button";
 import { useState } from "react";
 import _ from "lodash";
 import PostButton from "@/components/posts/post-button";
+import ViewPostModal from "@/components/posts/view-post-modal";
 
 export default function Home() {
   const auth = useAuth0();
 
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
+
+  const [chosenPost, setChosenPost] = useState<{
+    title: string;
+    body: string;
+    upvotes: number;
+    displayName: string;
+    createdAt: string;
+  } | null>(null);
+
+  const setChosenPostAndOpenModal = (
+    title: string,
+    body: string,
+    upvotes: number,
+    displayName: string,
+    createdAt: string
+  ) => {
+    setChosenPost({ title, body, upvotes, displayName, createdAt });
+    onPostClick();
+  }
+  
+  const onPostClick = () => {
+    const modal: any = document.getElementById("modal-post-view");
+    if (modal) {
+      modal.showModal();
+    }
+  }
+
 
   const changeFilter = (filter: "recent" | "popular") => {
     setFilter(filter);
@@ -98,37 +126,24 @@ export default function Home() {
           createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
-        />
-        <PostCard
-          title="TITLE GOES HERE"
-          displayName="placeholderName"
-          createdAt="Just now"
-          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-          upvotes={0}
-        />
-        <PostCard
-          title="TITLE GOES HERE"
-          displayName="placeholderName"
-          createdAt="Just now"
-          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-          upvotes={0}
-        />
-        <PostCard
-          title="TITLE GOES HERE"
-          displayName="placeholderName"
-          createdAt="Just now"
-          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-          upvotes={0}
-        />
-        <PostCard
-          title="TITLE GOES HERE"
-          displayName="placeholderName"
-          createdAt="Just now"
-          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-          upvotes={0}
+          onClick={() => setChosenPostAndOpenModal(
+            "TITLE GOES HERE",
+            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum",
+            0,
+            "placeholderName",
+            "Just now"
+          )}
+          
         />
       </section>
       <ScrollToTopButton />
+      <ViewPostModal
+        title={chosenPost?.title!}
+        body={chosenPost?.body!}
+        upvotes={chosenPost?.upvotes!}
+        displayName={chosenPost?.displayName!}
+        createdAt={chosenPost?.createdAt!}
+      />
     </main>
   );
 }
