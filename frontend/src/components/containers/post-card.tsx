@@ -1,7 +1,7 @@
 import UpvoteIcon from "@/app/assets/upvote-icon";
 import NormalContainer from "./normal-container";
 import DownvoteButton from "@/app/assets/downvote-icon";
-import style from "./post-card.module.css"
+import style from "./post-card.module.css";
 import _ from "lodash";
 
 interface PostCardProps {
@@ -9,18 +9,23 @@ interface PostCardProps {
   displayName: string;
   body: string;
   upvotes: number;
+  createdAt: string;
 }
 
-function PostCard({ title, displayName, body, upvotes }: PostCardProps) {
-
-  
-
-
+function PostCard({
+  title,
+  displayName,
+  body,
+  upvotes,
+  createdAt,
+}: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary">
       <div className="prose">
-        <h3 className="mb-1">{title}</h3>
-        <div className="font-semibold opacity-80">{displayName}</div>
+        <div className="font-semibold opacity-80 text-xs">Posted by: {displayName}</div>
+        <h3 className="mb-0 mt-2">{title}</h3>
+
+        <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
         <p
           className={" overflow overflow-y-hidden " + style.fadeOutBottom}
           style={{ maxHeight: "120px" }}

@@ -95,30 +95,35 @@ export default function Home() {
         <PostCard
           title="TITLE GOES HERE"
           displayName="placeholderName"
+          createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
         />
         <PostCard
           title="TITLE GOES HERE"
           displayName="placeholderName"
+          createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
         />
         <PostCard
           title="TITLE GOES HERE"
           displayName="placeholderName"
+          createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
         />
         <PostCard
           title="TITLE GOES HERE"
           displayName="placeholderName"
+          createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
         />
         <PostCard
           title="TITLE GOES HERE"
           displayName="placeholderName"
+          createdAt="Just now"
           body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
           upvotes={0}
         />
