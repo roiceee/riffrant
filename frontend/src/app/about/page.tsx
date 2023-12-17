@@ -21,7 +21,7 @@ function AboutPage() {
             <div>
                 <h4 className="p-4">Technologies used:</h4>
                 <div className="flex space-x-4  w-100" >
-                    <div className="flex flex-row ml-12 justify-between">
+                    <div className="flex flex-row ml-12 justify-between text-sm">
                         <div className="m-4 flex flex-col items-center">
                             <Image className="m-0" src={nextjs} width={40} height={40} alt="no image" />
                             <p className="m-1">Next.Js</p>
