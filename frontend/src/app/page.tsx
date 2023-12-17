@@ -25,8 +25,6 @@ export default function Home() {
     }
   };
 
-
-
   return (
     <main className="">
       <NormalContainer>
@@ -61,7 +59,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <PostButton/>
+            <PostButton />
           </div>
         )}
       </NormalContainer>
