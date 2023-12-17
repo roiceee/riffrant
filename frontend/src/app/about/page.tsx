@@ -10,7 +10,7 @@ function AboutPage() {
 
 
     return ( 
-        <main className="prose mx-auto p-4 border-2">
+        <main className="prose mx-auto p-4">
             <div>
                 <h2 className="font-bold text-center">Welcome to USePinion</h2>
                 <p className="text-justify m-4">
