@@ -35,6 +35,7 @@ function AboutPage() {
                 alt="no image"
               />
               <p className="m-1">Next.Js</p>
+              
             </div>
 
             <div className="flex flex-col items-center justify-center">
