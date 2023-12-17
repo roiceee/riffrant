@@ -20,7 +20,7 @@ function Navbar() {
   return (
     <div className="navbar bg-base-100 border-b px-4 lg:px-20 mb-12">
       <div className="flex-1">
-        <Image src={logo} height={60} width={60} alt="logo" />
+        <Image src={logo} height={50} width={50} alt="logo" />
         <div className="hidden sm:inline">
           <a className="btn btn-ghost text-xl">USePinion</a>
         </div>
