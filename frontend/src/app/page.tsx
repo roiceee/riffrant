@@ -10,7 +10,7 @@ import PostCard from "@/components/containers/post-card";
 import ScrollToTopButton from "@/components/scroll-to-top-button";
 import { useState } from "react";
 import _ from "lodash";
-import PostButton from "@/components/input/post-button";
+import PostButton from "@/components/posts/post-button";
 
 export default function Home() {
   const auth = useAuth0();

@@ -12,6 +12,10 @@ interface PostCardProps {
 }
 
 function PostCard({ title, displayName, body, upvotes }: PostCardProps) {
+
+  
+
+
   return (
     <NormalContainer className="hover:border-primary">
       <div className="prose">
