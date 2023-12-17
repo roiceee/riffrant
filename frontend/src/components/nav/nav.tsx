@@ -28,7 +28,7 @@ function Navbar() {
           >
             <div className="w-10 rounded-full">
               <Image
-                alt="Tailwind CSS Navbar component"
+                alt="profile"
                 src={auth.isAuthenticated ? auth.user!.picture! : placeholder}
                 width={50}
                 height={50}
