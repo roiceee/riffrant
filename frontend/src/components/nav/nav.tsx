@@ -10,6 +10,13 @@ import Link from "next/link";
 function Navbar() {
   const auth = useAuth0();
 
+  const closeOnClick = () => {
+    const elem: any = document.activeElement;
+    if (elem) {
+      elem.blur();
+    }
+  };
+
   return (
     <div className="navbar bg-base-100 border-b px-4 lg:px-20 mb-12">
       <div className="flex-1">
@@ -55,7 +62,11 @@ function Navbar() {
             {auth.isAuthenticated && (
               <>
                 <li>
-                  <Link href={"/profile"} className="justify-between">
+                  <Link
+                    href={"/profile"}
+                    className="justify-between"
+                    onClick={closeOnClick}
+                  >
                     Profile
                   </Link>
                 </li>

@@ -45,6 +45,7 @@ function ProfilePage() {
   return (
     <main className="prose mx-auto">
       <section>
+        <h3>Profile</h3>
         <div>
           <b>Email: </b> {auth.user?.email}
         </div>

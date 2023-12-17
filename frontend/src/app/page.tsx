@@ -3,15 +3,26 @@ import { useAuth0 } from "@auth0/auth0-react";
 import placeholder from "/public/user-placeholder.jpg";
 import Image from "next/image";
 import Link from "next/link";
-import filter from "/public/filter.svg";
 import NormalContainer from "@/components/containers/normal-container";
 import FilterIcon from "./assets/filter";
 import ArrowDown from "./assets/arrow-down";
 import PostCard from "@/components/containers/post-card";
 import ScrollToTopButton from "@/components/scroll-to-top-button";
+import { useState } from "react";
+import _ from "lodash";
 
 export default function Home() {
   const auth = useAuth0();
+
+  const [filter, setFilter] = useState<"recent" | "popular">("recent");
+
+  const changeFilter = (filter: "recent" | "popular") => {
+    setFilter(filter);
+    const elem: any = document.activeElement;
+    if (elem) {
+      elem.blur();
+    }
+  };
 
   return (
     <main className="">
@@ -66,18 +77,18 @@ export default function Home() {
               role="button"
               className="btn btn-sm btn-ghost m-1"
             >
-              Most Recent
+              {_.capitalize(filter)}
               <ArrowDown />
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a>Most Recent</a>
+              <li onClick={() => changeFilter("recent")}>
+                <a>Recent</a>
               </li>
-              <li>
-                <a>Most Liked</a>
+              <li onClick={() => changeFilter("popular")}>
+                <a>Popular</a>
               </li>
             </ul>
           </div>
