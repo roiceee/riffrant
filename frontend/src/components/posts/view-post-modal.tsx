@@ -39,7 +39,7 @@ function ViewPostModal({
 
           <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
         </div>
-        <p className="modal-body my-14">{body}</p>
+        <p className="modal-body mt-12 mb-8">{body}</p>
         <div className="modal-footer flex items-center justify-between">
           <div className="flex items-center justify-start gap-2">
             <button className="btn btn-outline btn-success btn-sm">
