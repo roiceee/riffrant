@@ -3,7 +3,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import placeholder from "/public/user-placeholder.jpg";
 import Image from "next/image";
 import Link from "next/link";
+import filter from "/public/filter.svg";
 import NormalContainer from "@/components/containers/normal-container";
+import FilterIcon from "./assets/filter";
+import ArrowDown from "./assets/arrow-down";
+import PostCard from "@/components/containers/post-card";
+import ScrollToTopButton from "@/components/scroll-to-top-button";
 
 export default function Home() {
   const auth = useAuth0();
@@ -51,6 +56,67 @@ export default function Home() {
           </div>
         )}
       </NormalContainer>
+
+      <section className="mt-4">
+        <div className="ml-2 flex items-center">
+          <FilterIcon />
+          <div className="dropdown">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-sm btn-ghost m-1"
+            >
+              Most Recent
+              <ArrowDown />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a>Most Recent</a>
+              </li>
+              <li>
+                <a>Most Liked</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+      </section>
+      <section className="mt-6 flex flex-col gap-3">
+        <PostCard
+          title="TITLE GOES HERE"
+          displayName="placeholderName"
+          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+          upvotes={0}
+        />
+        <PostCard
+          title="TITLE GOES HERE"
+          displayName="placeholderName"
+          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+          upvotes={0}
+        />
+        <PostCard
+          title="TITLE GOES HERE"
+          displayName="placeholderName"
+          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+          upvotes={0}
+        />
+        <PostCard
+          title="TITLE GOES HERE"
+          displayName="placeholderName"
+          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+          upvotes={0}
+        />
+        <PostCard
+          title="TITLE GOES HERE"
+          displayName="placeholderName"
+          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+          upvotes={0}
+        />
+      </section>
+      <ScrollToTopButton />
     </main>
   );
 }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import placeholder from "/public/user-placeholder.jpg";
+import logo from "/public/logo-100.png";
 import MenuList from "./menulist";
 import { useAuth0 } from "@auth0/auth0-react";
 import Link from "next/link";
@@ -10,9 +11,12 @@ function Navbar() {
   const auth = useAuth0();
 
   return (
-    <div className="navbar bg-base-100 border-b lg:px-20 mb-12">
+    <div className="navbar bg-base-100 border-b px-4 lg:px-20 mb-12">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">USePinion</a>
+        <Image src={logo} height={60} width={60} alt="logo" />
+        <div className="hidden sm:inline">
+          <a className="btn btn-ghost text-xl">USePinion</a>
+        </div>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
