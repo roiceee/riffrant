@@ -24,27 +24,27 @@ function AboutPage() {
                     <div className="flex flex-row ml-12 justify-between">
                         <div className="m-4 flex flex-col items-center">
                             <Image className="m-0" src={nextjs} width={40} height={40} alt="no image" />
-                            <p className="m-1">NEXT.JS</p>
+                            <p className="m-1">Next.Js</p>
                         </div>
                             
                         <div className="m-4 flex flex-col items-center">
                             <Image className="m-0" src={typescript} width={40} height={40} alt="no image" />
-                            <p className="m-1">TYPESCRIPT</p>
+                            <p className="m-1">TypeScript</p>
                         </div>
 
                         <div className="m-4 flex flex-col items-center">
                             <Image className="m-0" src={spring} width={40} height={40} alt="no image" />
-                            <p className="m-1">SPRING</p>
+                            <p className="m-1">Spring</p>
                         </div>
 
                         <div className="m-4 flex flex-col items-center">
                             <Image className="m-0" src={java} width={40} height={40} alt="no image" />
-                            <p className="m-1">JAVA</p>
+                            <p className="m-1">Java</p>
                         </div>
 
                         <div className="m-4  flex flex-col items-center">
                             <Image className="m-0" src={postgresql} width={40} height={40} alt="no image" />
-                            <p className="m-1">POSTGRESQL</p>                          
+                            <p className="m-1">PostgreSQL</p>                          
                         </div>
                     </div>
                 </div>
