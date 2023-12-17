@@ -5,53 +5,86 @@ import spring from "/public/spring1.png";
 import java from "/public/java1.png";
 import postgresql from "/public/postgresql1.png";
 
-
 function AboutPage() {
+  return (
+    <main className="prose mx-auto p-4">
+      <section>
+        <h2 className="font-bold text-center">Welcome to USePinion</h2>
+        <p className="text-justify m-4">
+          Where student opinions take center stage! Our web-based platform is
+          all about letting students freely share their thoughts on various
+          topics. USePinion uses smart hash maps to keep things organized and
+          user-friendly. It&apos;s not just a place to express opinions;
+          it&apos;s a vibrant community where every voice matters. Join us in
+          making opinions heard and discussions lively. USePinion: Your space,
+          your voice, your opinions!
+        </p>
+      </section>
 
+      <section className="mt-14">
+        <h3 className="text-center mb-8">Technologies used</h3>
+        <div>
+          <div className="flex flex-row flex-wrap items-center justify-center text-md gap-6">
 
-    return ( 
-        <main className="prose mx-auto p-4">
-            <div>
-                <h2 className="font-bold text-center">Welcome to USePinion</h2>
-                <p className="text-justify m-4">
-                    Where student opinions take center stage! Our web-based platform is all about letting students freely share their thoughts on various topics. USePinion uses smart hash maps to keep things organized and user-friendly. It&apos;s not just a place to express opinions; it&apos;s a vibrant community where every voice matters. Join us in making opinions heard and discussions lively. USePinion: Your space, your voice, your opinions!
-                </p>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={nextjs}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">Next.Js</p>
             </div>
 
-            <div>
-                <h4 className="p-4">Technologies used:</h4>
-                <div className="flex space-x-4  w-100" >
-                    <div className="flex flex-row items-center ml-14 justify-between text-sm">
-                        <div className="m-5 flex flex-col items-center justify-center">
-                            <Image className="m-0" src={nextjs} width={40} height={40} alt="no image" />
-                            <p className="m-1">Next.Js</p>
-                        </div>
-                            
-                        <div className="m-5 flex flex-col items-center justify-center">
-                            <Image className="m-0" src={typescript} width={40} height={40} alt="no image" />
-                            <p className="m-1">TypeScript</p>
-                        </div>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={typescript}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">TypeScript</p>
+            </div>
 
-                        <div className="m-5 flex flex-col items-center justify-center">
-                            <Image className="m-0" src={spring} width={40} height={40} alt="no image" />
-                            <p className="m-1">Spring</p>
-                        </div>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={spring}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">Spring</p>
+            </div>
 
-                        <div className="m-5 flex flex-col items-center justify-center">
-                            <Image className="m-0" src={java} width={40} height={40} alt="no image" />
-                            <p className="m-1">Java</p>
-                        </div>
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={java}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">Java</p>
+            </div>
 
-                        <div className="m-5  flex flex-col items-center justify-center">
-                            <Image className="m-0" src={postgresql} width={40} height={40} alt="no image" />
-                            <p className="m-1">PostgreSQL</p>                          
-                        </div>
-                    </div>
-                </div>
-             </div>
-
-        </main>
-     );
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={postgresql}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">PostgreSQL</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }
 
 export default AboutPage;
