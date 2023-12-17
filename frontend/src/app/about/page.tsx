@@ -1,16 +1,16 @@
 import Image from "next/image";
-import nextjs from "/public/nextjs.png";
-import typescript from "/public/typescript.png";
-import spring from "/public/spring.png";
-import java from "/public/java.png";
-import postgresql from "/public/postgresql.png";
+import nextjs from "/public/nextjs1.png";
+import typescript from "/public/typescript1.png";
+import spring from "/public/spring1.png";
+import java from "/public/java1.png";
+import postgresql from "/public/postgresql1.png";
 
 
 function AboutPage() {
 
 
     return ( 
-        <main className="prose mx-auto border-2 border-red rounded-lg p-4">
+        <main className="prose mx-auto p-4">
             <div>
                 <h2 className="font-bold text-center">Welcome to USePinion</h2>
                 <p className="text-justify m-4">
@@ -23,28 +23,28 @@ function AboutPage() {
                 <div className="flex space-x-4  w-100" >
                     <div className="flex flex-row ml-12 justify-between">
                         <div className="m-4 flex flex-col items-center">
-                            <p>NEXT.JS</p>
                             <Image className="m-0" src={nextjs} width={40} height={40} alt="no image" />
+                            <p className="m-1">NEXT.JS</p>
                         </div>
                             
                         <div className="m-4 flex flex-col items-center">
-                            <p>TYPESCRIPT</p>
                             <Image className="m-0" src={typescript} width={40} height={40} alt="no image" />
+                            <p className="m-1">TYPESCRIPT</p>
                         </div>
 
                         <div className="m-4 flex flex-col items-center">
-                            <p>SPRING</p>
                             <Image className="m-0" src={spring} width={40} height={40} alt="no image" />
+                            <p className="m-1">SPRING</p>
                         </div>
 
                         <div className="m-4 flex flex-col items-center">
-                            <p>JAVA</p>
                             <Image className="m-0" src={java} width={40} height={40} alt="no image" />
+                            <p className="m-1">JAVA</p>
                         </div>
 
                         <div className="m-4  flex flex-col items-center">
-                            <p>POSTGRESQL</p>
                             <Image className="m-0" src={postgresql} width={40} height={40} alt="no image" />
+                            <p className="m-1">POSTGRESQL</p>                          
                         </div>
                     </div>
                 </div>
