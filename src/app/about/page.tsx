@@ -1,7 +1,6 @@
 import Image from "next/image";
 import nextjs from "/public/nextjs1.png";
 import typescript from "/public/typescript1.png";
-import spring from "/public/spring1.png";
 import postgresql from "/public/postgresql1.png";
 import react from "/public/react.png";
 import tailwind from "/public/tailwind.png";
@@ -39,28 +38,6 @@ function AboutPage() {
               />
               <p className="m-1">Next.Js</p>
               
-            </div>
-
-            <div className="flex flex-col items-center justify-center">
-              <Image
-                className="m-0"
-                src={typescript}
-                width={70}
-                height={70}
-                alt="no image"
-              />
-              <p className="m-1">TypeScript</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center">
-              <Image
-                className="m-0"
-                src={spring}
-                width={70}
-                height={70}
-                alt="no image"
-              />
-              <p className="m-1">Spring</p>
             </div>
 
             <div className="flex flex-col items-center justify-center">
