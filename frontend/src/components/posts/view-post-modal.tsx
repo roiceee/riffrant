@@ -24,42 +24,42 @@ function ViewPostModal({
   };
 
   return (
-    <dialog id="modal-post-view" className="modal prose">
-      <div className="modal-box">
-        <form method="dialog">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button>
-        </form>
-        <div className="modal-header">
-          <div className="font-semibold opacity-80 text-xs">
-            Posted by: {displayName}
-          </div>
-          <h3 className="mb-0 mt-2">{title}</h3>
+    <>
+      <dialog id="modal-post-view" className="modal prose">
+        <div className="modal-box">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <div className="modal-header">
+            <div className="font-semibold opacity-80 text-xs">
+              Posted by: {displayName}
+            </div>
+            <h3 className="mb-0 mt-2">{title}</h3>
 
-          <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
-        </div>
-        <p className="modal-body mt-12 mb-8">{body}</p>
-        <div className="modal-footer flex items-center justify-between">
-          <div className="flex items-center justify-start gap-2">
-            <button className="btn btn-outline btn-success btn-sm">
-              <UpvoteIcon />
-            </button>
-            <span className=" text-lg">
-              <b>{upvotes}</b>
-            </span>
-            <button className="btn btn-outline btn-error btn-sm">
-              <DownvoteButton />
-            </button>
+            <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
           </div>
-          <div className="modal-action mt-0">
-            <button className="btn" onClick={onClose}>
-              Close
-            </button>
+          <p className="modal-body mt-12 mb-8">{body}</p>
+          <div className="modal-footer">
+            <div className="flex items-center justify-start gap-2">
+              <button className="btn btn-outline btn-success btn-sm">
+                <UpvoteIcon />
+              </button>
+              <span className=" text-lg">
+                <b>{upvotes}</b>
+              </span>
+              <button className="btn btn-outline btn-error btn-sm">
+                <DownvoteButton />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </dialog>
+        <form method="dialog" className="modal-backdrop">
+          <button>Close</button>
+        </form>
+      </dialog>
+    </>
   );
 }
 
