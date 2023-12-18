@@ -3,6 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/nav/nav";
 import AuthProvider from "@/components/nav/authprovider";
+import ScrollToTopButton from "@/components/scroll-to-top-button";
 
 const font = Montserrat({ style: "normal", weight: "400", subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navbar />
           <div className="container mx-auto px-4 sm:px-16 md:px-24">{children}</div>
+          <ScrollToTopButton />
         </AuthProvider>
       </body>
     </html>

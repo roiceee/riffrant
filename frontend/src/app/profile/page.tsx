@@ -3,10 +3,39 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import placeholder from "/public/user-placeholder.jpg";
 import { useState } from "react";
+import ViewPostModal from "@/components/posts/view-post-modal";
+import PostCard from "@/components/containers/post-card";
+import PostCardContainer from "@/components/containers/post-card-containers";
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const auth = useAuth0();
+
+  const [chosenPost, setChosenPost] = useState<{
+    title: string;
+    body: string;
+    upvotes: number;
+    displayName: string;
+    createdAt: string;
+  } | null>(null);
+
+  const setChosenPostAndOpenModal = (
+    title: string,
+    body: string,
+    upvotes: number,
+    displayName: string,
+    createdAt: string
+  ) => {
+    setChosenPost({ title, body, upvotes, displayName, createdAt });
+    onPostClick();
+  };
+
+  const onPostClick = () => {
+    const modal: any = document.getElementById("modal-post-view");
+    if (modal) {
+      modal.showModal();
+    }
+  };
 
   const editName = () => {
     setIsEditing(true);
@@ -125,13 +154,38 @@ function ProfilePage() {
         </div>
       </section>
 
-      <section>
-        <button
-          onClick={showModal}
-          className="btn btn-outline btn-error w-full sm:w-fit mt-12"
-        >
-          Delete all posts
-        </button>
+      <section className="mt-12">
+        <div className="flex items-center justify-between">
+          <h3 className="my-0">Posts</h3>
+          <button
+            onClick={showModal}
+            className="btn btn-outline btn-error btn-sm"
+          >
+            Delete all posts
+          </button>
+        </div>
+        <hr className="mt-6" />
+
+        <div>
+          <PostCardContainer>
+            <PostCard
+              title="TITLE GOES HERE"
+              displayName="placeholderName"
+              createdAt="Just now"
+              body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
+              upvotes={0}
+              onClick={() =>
+                setChosenPostAndOpenModal(
+                  "TITLE GOES HERE",
+                  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum",
+                  0,
+                  "placeholderName",
+                  "Just now"
+                )
+              }
+            />
+          </PostCardContainer>
+        </div>
       </section>
 
       <dialog id="modal-delete" className="modal">
@@ -141,7 +195,7 @@ function ProfilePage() {
               ✕
             </button>
           </form>
-          <h3 className="font-bold text-lg">Delete All Posts!</h3>
+          <h3 className="font-bold text-lg">Delete All Posts</h3>
           <p className="py-4">
             Are you sure you want to delete all your posts?
           </p>
@@ -153,6 +207,16 @@ function ProfilePage() {
           </div>
         </div>
       </dialog>
+
+      <div>
+        <ViewPostModal
+          title={chosenPost?.title!}
+          body={chosenPost?.body!}
+          upvotes={chosenPost?.upvotes!}
+          displayName={chosenPost?.displayName!}
+          createdAt={chosenPost?.createdAt!}
+        />
+      </div>
     </main>
   );
 }

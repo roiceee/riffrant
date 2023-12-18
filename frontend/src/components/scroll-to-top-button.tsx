@@ -1,3 +1,4 @@
+"use client"
 import { use, useCallback, useEffect, useState } from "react";
 
 function ScrollToTopButton() {
