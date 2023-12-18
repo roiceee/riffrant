@@ -1,7 +1,7 @@
 import Image from "next/image";
 import nextjs from "/public/nextjs1.png";
 import typescript from "/public/typescript1.png";
-import postgresql from "/public/postgresql1.png";
+import mongodb from "/public/mongodb.png";
 import react from "/public/react.png";
 import tailwind from "/public/tailwind.png";
 import html from "/public/html.png";
@@ -43,12 +43,24 @@ function AboutPage() {
             <div className="flex flex-col items-center justify-center">
               <Image
                 className="m-0"
-                src={postgresql}
+                src={typescript}
                 width={70}
                 height={70}
                 alt="no image"
               />
-              <p className="m-1">PostgreSQL</p>
+              <p className="m-1">TypeScript</p>
+              
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={mongodb}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">MongoDB</p>
             </div>
 
             <div className="flex flex-col items-center justify-center">
