@@ -1,14 +1,13 @@
 "use client";
-
 import Image from "next/image";
 import placeholder from "/public/user-placeholder.jpg";
 import logo from "/public/logo-100.png";
 import MenuList from "./menulist";
-import { useAuth0 } from "@auth0/auth0-react";
 import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 function Navbar() {
-  const auth = useAuth0();
+  const { user } = useUser();
 
   const closeOnClick = () => {
     const elem: any = document.activeElement;
@@ -40,7 +39,7 @@ function Navbar() {
             <div className="w-11 rounded-full">
               <Image
                 alt="profile"
-                src={auth.isAuthenticated ? auth.user!.picture! : placeholder}
+                src={user ? user.picture! : placeholder}
                 width={60}
                 height={60}
                 className="rounded-full border my-0"
@@ -51,36 +50,32 @@ function Navbar() {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            {!auth.isAuthenticated && (
-              <li
-                onClick={() => {
-                  auth.loginWithRedirect();
-                }}
-              >
-                <a>Login</a>
+            {!user && (
+              <li>
+                <Link href={"api/auth/login"}>Login</Link>
               </li>
             )}
-            {auth.isAuthenticated && (
+            {user && (
               <>
                 <li>
-                  <Link
+                  <a
                     href={"/profile"}
                     className="justify-between"
                     onClick={closeOnClick}
                   >
                     Profile
-                  </Link>
+                  </a>
                 </li>
-                <li
-                  onClick={() => {
-                    auth.logout({
-                      logoutParams: {
-                        returnTo: process.env.NEXT_PUBLIC_REDIRECT_URI,
-                      },
-                    });
-                  }}
-                >
-                  <a>Logout</a>
+                <li>
+                  <a
+                    href={
+                      "api/auth/logout?returnTo=" +
+                      process.env.NEXT_PUBLIC_LOGOUT_REDIRECT
+                    }
+                    onClick={closeOnClick}
+                  >
+                    Logout
+                  </a>
                 </li>
               </>
             )}

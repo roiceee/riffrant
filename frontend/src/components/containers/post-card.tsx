@@ -22,7 +22,7 @@ function PostCard({
   onClick,
 }: PostCardProps) {
   return (
-    <NormalContainer className="hover:border-primary">
+    <NormalContainer className="hover:border-primary max-w-md">
       <div className="prose" onClick={onClick}>
         <div className="font-semibold opacity-80 text-xs">
           Posted by: {displayName}
@@ -30,8 +30,11 @@ function PostCard({
         <h3 className="mb-0 mt-2">{title}</h3>
 
         <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
+
         <p
-          className={" overflow overflow-y-hidden " + style.fadeOutBottom}
+          className={
+            " overflow overflow-y-hidden text-sm " + style.fadeOutBottom
+          }
           style={{ maxHeight: "120px" }}
         >
           {body}

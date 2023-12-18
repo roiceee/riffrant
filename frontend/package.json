@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth0/auth0-react": "^2.2.4",
+    "@auth0/nextjs-auth0": "^3.5.0",
     "daisyui": "^4.4.20",
     "lodash": "^4.17.21",
     "next": "14.0.4",

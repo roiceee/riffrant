@@ -1,21 +1,20 @@
 "use client";
-import { useAuth0 } from "@auth0/auth0-react";
-import placeholder from "/public/user-placeholder.jpg";
-import Image from "next/image";
-import Link from "next/link";
 import NormalContainer from "@/components/containers/normal-container";
-import FilterIcon from "./assets/filter";
-import ArrowDown from "./assets/arrow-down";
 import PostCard from "@/components/containers/post-card";
-import ScrollToTopButton from "@/components/scroll-to-top-button";
-import { useState } from "react";
-import _ from "lodash";
+import PostCardContainer from "@/components/containers/post-card-containers";
 import PostButton from "@/components/posts/post-button";
 import ViewPostModal from "@/components/posts/view-post-modal";
-import PostCardContainer from "@/components/containers/post-card-containers";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import _ from "lodash";
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import ArrowDown from "./assets/arrow-down";
+import FilterIcon from "./assets/filter";
+import placeholder from "/public/user-placeholder.jpg";
 
 export default function Home() {
-  const auth = useAuth0();
+  const { user } = useUser();
 
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
 
@@ -56,18 +55,15 @@ export default function Home() {
   return (
     <main className="">
       <NormalContainer>
-        {!auth.isAuthenticated && (
+        {!user && (
           <b>
-            <button
-              className="btn btn-primary"
-              onClick={() => auth.loginWithRedirect()}
-            >
-              Login
-            </button>{" "}
+            <a href={"api/auth/login"}>
+              <button className="btn btn-primary">Login</button>
+            </a>{" "}
             to share your thoughts!
           </b>
         )}
-        {auth.isAuthenticated && (
+        {user && (
           <div className="flex gap-1">
             <div
               tabIndex={0}
@@ -78,9 +74,7 @@ export default function Home() {
                 <Link href={"/profile"}>
                   <Image
                     alt="profile"
-                    src={
-                      auth.isAuthenticated ? auth.user!.picture! : placeholder
-                    }
+                    src={user.picture ? user.picture : placeholder}
                     width={70}
                     height={70}
                   />

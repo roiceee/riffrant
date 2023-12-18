@@ -12,7 +12,7 @@ const config: Config = {
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
 
   daisyui: {
-    themes: ["light", "dark", "emerald"],
+    themes: ["light", "dark", "business"],
   }
 }
 export default config

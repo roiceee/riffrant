@@ -1,7 +1,6 @@
 "use client";
 import DownvoteButton from "@/app/assets/downvote-icon";
 import UpvoteIcon from "@/app/assets/upvote-icon";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 
 interface ViewPostModalProps {
@@ -19,7 +18,7 @@ function ViewPostModal({
   displayName,
   createdAt,
 }: ViewPostModalProps) {
-  const auth = useAuth0();
+
 
   const [isDeleting, setIsDeleting] = useState(false);
 

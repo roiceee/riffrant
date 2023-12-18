@@ -1,15 +1,18 @@
 "use client";
-import { useAuth0 } from "@auth0/auth0-react";
 import Image from "next/image";
 import placeholder from "/public/user-placeholder.jpg";
 import { useState } from "react";
 import ViewPostModal from "@/components/posts/view-post-modal";
 import PostCard from "@/components/containers/post-card";
 import PostCardContainer from "@/components/containers/post-card-containers";
+import { getSession } from "@auth0/nextjs-auth0";
+import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 function ProfilePage() {
+  const { user } = useUser();
+
   const [isEditing, setIsEditing] = useState(false);
-  const auth = useAuth0();
 
   const [chosenPost, setChosenPost] = useState<{
     title: string;
@@ -59,14 +62,14 @@ function ProfilePage() {
     elem.close();
   };
 
-  if (!auth.isAuthenticated) {
+  if (!user) {
     return (
       <div className=" absolute start-1/2 bottom-1/2 -translate-x-1/2 -translate-y-1/2 prose">
         <h2>
           Please{" "}
-          <button className="btn" onClick={() => auth.loginWithRedirect()}>
-            Login
-          </button>{" "}
+          <Link href={"api/auth/login"}>
+            <button className="btn">Login</button>
+          </Link>{" "}
           to configure profile.
         </h2>
       </div>
@@ -80,7 +83,7 @@ function ProfilePage() {
         <div className="sm:flex gap-14">
           <div className="">
             <Image
-              src={auth.user!.picture ? auth.user!.picture : placeholder}
+              src={user.picture ? user.picture : placeholder}
               alt="profile"
               height={70}
               width={70}
@@ -150,7 +153,7 @@ function ProfilePage() {
               )}
             </div>
             <div>
-              <b>Email: </b> {auth.user?.email}
+              <b>Email: </b> {user.email}
             </div>
             <div>
               <b>Posts: </b>0

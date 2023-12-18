@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/nav/nav";
-import AuthProvider from "@/components/nav/authprovider";
 import ScrollToTopButton from "@/components/scroll-to-top-button";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const font = Montserrat({ style: "normal", weight: "400", subsets: ["latin"] });
 
@@ -18,14 +18,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="emerald">
-      <body className={font.className}>
-        <AuthProvider>
+    <html lang="en" data-theme="light">
+      <UserProvider>
+        <body className={font.className}>
           <Navbar />
-          <div className="container mx-auto px-4 sm:px-16 md:px-24">{children}</div>
+          <div className="container mx-auto px-4 sm:px-16 md:px-56">
+            {children}
+          </div>
           <ScrollToTopButton />
-        </AuthProvider>
-      </body>
+        </body>
+      </UserProvider>
     </html>
   );
 }
