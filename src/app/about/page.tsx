@@ -2,8 +2,11 @@ import Image from "next/image";
 import nextjs from "/public/nextjs1.png";
 import typescript from "/public/typescript1.png";
 import spring from "/public/spring1.png";
-import java from "/public/java1.png";
 import postgresql from "/public/postgresql1.png";
+import react from "/public/react.png";
+import tailwind from "/public/tailwind.png";
+import html from "/public/html.png";
+import css from "/public/css.png";
 
 function AboutPage() {
   return (
@@ -63,23 +66,56 @@ function AboutPage() {
             <div className="flex flex-col items-center justify-center">
               <Image
                 className="m-0"
-                src={java}
-                width={70}
-                height={70}
-                alt="no image"
-              />
-              <p className="m-1">Java</p>
-            </div>
-
-            <div className="flex flex-col items-center justify-center">
-              <Image
-                className="m-0"
                 src={postgresql}
                 width={70}
                 height={70}
                 alt="no image"
               />
               <p className="m-1">PostgreSQL</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={react}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">React</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={tailwind}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">Tailwind</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={html}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">HTML</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={css}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">CSS</p>
             </div>
           </div>
         </div>
