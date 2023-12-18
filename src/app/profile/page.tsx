@@ -90,7 +90,7 @@ function ProfilePage() {
               className=" rounded-full my-0 border"
             />
           </div>
-          <div>
+          <div className="w-full">
             <div className="mb-3">
               {!isEditing && (
                 <div className="flex items-center justify-between">
