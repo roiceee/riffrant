@@ -31,18 +31,19 @@ function Navbar() {
             <MenuList />
           </ul>
         </div>
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end px-1">
           <div
             tabIndex={0}
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
+            <div className="w-11 rounded-full">
               <Image
                 alt="profile"
                 src={auth.isAuthenticated ? auth.user!.picture! : placeholder}
-                width={50}
-                height={50}
+                width={60}
+                height={60}
+                className="rounded-full border my-0"
               />
             </div>
           </div>

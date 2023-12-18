@@ -77,80 +77,88 @@ function ProfilePage() {
     <main className="prose mx-auto">
       <section>
         <h3>Profile</h3>
-        <div className="">
-          <Image
-            src={auth.user!.picture ? auth.user!.picture : placeholder}
-            alt="profile"
-            height={70}
-            width={70}
-            className=" rounded-badge mb-2"
-          />
-        </div>
-        {!isEditing && (
-          <div className="flex items-center justify-between">
-            <h5>
-              <b>placeholderusername</b>
-            </h5>
-            <button className="btn btn-sm" onClick={editName}>
-              Edit
-            </button>
-          </div>
-        )}
-        {isEditing && (
-          <div className="flex gap-1">
-            <input
-              type="text"
-              className="input input-bordered w-full"
-              placeholder="placeholderusername"
+        <div className="sm:flex gap-14">
+          <div className="">
+            <Image
+              src={auth.user!.picture ? auth.user!.picture : placeholder}
+              alt="profile"
+              height={70}
+              width={70}
+              className=" rounded-full my-0 border"
             />
-
-            <div className="flex flex-row flex-nowrap items-center justify-between gap-1">
-              <button
-                className="btn btn-sm btn-outline btn-success"
-                onClick={saveName}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
+          </div>
+          <div>
+            <div className="mb-3">
+              {!isEditing && (
+                <div className="flex items-center justify-between">
+                  <h5>
+                    <b>placeholderusername</b>
+                  </h5>
+                  <button className="btn btn-sm" onClick={editName}>
+                    Edit
+                  </button>
+                </div>
+              )}
+              {isEditing && (
+                <div className="flex gap-1">
+                  <input
+                    type="text"
+                    className="input input-bordered w-full"
+                    placeholder="placeholderusername"
                   />
-                </svg>
-              </button>
-              <button
-                className="btn btn-sm btn-outline btn-error"
-                onClick={cancelEdit}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                  <div className="flex flex-row flex-nowrap items-center justify-between gap-1">
+                    <button
+                      className="btn btn-sm btn-outline btn-success"
+                      onClick={saveName}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline btn-error"
+                      onClick={cancelEdit}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div>
+              <b>Email: </b> {auth.user?.email}
+            </div>
+            <div>
+              <b>Posts: </b>0
+            </div>
+            <div>
+              <b>Upvotes: </b>0
             </div>
           </div>
-        )}
-        <div>
-          <b>Email: </b> {auth.user?.email}
-        </div>
-        <div>
-          <b>Posts: </b>0
         </div>
       </section>
 
@@ -164,7 +172,7 @@ function ProfilePage() {
             Delete all posts
           </button>
         </div>
-        <hr className="mt-6" />
+        <hr className="my-6" />
 
         <div>
           <PostCardContainer>

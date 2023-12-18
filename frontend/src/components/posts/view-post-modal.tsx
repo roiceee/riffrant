@@ -77,7 +77,7 @@ function ViewPostModal({
             )}
             {isDeleting && (
               <div className="flex items-center justify-end gap-2 w-full">
-                <div>Delete post?</div>
+                <div className=" font-bold">Delete post?</div>
                 <button className="btn btn-outline btn-error btn-sm">
                   Confirm
                 </button>

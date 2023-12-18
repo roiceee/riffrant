@@ -10,12 +10,9 @@ function PostButton() {
   };
 
   return (
-    <>
+    <div>
       <button
-        className="p-3 rounded-badge 
-              overflow-hidden overflow-ellipsis text-left 
-              font-semibold text-sm sm:text-md 
-              w-full hover:bg-base-200 border hover:border-accent"
+        className="p-3 rounded-badge overflow-hidden overflow-ellipsis text-left font-semibold text-sm sm:text-md w-full hover:bg-base-200 border hover:border-accent"
         onClick={openModal}
         contentEditable={false}
       >
@@ -60,7 +57,7 @@ function PostButton() {
           </div>
         </div>
       </dialog>
-    </>
+    </div>
   );
 }
 
