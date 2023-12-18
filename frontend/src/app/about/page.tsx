@@ -2,7 +2,6 @@ import Image from "next/image";
 import nextjs from "/public/nextjs1.png";
 import typescript from "/public/typescript1.png";
 import spring from "/public/spring1.png";
-import java from "/public/java1.png";
 import postgresql from "/public/postgresql1.png";
 
 function AboutPage() {
