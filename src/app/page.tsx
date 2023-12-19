@@ -17,6 +17,9 @@ import Post from "@/types/post";
 import Refresh from "@/assets/refresh";
 import React from "react";
 import ScrollButton from "@/components/posts/scroll-button";
+import ErrorDiv from "@/components/util/error-div";
+import LoadingDiv from "@/components/util/loading";
+import SortDiv from "@/components/posts/sort-div";
 
 export default function Home() {
   const { user } = useUser();
@@ -27,7 +30,6 @@ export default function Home() {
     });
 
     const data = await res.json();
-    console.log(data);
     return data;
   };
 
@@ -48,32 +50,6 @@ export default function Home() {
 
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
 
-  const [chosenPost, setChosenPost] = useState<{
-    title: string;
-    body: string;
-    upvotes: number;
-    displayName: string;
-    createdAt: string;
-  } | null>(null);
-
-  const setChosenPostAndOpenModal = (
-    title: string,
-    body: string,
-    upvotes: number,
-    displayName: string,
-    createdAt: string
-  ) => {
-    setChosenPost({ title, body, upvotes, displayName, createdAt });
-    onPostClick();
-  };
-
-  const onPostClick = () => {
-    const modal: any = document.getElementById("modal-post-view");
-    if (modal) {
-      modal.showModal();
-    }
-  };
-
   const changeFilter = (filter: "recent" | "popular") => {
     setFilter(filter);
     const elem: any = document.activeElement;
@@ -84,11 +60,11 @@ export default function Home() {
 
   const renderPosts = () => {
     if (status === "loading") {
-      return <p>Loading...</p>;
+      return <LoadingDiv />;
     }
 
     if (status === "error") {
-      return <p>Error!</p>;
+      return <ErrorDiv />;
     }
 
     if (status === "success") {
@@ -139,58 +115,39 @@ export default function Home() {
       </NormalContainer>
 
       <section className="mt-4">
-        <div className="ml-2 flex items-center justify-between my-1">
-          <div className="flex items-center">
-            <FilterIcon />
-            <div className="dropdown">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-sm btn-ghost mx-1"
-              >
-                {_.capitalize(filter)}
-                <ArrowDown />
-              </div>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52"
-              >
-                <li onClick={() => changeFilter("recent")}>
-                  <a>Recent</a>
-                </li>
-                <li onClick={() => changeFilter("popular")}>
-                  <a>Popular</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <button className="btn btn-sm" onClick={() => refetch()}>
-            <Refresh />
-          </button>
-        </div>
+        <SortDiv
+          filter={filter}
+          changeFilter={changeFilter}
+          refetch={() => refetch({ refetchPage: (page, index) => index === 0 })}
+        />
         <hr />
       </section>
+
       <PostCardContainer>{renderPosts()}</PostCardContainer>
-      <div className="mt-4">
-        <div className="text-center">
-          <ScrollButton
-            onClick={() => {
-              if (!hasNextPage || isFetchingNextPage) {
-                return;
-              }
-              console.log(hasNextPage);
-              fetchNextPage();
-            }}
-            disabled
-          >
-            {isFetchingNextPage ? (
-              <span className="loading loading-dots loading-md"></span>
-            ) : (
-              "Oops! You've reached the end."
-            )}
-          </ScrollButton>
-        </div>
-      </div>
+
+      <section>
+        {status !== "loading" && status !== "error" && (
+          <div className="mt-4">
+            <div className="text-center">
+              <ScrollButton
+                onClick={() => {
+                  if (!hasNextPage || isFetchingNextPage) {
+                    return;
+                  }
+                  fetchNextPage();
+                }}
+                disabled
+              >
+                {isFetchingNextPage ? (
+                  <LoadingDiv />
+                ) : (
+                  "Oops! You've reached the end."
+                )}
+              </ScrollButton>
+            </div>
+          </div>
+        )}
+      </section>
     </main>
   );
 }

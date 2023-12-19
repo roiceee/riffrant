@@ -12,25 +12,6 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 function ProfilePage() {
   const { user } = useUser();
 
-  const [chosenPost, setChosenPost] = useState<{
-    title: string;
-    body: string;
-    upvotes: number;
-    displayName: string;
-    createdAt: string;
-  } | null>(null);
-
-  const setChosenPostAndOpenModal = (
-    title: string,
-    body: string,
-    upvotes: number,
-    displayName: string,
-    createdAt: string
-  ) => {
-    setChosenPost({ title, body, upvotes, displayName, createdAt });
-    onPostClick();
-  };
-
   const onPostClick = () => {
     const modal: any = document.getElementById("modal-post-view");
     if (modal) {
@@ -135,16 +116,6 @@ function ProfilePage() {
           </div>
         </div>
       </dialog>
-
-      <div>
-        <ViewPostModal
-          title={chosenPost?.title!}
-          body={chosenPost?.body!}
-          upvotes={chosenPost?.upvotes!}
-          displayName={chosenPost?.displayName!}
-          createdAt={chosenPost?.createdAt!}
-        />
-      </div>
     </main>
   );
 }
