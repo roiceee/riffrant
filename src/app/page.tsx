@@ -8,7 +8,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArrowDown from "./assets/arrow-down";
 import FilterIcon from "./assets/filter";
 import placeholder from "/public/user-placeholder.jpg";

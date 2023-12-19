@@ -1,5 +1,5 @@
 "use client"
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function ScrollToTopButton() {
   const [showScroll, setShowScroll] = useState(false);

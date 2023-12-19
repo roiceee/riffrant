@@ -1,4 +1,20 @@
+"use client";
+import Post from "@/types/post";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useState } from "react";
+
 function PostButton() {
+  const user = useUser();
+
+  const [postContent, setPostContent] = useState<Post>({
+    title: "",
+    creatorName: "",
+    body: "",
+    upvotes: 0,
+    displayName: "",
+    createdAt: "",
+  });
+
   const closeModal = () => {
     const modal: any = document.getElementById("modal-post");
     modal.close();
@@ -16,7 +32,7 @@ function PostButton() {
         onClick={openModal}
         contentEditable={false}
       >
-        What&apos;s on your mind, PLACEHOLDER?
+        What&apos;s on your mind, {user.user?.name?.split(" ")[0]}?
       </button>
       <dialog id="modal-post" className="modal">
         <div className="modal-box">
