@@ -1,6 +1,6 @@
 "use client";
-import DownvoteButton from "@/app/assets/downvote-icon";
-import UpvoteIcon from "@/app/assets/upvote-icon";
+import DownvoteButton from "@/assets/downvote-icon";
+import UpvoteIcon from "@/assets/upvote-icon";
 import { useState } from "react";
 
 interface ViewPostModalProps {

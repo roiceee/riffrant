@@ -16,7 +16,7 @@ function PostButton() {
     if (postContent.title?.trim() === "") {
       return;
     }
-    
+
     const res = await fetch("/api/post", {
       method: "POST",
       body: JSON.stringify({
@@ -34,7 +34,7 @@ function PostButton() {
 
   const resetPostContent = () => {
     setPostContent({ title: "", body: "" });
-  }
+  };
 
   const { status, data, refetch } = useQuery({
     queryKey: ["posts", postContent.title, postContent.body],
@@ -85,7 +85,7 @@ function PostButton() {
       closeModal();
       resetPostContent();
     }
-  }, [status])
+  }, [status]);
 
   return (
     <div className="w-full">
@@ -138,12 +138,19 @@ function PostButton() {
             />
           </label>
           <div className="modal-action">
-            <button className="btn btn-accent" onClick={() => refetch()}>
-              Post
-            </button>
-            <button className="btn" onClick={closeModal}>
-              Cancel
-            </button>
+            <div className="flex w-full justify-between">
+              <div>
+                <button className="btn btn-sm">Clear Body</button>
+              </div>
+              <div className="flex gap-2">
+                <button className="btn btn-accent" onClick={() => refetch()}>
+                  Post
+                </button>
+                <button className="btn" onClick={closeModal}>
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </dialog>

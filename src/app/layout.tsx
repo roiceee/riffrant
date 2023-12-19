@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" data-theme="light">
       <UserProvider>
         <QueryProvider>
-          <body className={font.className}>
+          <body className={font.className + " mb-4"}>
             <Navbar />
             <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-56">
               {children}

@@ -9,28 +9,41 @@ import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import ArrowDown from "./assets/arrow-down";
-import FilterIcon from "./assets/filter";
+import ArrowDown from "../assets/arrow-down";
+import FilterIcon from "../assets/filter";
 import placeholder from "/public/user-placeholder.jpg";
-import { useQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import Post from "@/types/post";
+import Refresh from "@/assets/refresh";
+import React from "react";
+import ScrollButton from "@/components/posts/scroll-button";
 
 export default function Home() {
   const { user } = useUser();
 
-  const getPosts = async () => {
-    const res = await fetch("/api/posts", {
+  const getPosts = async ({ pageParam = 0 }) => {
+    const res = await fetch("/api/posts?cursor=" + pageParam, {
       method: "GET",
     });
 
     const data = await res.json();
-
+    console.log(data);
     return data;
   };
 
-  const { status, data, refetch } = useQuery({
-    queryKey: ["get-posts"],
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["projects"],
     queryFn: getPosts,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
 
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
@@ -79,8 +92,14 @@ export default function Home() {
     }
 
     if (status === "success") {
-      return data.map((post: Post) => {
-        return <PostCard key={`post-${post._id}`} post={post} />;
+      return data.pages.map((group, i) => {
+        return (
+          <React.Fragment key={i}>
+            {group.data.map((post: Post) => {
+              return <PostCard key={`post-${post._id}`} post={post} />;
+            })}
+          </React.Fragment>
+        );
       });
     }
   };
@@ -145,18 +164,33 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <button className="btn btn-sm" onClick={() => refetch()}>Refresh</button>
+          <button className="btn btn-sm" onClick={() => refetch()}>
+            <Refresh />
+          </button>
         </div>
         <hr />
       </section>
       <PostCardContainer>{renderPosts()}</PostCardContainer>
-      <ViewPostModal
-        title={chosenPost?.title!}
-        body={chosenPost?.body!}
-        upvotes={chosenPost?.upvotes!}
-        displayName={chosenPost?.displayName!}
-        createdAt={chosenPost?.createdAt!}
-      />
+      <div className="mt-4">
+        <div className="text-center">
+          <ScrollButton
+            onClick={() => {
+              if (!hasNextPage || isFetchingNextPage) {
+                return;
+              }
+              console.log(hasNextPage);
+              fetchNextPage();
+            }}
+            disabled
+          >
+            {isFetchingNextPage ? (
+              <span className="loading loading-dots loading-md"></span>
+            ) : (
+              "Oops! You've reached the end."
+            )}
+          </ScrollButton>
+        </div>
+      </div>
     </main>
   );
 }

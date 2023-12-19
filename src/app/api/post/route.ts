@@ -1,5 +1,5 @@
-import { connectMongoDB } from "@/app/lib/mongo";
-import { PostModel } from "@/app/models/post";
+import { connectMongoDB } from "@/lib/mongo";
+import { PostModel } from "@/models/post";
 import { NextRequest, NextResponse } from "next/server";
 
 //add post
