@@ -24,7 +24,7 @@ export default function RootLayout({
         <QueryProvider>
           <body className={font.className}>
             <Navbar />
-            <div className="container mx-auto px-4 sm:px-16 md:px-56">
+            <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-56">
               {children}
             </div>
             <ScrollToTopButton />

@@ -1,10 +1,10 @@
 type Post = {
-    id?: string;
+    _id?: string;
+    creatorId?: string;
     creatorName?: string;
     title?: string;
     body?: string;
     upvotes?: number;
-    displayName?: string;
     createdAt?: string;
 }
 

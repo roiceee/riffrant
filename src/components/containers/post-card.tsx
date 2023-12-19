@@ -3,33 +3,23 @@ import NormalContainer from "./normal-container";
 import DownvoteButton from "@/app/assets/downvote-icon";
 import style from "./post-card.module.css";
 import _ from "lodash";
+import Post from "@/types/post";
 
 interface PostCardProps {
-  onClick: () => void;
-  title: string;
-  displayName: string;
-  body: string;
-  upvotes: number;
-  createdAt: string;
+  onClick?: () => void;
+  post: Post;
 }
 
-function PostCard({
-  title,
-  displayName,
-  body,
-  upvotes,
-  createdAt,
-  onClick,
-}: PostCardProps) {
+function PostCard({ post, onClick }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary max-w-md">
       <div className="prose" onClick={onClick}>
         <div className="font-semibold opacity-80 text-xs">
-          Posted by: {displayName}
+          Posted by: {post.creatorName}
         </div>
-        <h3 className="mb-0 mt-2">{title}</h3>
+        <h3 className="mb-0 mt-2">{post.title}</h3>
 
-        <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
+        <div className="font-semibold opacity-80 text-xs">{post.createdAt}</div>
 
         <p
           className={
@@ -37,7 +27,7 @@ function PostCard({
           }
           style={{ maxHeight: "120px" }}
         >
-          {body}
+          {post.body}
         </p>
       </div>
 
@@ -46,7 +36,7 @@ function PostCard({
           <UpvoteIcon />
         </button>
         <span className=" text-lg">
-          <b>{upvotes}</b>
+          <b>{post.upvotes}</b>
         </span>
         <button className="btn btn-outline btn-error btn-sm">
           <DownvoteButton />

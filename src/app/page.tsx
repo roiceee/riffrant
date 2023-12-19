@@ -8,13 +8,30 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ArrowDown from "./assets/arrow-down";
 import FilterIcon from "./assets/filter";
 import placeholder from "/public/user-placeholder.jpg";
+import { useQuery } from "react-query";
+import Post from "@/types/post";
 
 export default function Home() {
   const { user } = useUser();
+
+  const getPosts = async () => {
+    const res = await fetch("/api/posts", {
+      method: "GET",
+    });
+
+    const data = await res.json();
+
+    return data;
+  };
+
+  const { status, data, refetch } = useQuery({
+    queryKey: ["get-posts"],
+    queryFn: getPosts,
+  });
 
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
 
@@ -49,6 +66,22 @@ export default function Home() {
     const elem: any = document.activeElement;
     if (elem) {
       elem.blur();
+    }
+  };
+
+  const renderPosts = () => {
+    if (status === "loading") {
+      return <p>Loading...</p>;
+    }
+
+    if (status === "error") {
+      return <p>Error!</p>;
+    }
+
+    if (status === "success") {
+      return data.map((post: Post) => {
+        return <PostCard key={`post-${post._id}`} post={post} />;
+      });
     }
   };
 
@@ -87,50 +120,36 @@ export default function Home() {
       </NormalContainer>
 
       <section className="mt-4">
-        <div className="ml-2 flex items-center">
-          <FilterIcon />
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-sm btn-ghost m-1"
-            >
-              {_.capitalize(filter)}
-              <ArrowDown />
+        <div className="ml-2 flex items-center justify-between my-1">
+          <div className="flex items-center">
+            <FilterIcon />
+            <div className="dropdown">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-sm btn-ghost mx-1"
+              >
+                {_.capitalize(filter)}
+                <ArrowDown />
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52"
+              >
+                <li onClick={() => changeFilter("recent")}>
+                  <a>Recent</a>
+                </li>
+                <li onClick={() => changeFilter("popular")}>
+                  <a>Popular</a>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-52"
-            >
-              <li onClick={() => changeFilter("recent")}>
-                <a>Recent</a>
-              </li>
-              <li onClick={() => changeFilter("popular")}>
-                <a>Popular</a>
-              </li>
-            </ul>
           </div>
+          <button className="btn btn-sm" onClick={() => refetch()}>Refresh</button>
         </div>
         <hr />
       </section>
-      <PostCardContainer>
-        <PostCard
-          title="TITLE GOES HERE"
-          displayName="placeholderName"
-          createdAt="Just now"
-          body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-          upvotes={0}
-          onClick={() =>
-            setChosenPostAndOpenModal(
-              "TITLE GOES HERE",
-              "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum",
-              0,
-              "placeholderName",
-              "Just now"
-            )
-          }
-        />
-      </PostCardContainer>
+      <PostCardContainer>{renderPosts()}</PostCardContainer>
       <ViewPostModal
         title={chosenPost?.title!}
         body={chosenPost?.body!}
