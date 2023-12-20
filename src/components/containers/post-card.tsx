@@ -1,6 +1,5 @@
 "use client";
-import DownvoteButton from "@/assets/downvote-icon";
-import UpvoteIcon from "@/assets/upvote-icon";
+
 import { timeFormatter } from "@/lib/scripts/time-formatter";
 import Post from "@/types/post";
 import NormalContainer from "./normal-container";
@@ -10,9 +9,10 @@ import PostControl from "../posts/post-control";
 
 interface PostCardProps {
   post: Post;
+  onDelete: () => void;
 }
 
-function PostCard({ post }: PostCardProps) {
+function PostCard({ post, onDelete }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary max-w-full shadow-md">
       <Link href={"/post/" + post._id}>
@@ -31,7 +31,7 @@ function PostCard({ post }: PostCardProps) {
             {post.body}
           </p>
         </div>
-        <PostControl post={post} />
+        <PostControl post={post} onDelete={onDelete}/>
       </Link>
     </NormalContainer>
   );

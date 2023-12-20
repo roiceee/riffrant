@@ -68,7 +68,7 @@ export default function Home() {
         return (
           <React.Fragment key={i}>
             {group.data.map((post: Post) => {
-              return <PostCard key={`post-${post._id}`} post={post} />;
+              return <PostCard key={`post-${post._id}`} post={post} onDelete={refetch}/>;
             })}
           </React.Fragment>
         );
@@ -105,7 +105,7 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-            <PostButton />
+            <PostButton onPost={refetch}/>
           </div>
         )}
       </NormalContainer>
