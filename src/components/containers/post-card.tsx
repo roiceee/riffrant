@@ -15,7 +15,7 @@ interface PostCardProps {
 function PostCard({ post, onDelete }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary max-w-full shadow-md">
-      <Link href={"/post/" + post._id}>
+      <Link href={"/post/" + post._id} className=" no-underline">
         <div className="prose">
           <div className="font-semibold opacity-80 text-xs">
             {post.creatorName}

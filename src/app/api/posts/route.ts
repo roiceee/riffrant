@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   //get posts from database
 
   const query = req.nextUrl.searchParams.get("cursor");
+  const userId = req.nextUrl.searchParams.get("id");
 
   if (!query) {
     return NextResponse.json(null, { status: 400 });
@@ -16,10 +17,19 @@ export async function GET(req: NextRequest) {
 
   await connectMongoDB();
 
-  const posts = await PostModel.find({})
-    .sort({ createdAt: -1 })
-    .skip(skips)
-    .limit(pageSize);
+  let posts;
+
+  if (!userId) {
+    posts = await PostModel.find({})
+      .sort({ createdAt: -1 })
+      .skip(skips)
+      .limit(pageSize);
+  } else {
+    posts = await PostModel.find({creatorId: userId})
+      .sort({ createdAt: -1 })
+      .skip(skips)
+      .limit(pageSize);
+  }
 
   if (!posts) {
     return NextResponse.json(null, { status: 404 });

@@ -1,22 +1,27 @@
 "use client";
-import Image from "next/image";
-import placeholder from "/public/user-placeholder.jpg";
-import { useState } from "react";
-import ViewPostModal from "@/components/posts/view-post-modal";
-import PostCard from "@/components/containers/post-card";
 import PostCardContainer from "@/components/containers/post-card-container";
-import { getSession } from "@auth0/nextjs-auth0";
-import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
+import Link from "next/link";
+import placeholder from "/public/user-placeholder.jpg";
+import { useInfiniteQuery } from "react-query";
+import LoadingDiv from "@/components/util/loading";
+import ErrorDiv from "@/components/util/error-div";
+import React from "react";
+import Post from "@/types/post";
+import PostCard from "@/components/containers/post-card";
+import ScrollButton from "@/components/posts/scroll-button";
 
 function ProfilePage() {
   const { user } = useUser();
 
-  const onPostClick = () => {
-    const modal: any = document.getElementById("modal-post-view");
-    if (modal) {
-      modal.showModal();
-    }
+  const getPosts = async ({ pageParam = 0 }) => {
+    const res = await fetch(`/api/posts?id=${user?.sub}&cursor=${pageParam}`, {
+      method: "GET",
+    });
+
+    const data = await res.json();
+    return data;
   };
 
   const showModal = () => {
@@ -27,6 +32,50 @@ function ProfilePage() {
   const closeModal = () => {
     const elem: any = document.getElementById("modal-delete")!;
     elem.close();
+  };
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    enabled: !!user,
+  });
+
+  const renderPosts = () => {
+    if (status === "loading") {
+      return <LoadingDiv />;
+    }
+
+    if (status === "error") {
+      return <ErrorDiv />;
+    }
+
+    if (status === "success") {
+      return data.pages.map((group, i) => {
+        return (
+          <React.Fragment key={i}>
+            {group.data.map((post: Post) => {
+              return (
+                <PostCard
+                  key={`post-${post._id}`}
+                  post={post}
+                  onDelete={refetch}
+                />
+              );
+            })}
+          </React.Fragment>
+        );
+      });
+    }
   };
 
   if (!user) {
@@ -82,8 +131,8 @@ function ProfilePage() {
         <div className="flex items-center justify-between">
           <h3 className="my-0">Posts</h3>
           <button
-            onClick={showModal}
             className="btn btn-outline btn-error btn-sm"
+            onClick={showModal}
           >
             Delete all posts
           </button>
@@ -91,12 +140,35 @@ function ProfilePage() {
         <hr className="my-6" />
 
         <div>
-          {/* <PostCardContainer>
-           
-          </PostCardContainer> */}
+          <PostCardContainer>
+            {user && renderPosts()}
+          </PostCardContainer>
         </div>
-      </section>
 
+        <section>
+          {status !== "loading" && status !== "error" && (
+            <div className="mt-4">
+              <div className="text-center">
+                <ScrollButton
+                  onClick={() => {
+                    if (!hasNextPage || isFetchingNextPage) {
+                      return;
+                    }
+                    fetchNextPage();
+                  }}
+                  disabled
+                >
+                  {isFetchingNextPage ? (
+                    <LoadingDiv />
+                  ) : (
+                    "Oops! You've reached the end."
+                  )}
+                </ScrollButton>
+              </div>
+            </div>
+          )}
+        </section>
+      </section>
       <dialog id="modal-delete" className="modal">
         <div className="modal-box">
           <form method="dialog">
