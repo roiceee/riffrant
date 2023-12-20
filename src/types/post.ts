@@ -4,7 +4,8 @@ type Post = {
     creatorName?: string;
     title?: string;
     body?: string;
-    upvotes?: number;
+    upvotes?: Array<string>;
+    downvotes?: Array<string>
     createdAt?: string;
 }
 

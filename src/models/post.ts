@@ -28,8 +28,13 @@ const postSchema = new mongoose.Schema(
     },
 
     upvotes: {
-      type: Number,
-      default: 0,
+      type: Array<String>,
+      default: [],
+    },
+
+    downvotes: {
+      type: Array<String>,
+      default: [],
     },
   },
   { timestamps: true }

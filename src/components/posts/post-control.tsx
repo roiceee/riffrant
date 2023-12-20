@@ -11,14 +11,39 @@ import UpvoteButton from "../util/upvote-button";
 interface Props {
   post: Post;
   onDelete: () => void;
+  onUpdate: () => void;
 }
 
-function PostControl({ post, onDelete }: Props) {
+function PostControl({ post, onDelete, onUpdate }: Props) {
   const user = useUser();
 
   const { showAlert } = useContext(GlobalAlertContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleUpvote = async () => {
+    const res = await fetch(`/api/post/upvote/${post._id}`, {
+      method: "POST",
+    });
+
+    if (res.status === 202) {
+      onUpdate();
+      return;
+    }
+    showAlert("Error Upvoting Post");
+  };
+
+  const handleDownvote = async () => {
+    const res = await fetch(`/api/post/downvote/${post._id}`, {
+      method: "POST",
+    });
+
+    if (res.status === 202) {
+      onUpdate();
+      return;
+    }
+    showAlert("Error Downvoting Post");
+  };
 
   const handleDelete = async () => {
     const res = await fetch(`/api/post/${post._id}`, {
@@ -95,11 +120,17 @@ function PostControl({ post, onDelete }: Props) {
             </div>
           )}
           <div className="border flex items-center p-1 rounded-lg gap-2">
-            <UpvoteButton />
+            <UpvoteButton
+              onClick={handleUpvote}
+              active={post.upvotes?.includes(user.user.sub!)}
+            />
             <span className=" text-sm">
-              <b>{post.upvotes}</b>
+              <b>{post.upvotes?.length! - post.downvotes?.length!}</b>
             </span>
-            <DownvoteButton />
+            <DownvoteButton
+              onClick={handleDownvote}
+              active={post.downvotes?.includes(user.user.sub!)}
+            />
           </div>
         </div>
       )}

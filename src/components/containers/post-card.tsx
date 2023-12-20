@@ -10,9 +10,10 @@ import PostControl from "../posts/post-control";
 interface PostCardProps {
   post: Post;
   onDelete: () => void;
+  onUpdate: () => void;
 }
 
-function PostCard({ post, onDelete }: PostCardProps) {
+function PostCard({ post, onDelete, onUpdate }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary max-w-full shadow-md">
       <Link href={"/post/" + post._id} className=" no-underline">
@@ -31,7 +32,7 @@ function PostCard({ post, onDelete }: PostCardProps) {
             {post.body}
           </p>
         </div>
-        <PostControl post={post} onDelete={onDelete}/>
+        <PostControl post={post} onDelete={onDelete} onUpdate={onUpdate}/>
       </Link>
     </NormalContainer>
   );
