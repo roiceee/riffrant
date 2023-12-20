@@ -1,4 +1,5 @@
 import PostControl from "@/components/posts/post-control";
+import PostPageControlWrapper from "@/components/posts/post-page-control-wrapper";
 import BackButton from "@/components/util/back-button";
 import { timeFormatter } from "@/lib/scripts/time-formatter";
 import Post from "@/types/post";
@@ -52,7 +53,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
             </div>
             <p>{post.body}</p>
           </div>
-          <PostControl post={post} />
+          <PostPageControlWrapper post={post} />
         </section>
       }
     </section>

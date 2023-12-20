@@ -14,7 +14,7 @@ function timeFormatter(timestamp: string): string {
   const years = Math.floor(seconds / 31536000);
 
   if (seconds < 60) {
-    return `${seconds} seconds ago`;
+    return `Just now`;
   } else if (minutes < 60) {
     if (minutes == 1) {
       return `${minutes} minute ago`;

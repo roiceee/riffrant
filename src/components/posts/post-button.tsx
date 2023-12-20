@@ -4,7 +4,11 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 
-function PostButton() {
+interface PostButtonProps {
+  onPost: () => void;
+}
+
+function PostButton({ onPost }: PostButtonProps) {
   const user = useUser();
 
   const [postContent, setPostContent] = useState<Post>({
@@ -88,8 +92,9 @@ function PostButton() {
     if (status === "success") {
       closeModal();
       resetPostContent();
+      onPost();
     }
-  }, [status]);
+  }, [status, onPost]);
 
   return (
     <div className="w-full">

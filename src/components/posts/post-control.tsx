@@ -1,17 +1,20 @@
 "use client";
 
-
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import LoadingDiv from "../util/loading";
+import { GlobalAlertContext } from "@/context/global-alert";
 
 interface Props {
   post: Post;
+  onDelete: () => void;
 }
 
-function PostControl({ post }: Props) {
+function PostControl({ post, onDelete }: Props) {
   const user = useUser();
+
+  const { showAlert } = useContext(GlobalAlertContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -20,9 +23,12 @@ function PostControl({ post }: Props) {
       method: "DELETE",
     });
 
-    const data = await res.json();
-
-    console.log(data);
+    if (res.status === 202) {
+      onDelete();
+      showAlert("Post Deleted");
+      return;
+    }
+    showAlert("Error Deleting Post");
   };
 
   if (user.isLoading) {
@@ -38,6 +44,7 @@ function PostControl({ post }: Props) {
       </div>
     );
   }
+
 
   return (
     <div className="mt-3 pt-2 border-t">
