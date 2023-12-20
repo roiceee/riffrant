@@ -20,13 +20,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en">
       <UserProvider>
         <QueryProvider>
           <body className={font.className + " mb-4"}>
             <GlobalAlertModal>
               <Navbar />
-              <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-56">
+              <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-60">
                 {children}
               </div>
               <ScrollToTopButton />
