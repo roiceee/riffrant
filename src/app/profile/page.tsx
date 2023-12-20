@@ -1,19 +1,21 @@
 "use client";
+import PostCard from "@/components/containers/post-card";
 import PostCardContainer from "@/components/containers/post-card-container";
+import ScrollButton from "@/components/posts/scroll-button";
+import ErrorDiv from "@/components/util/error-div";
+import LoadingDiv from "@/components/util/loading";
+import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
 import Link from "next/link";
-import placeholder from "/public/user-placeholder.jpg";
-import { useInfiniteQuery } from "react-query";
-import LoadingDiv from "@/components/util/loading";
-import ErrorDiv from "@/components/util/error-div";
 import React from "react";
-import Post from "@/types/post";
-import PostCard from "@/components/containers/post-card";
-import ScrollButton from "@/components/posts/scroll-button";
+import { useInfiniteQuery } from "react-query";
+import placeholder from "/public/user-placeholder.jpg";
 
 function ProfilePage() {
   const { user } = useUser();
+
+  const [deleteCount, setDeleteCount] = React.useState(3);
 
   const getPosts = async ({ pageParam = 0 }) => {
     const res = await fetch(`/api/posts?id=${user?.sub}&cursor=${pageParam}`, {
@@ -22,6 +24,30 @@ function ProfilePage() {
 
     const data = await res.json();
     return data;
+  };
+
+  const deleteAllPosts = async () => {
+    const res = await fetch(`/api/posts`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+    return data;
+  };
+
+  const deleteHandler = async () => {
+    if (deleteCount > 1) {
+      setDeleteCount(deleteCount - 1);
+      setTimeout(() => {
+        setDeleteCount(3);
+      }, 3000);
+      return;
+    }
+
+    await deleteAllPosts();
+    closeModal();
+    refetch();
+    setDeleteCount(3);
   };
 
   const showModal = () => {
@@ -140,9 +166,7 @@ function ProfilePage() {
         <hr className="my-6" />
 
         <div>
-          <PostCardContainer>
-            {user && renderPosts()}
-          </PostCardContainer>
+          <PostCardContainer>{user && renderPosts()}</PostCardContainer>
         </div>
 
         <section>
@@ -177,11 +201,14 @@ function ProfilePage() {
             </button>
           </form>
           <h3 className="font-bold text-lg">Delete All Posts</h3>
-          <p className="py-4">
+          <p className="py-2">
             Are you sure you want to delete all your posts?
           </p>
+          <div className="text-xs font-bold">Note: Press delete 3 times.</div>
           <div className="modal-action">
-            <button className="btn btn-error">Delete</button>
+            <button className="btn btn-error" onClick={deleteHandler}>
+              Delete ({deleteCount})
+            </button>
             <button className="btn" onClick={closeModal}>
               Cancel
             </button>
