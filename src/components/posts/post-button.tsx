@@ -70,6 +70,10 @@ function PostButton() {
     return false;
   };
 
+  const clearBody = () => {
+    setPostContent({ ...postContent, body: "" });
+  };
+
   const closeModal = () => {
     const modal: any = document.getElementById("modal-post");
     modal.close();
@@ -140,7 +144,9 @@ function PostButton() {
           <div className="modal-action">
             <div className="flex w-full justify-between">
               <div>
-                <button className="btn btn-sm">Clear Body</button>
+                <button className="btn btn-sm" onClick={clearBody}>
+                  Clear Body
+                </button>
               </div>
               <div className="flex gap-2">
                 <button className="btn btn-accent" onClick={() => refetch()}>

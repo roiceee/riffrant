@@ -2,21 +2,12 @@ import { connectMongoDB } from "@/lib/mongo";
 import { PostModel } from "@/models/post";
 import { NextRequest, NextResponse } from "next/server";
 
-//add post
-export async function POST(req: NextRequest, res: NextResponse) {
-  const { creatorId, creatorName, title, body, upvotes, createdAt } =
-    await req.json();
+//get single post
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
 
   await connectMongoDB();
 
-  const post = await PostModel.create({
-    creatorId,
-    creatorName,
-    title,
-    body,
-    upvotes,
-    createdAt,
-  });
+  const post = await PostModel.findOne({ _id: params.slug });
 
   if (!post) {
     return NextResponse.json(null, { status: 400 });
