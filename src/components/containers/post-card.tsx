@@ -6,6 +6,7 @@ import Post from "@/types/post";
 import NormalContainer from "./normal-container";
 import style from "./post-card.module.css";
 import Link from "next/link";
+import PostControl from "../posts/post-control";
 
 interface PostCardProps {
   post: Post;
@@ -30,19 +31,7 @@ function PostCard({ post }: PostCardProps) {
             {post.body}
           </p>
         </div>
-        <div className="flex items-center justify-end gap-2 mt-3">
-          <div className="border flex items-center p-1 rounded-lg gap-2">
-            <button className="btn btn-outline btn-success btn-sm px-2 ">
-              <UpvoteIcon />
-            </button>
-            <span className=" text-sm">
-              <b>{post.upvotes}</b>
-            </span>
-            <button className="btn btn-outline btn-error btn-sm px-2">
-              <DownvoteButton />
-            </button>
-          </div>
-        </div>
+        <PostControl post={post} />
       </Link>
     </NormalContainer>
   );
