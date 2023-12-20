@@ -40,7 +40,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
         <BackButton />
       </div>
       {
-        <section className="border rounded-lg p-4 shadow-lg break-words">
+        <section className="rounded-lg p-4 shadow-lg bg-neutral break-words">
           <div className="prose">
             <div>
               <div className="font-semibold opacity-80 text-xs">
@@ -51,7 +51,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
             <div className="font-semibold opacity-80 text-xs">
               {timeFormatter(post.createdAt!)}
             </div>
-            <p>{post.body}</p>
+            <p className="mb-16">{post.body}</p>
           </div>
           <PostPageControlWrapper post={post} />
         </section>
