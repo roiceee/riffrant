@@ -42,7 +42,7 @@ function Navbar() {
                 src={user ? user.picture! : placeholder}
                 width={60}
                 height={60}
-                className="rounded-full border my-0"
+                className="rounded-full my-0"
               />
             </div>
           </div>

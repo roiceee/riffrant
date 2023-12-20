@@ -1,5 +1,6 @@
 import { connectMongoDB } from "@/lib/mongo";
 import { PostModel } from "@/models/post";
+import { getSession } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
 
 //add post
@@ -8,6 +9,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await req.json();
 
   await connectMongoDB();
+
+  const session = await getSession();
+
+  if (creatorId !== session!.user.sub) {
+    return NextResponse.json(null, { status: 401 });
+  }
 
   const post = await PostModel.create({
     creatorId,

@@ -1,5 +1,6 @@
 import { connectMongoDB } from "@/lib/mongo";
 import { PostModel } from "@/models/post";
+import { getSession } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
 
 //get single post
@@ -31,9 +32,14 @@ export async function DELETE(
 ) {
   await connectMongoDB();
 
-  const post = await PostModel.deleteOne({ _id: params.slug });
+  const session = await getSession();
 
-  if (!post) {
+  const post = await PostModel.deleteOne({
+    _id: params.slug,
+    creatorId: session!.user.sub,
+  });
+
+  if (!post.acknowledged) {
     return NextResponse.json(null, { status: 204 });
   }
 

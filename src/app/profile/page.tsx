@@ -1,22 +1,53 @@
 "use client";
-import Image from "next/image";
-import placeholder from "/public/user-placeholder.jpg";
-import { useState } from "react";
-import ViewPostModal from "@/components/posts/view-post-modal";
 import PostCard from "@/components/containers/post-card";
 import PostCardContainer from "@/components/containers/post-card-container";
-import { getSession } from "@auth0/nextjs-auth0";
-import Link from "next/link";
+import ScrollButton from "@/components/posts/scroll-button";
+import ErrorDiv from "@/components/util/error-div";
+import LoadingDiv from "@/components/util/loading";
+import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { useInfiniteQuery } from "react-query";
+import placeholder from "/public/user-placeholder.jpg";
 
 function ProfilePage() {
   const { user } = useUser();
 
-  const onPostClick = () => {
-    const modal: any = document.getElementById("modal-post-view");
-    if (modal) {
-      modal.showModal();
+  const [deleteCount, setDeleteCount] = React.useState(3);
+
+  const getPosts = async ({ pageParam = 0 }) => {
+    const res = await fetch(`/api/posts?id=${user?.sub}&cursor=${pageParam}`, {
+      method: "GET",
+    });
+
+    const data = await res.json();
+    return data;
+  };
+
+  const deleteAllPosts = async () => {
+    const res = await fetch(`/api/posts`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+    return data;
+  };
+
+  const deleteHandler = async () => {
+    if (deleteCount > 1) {
+      setDeleteCount(deleteCount - 1);
+      setTimeout(() => {
+        setDeleteCount(3);
+      }, 3000);
+      return;
     }
+
+    await deleteAllPosts();
+    closeModal();
+    refetch();
+    setDeleteCount(3);
   };
 
   const showModal = () => {
@@ -27,6 +58,50 @@ function ProfilePage() {
   const closeModal = () => {
     const elem: any = document.getElementById("modal-delete")!;
     elem.close();
+  };
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    status,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: getPosts,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    enabled: !!user,
+  });
+
+  const renderPosts = () => {
+    if (status === "loading") {
+      return <LoadingDiv />;
+    }
+
+    if (status === "error") {
+      return <ErrorDiv />;
+    }
+
+    if (status === "success") {
+      return data.pages.map((group, i) => {
+        return (
+          <React.Fragment key={i}>
+            {group.data.map((post: Post) => {
+              return (
+                <PostCard
+                  key={`post-${post._id}`}
+                  post={post}
+                  onDelete={refetch}
+                />
+              );
+            })}
+          </React.Fragment>
+        );
+      });
+    }
   };
 
   if (!user) {
@@ -82,8 +157,8 @@ function ProfilePage() {
         <div className="flex items-center justify-between">
           <h3 className="my-0">Posts</h3>
           <button
-            onClick={showModal}
             className="btn btn-outline btn-error btn-sm"
+            onClick={showModal}
           >
             Delete all posts
           </button>
@@ -91,12 +166,33 @@ function ProfilePage() {
         <hr className="my-6" />
 
         <div>
-          {/* <PostCardContainer>
-           
-          </PostCardContainer> */}
+          <PostCardContainer>{user && renderPosts()}</PostCardContainer>
         </div>
-      </section>
 
+        <section>
+          {status !== "loading" && status !== "error" && (
+            <div className="mt-4">
+              <div className="text-center">
+                <ScrollButton
+                  onClick={() => {
+                    if (!hasNextPage || isFetchingNextPage) {
+                      return;
+                    }
+                    fetchNextPage();
+                  }}
+                  disabled
+                >
+                  {isFetchingNextPage ? (
+                    <LoadingDiv />
+                  ) : (
+                    "Oops! You've reached the end."
+                  )}
+                </ScrollButton>
+              </div>
+            </div>
+          )}
+        </section>
+      </section>
       <dialog id="modal-delete" className="modal">
         <div className="modal-box">
           <form method="dialog">
@@ -105,11 +201,14 @@ function ProfilePage() {
             </button>
           </form>
           <h3 className="font-bold text-lg">Delete All Posts</h3>
-          <p className="py-4">
+          <p className="py-2">
             Are you sure you want to delete all your posts?
           </p>
+          <div className="text-xs font-bold">Note: Press delete 3 times.</div>
           <div className="modal-action">
-            <button className="btn btn-error">Delete</button>
+            <button className="btn btn-error" onClick={deleteHandler}>
+              Delete ({deleteCount})
+            </button>
             <button className="btn" onClick={closeModal}>
               Cancel
             </button>
