@@ -13,7 +13,7 @@ interface PostCardProps {
 
 function PostCard({ post }: PostCardProps) {
   return (
-    <NormalContainer className="hover:border-primary max-w-full">
+    <NormalContainer className="hover:border-primary max-w-full shadow-md">
       <Link href={"/post/" + post._id}>
         <div className="prose">
           <div className="font-semibold opacity-80 text-xs">
@@ -31,7 +31,7 @@ function PostCard({ post }: PostCardProps) {
           </p>
         </div>
         <div className="flex items-center justify-end gap-2 mt-3">
-          <div className="border flex items-center p-1 rounded-md gap-2">
+          <div className="border flex items-center p-1 rounded-lg gap-2">
             <button className="btn btn-outline btn-success btn-sm px-2 ">
               <UpvoteIcon />
             </button>

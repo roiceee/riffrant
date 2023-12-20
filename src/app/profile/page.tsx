@@ -4,7 +4,7 @@ import placeholder from "/public/user-placeholder.jpg";
 import { useState } from "react";
 import ViewPostModal from "@/components/posts/view-post-modal";
 import PostCard from "@/components/containers/post-card";
-import PostCardContainer from "@/components/containers/post-card-containers";
+import PostCardContainer from "@/components/containers/post-card-container";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";

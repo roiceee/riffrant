@@ -1,7 +1,7 @@
 "use client";
 import NormalContainer from "@/components/containers/normal-container";
 import PostCard from "@/components/containers/post-card";
-import PostCardContainer from "@/components/containers/post-card-containers";
+import PostCardContainer from "@/components/containers/post-card-container";
 import PostButton from "@/components/posts/post-button";
 import ViewPostModal from "@/components/posts/view-post-modal";
 import { useUser } from "@auth0/nextjs-auth0/client";

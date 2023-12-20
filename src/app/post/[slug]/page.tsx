@@ -22,10 +22,13 @@ async function PostPage({ params }: { params: { slug: string } }) {
       <div className="mb-2">
         <BackButton />
       </div>
-      <article className="border rounded-lg prose p-4 shadow-lg break-words">
-        <div>
-          <div className="font-semibold opacity-80 text-xs">
-            Posted by: {post.creatorName}
+      <section className="border rounded-lg p-4 shadow-lg break-words">
+        
+        <div className="prose">
+          <div>
+            <div className="font-semibold opacity-80 text-xs">
+              Posted by: {post.creatorName}
+            </div>
           </div>
           <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
           <div className="font-semibold opacity-80 text-xs">
@@ -33,9 +36,10 @@ async function PostPage({ params }: { params: { slug: string } }) {
           </div>
           <p>{post.body}</p>
         </div>
+
         <hr className="my-1 opacity-50" />
         <div className="flex items-center justify-end gap-2 mt-3">
-          <div className="border flex items-center p-1 rounded-md gap-2">
+          <div className="border flex items-center p-1 rounded-lg gap-2">
             <button className="btn btn-outline btn-success btn-sm px-2 ">
               <UpvoteIcon />
             </button>
@@ -47,7 +51,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
             </button>
           </div>
         </div>
-      </article>
+      </section>
     </section>
   );
 }
