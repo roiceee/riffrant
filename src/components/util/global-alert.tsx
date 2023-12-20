@@ -9,12 +9,26 @@ function GlobalAlertModal({ children }: { children: React.ReactNode }) {
 
   //reset content after 5 seconds and hide the alert
 
+  //reset timer when showAlert is triggered simultaneously
+  
+  const resetTimer = () => {
+    if (show) {
+      setShow(true);
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      setShow(false);
+      setContentState("");
+    }, 5000);
+  };
+
+  let timer: NodeJS.Timeout;
+
   const showAlert = (content: string) => {
     setContentState(content);
     setShow(true);
-    setTimeout(() => {
-      setShow(false);
-    }, 5000);
+    resetTimer();
   };
 
   return (
