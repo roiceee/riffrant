@@ -4,7 +4,7 @@ import placeholder from "/public/user-placeholder.jpg";
 import { useState } from "react";
 import ViewPostModal from "@/components/posts/view-post-modal";
 import PostCard from "@/components/containers/post-card";
-import PostCardContainer from "@/components/containers/post-card-containers";
+import PostCardContainer from "@/components/containers/post-card-container";
 import { getSession } from "@auth0/nextjs-auth0";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -12,44 +12,11 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 function ProfilePage() {
   const { user } = useUser();
 
-  const [isEditing, setIsEditing] = useState(false);
-
-  const [chosenPost, setChosenPost] = useState<{
-    title: string;
-    body: string;
-    upvotes: number;
-    displayName: string;
-    createdAt: string;
-  } | null>(null);
-
-  const setChosenPostAndOpenModal = (
-    title: string,
-    body: string,
-    upvotes: number,
-    displayName: string,
-    createdAt: string
-  ) => {
-    setChosenPost({ title, body, upvotes, displayName, createdAt });
-    onPostClick();
-  };
-
   const onPostClick = () => {
     const modal: any = document.getElementById("modal-post-view");
     if (modal) {
       modal.showModal();
     }
-  };
-
-  const editName = () => {
-    setIsEditing(true);
-  };
-
-  const saveName = () => {
-    setIsEditing(false);
-  };
-
-  const cancelEdit = () => {
-    setIsEditing(false);
   };
 
   const showModal = () => {
@@ -90,67 +57,13 @@ function ProfilePage() {
               className=" rounded-full my-0 border"
             />
           </div>
-          <div>
+          <div className="w-full">
             <div className="mb-3">
-              {!isEditing && (
-                <div className="flex items-center justify-between">
-                  <h5>
-                    <b>placeholderusername</b>
-                  </h5>
-                  <button className="btn btn-sm" onClick={editName}>
-                    Edit
-                  </button>
-                </div>
-              )}
-              {isEditing && (
-                <div className="flex gap-1">
-                  <input
-                    type="text"
-                    className="input input-bordered w-full"
-                    placeholder="placeholderusername"
-                  />
-                  <div className="flex flex-row flex-nowrap items-center justify-between gap-1">
-                    <button
-                      className="btn btn-sm btn-outline btn-success"
-                      onClick={saveName}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4.5 12.75l6 6 9-13.5"
-                        />
-                      </svg>
-                    </button>
-                    <button
-                      className="btn btn-sm btn-outline btn-error"
-                      onClick={cancelEdit}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              )}
+              <div className="flex items-center justify-between">
+                <h5>
+                  <b>{user.name}</b>
+                </h5>
+              </div>
             </div>
             <div>
               <b>Email: </b> {user.email}
@@ -178,24 +91,9 @@ function ProfilePage() {
         <hr className="my-6" />
 
         <div>
-          <PostCardContainer>
-            <PostCard
-              title="TITLE GOES HERE"
-              displayName="placeholderName"
-              createdAt="Just now"
-              body="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum"
-              upvotes={0}
-              onClick={() =>
-                setChosenPostAndOpenModal(
-                  "TITLE GOES HERE",
-                  "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem veritatis nostrum, officia numquam aut mollitia in voluptates neque  reprehenderit nobis quia aliquid temporibus consectetur maxime odit vel sint atque ipsum",
-                  0,
-                  "placeholderName",
-                  "Just now"
-                )
-              }
-            />
-          </PostCardContainer>
+          {/* <PostCardContainer>
+           
+          </PostCardContainer> */}
         </div>
       </section>
 
@@ -218,16 +116,6 @@ function ProfilePage() {
           </div>
         </div>
       </dialog>
-
-      <div>
-        <ViewPostModal
-          title={chosenPost?.title!}
-          body={chosenPost?.body!}
-          upvotes={chosenPost?.upvotes!}
-          displayName={chosenPost?.displayName!}
-          createdAt={chosenPost?.createdAt!}
-        />
-      </div>
     </main>
   );
 }

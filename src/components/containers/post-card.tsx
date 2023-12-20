@@ -1,57 +1,38 @@
-import UpvoteIcon from "@/app/assets/upvote-icon";
+"use client";
+import DownvoteButton from "@/assets/downvote-icon";
+import UpvoteIcon from "@/assets/upvote-icon";
+import { timeFormatter } from "@/lib/scripts/time-formatter";
+import Post from "@/types/post";
 import NormalContainer from "./normal-container";
-import DownvoteButton from "@/app/assets/downvote-icon";
 import style from "./post-card.module.css";
-import _ from "lodash";
+import Link from "next/link";
+import PostControl from "../posts/post-control";
 
 interface PostCardProps {
-  onClick: () => void;
-  title: string;
-  displayName: string;
-  body: string;
-  upvotes: number;
-  createdAt: string;
+  post: Post;
 }
 
-function PostCard({
-  title,
-  displayName,
-  body,
-  upvotes,
-  createdAt,
-  onClick,
-}: PostCardProps) {
+function PostCard({ post }: PostCardProps) {
   return (
-    <NormalContainer className="hover:border-primary max-w-md">
-      <div className="prose" onClick={onClick}>
-        <div className="font-semibold opacity-80 text-xs">
-          Posted by: {displayName}
+    <NormalContainer className="hover:border-primary max-w-full shadow-md">
+      <Link href={"/post/" + post._id}>
+        <div className="prose">
+          <div className="font-semibold opacity-80 text-xs">
+            {post.creatorName}
+          </div>
+          <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
+          <div className="font-semibold opacity-80 text-xs">
+            {timeFormatter(post.createdAt!)}
+          </div>
+          <p
+            className={"text-sm break-words " + style.fadeOutBottom}
+            style={{ maxHeight: "120px" }}
+          >
+            {post.body}
+          </p>
         </div>
-        <h3 className="mb-0 mt-2">{title}</h3>
-
-        <div className="font-semibold opacity-80 text-xs">{createdAt}</div>
-
-        <p
-          className={
-            " overflow overflow-y-hidden text-sm " + style.fadeOutBottom
-          }
-          style={{ maxHeight: "120px" }}
-        >
-          {body}
-        </p>
-      </div>
-
-      <div className="flex items-center justify-start gap-2 mt-3">
-        <button className="btn btn-outline btn-success btn-sm">
-          <UpvoteIcon />
-        </button>
-        <span className=" text-lg">
-          <b>{upvotes}</b>
-        </span>
-        <button className="btn btn-outline btn-error btn-sm">
-          <DownvoteButton />
-        </button>
-      </div>
+        <PostControl post={post} />
+      </Link>
     </NormalContainer>
   );
 }
