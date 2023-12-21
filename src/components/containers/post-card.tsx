@@ -1,19 +1,17 @@
 "use client";
 
-import { timeFormatter } from "@/lib/time-formatter";
+import { timeFormatter } from "@/lib/util";
 import Post from "@/types/post";
 import NormalContainer from "./normal-container";
-import style from "./post-card.module.css";
 import Link from "next/link";
 import PostControl from "../posts/post-control";
 
 interface PostCardProps {
   post: Post;
   onDelete: () => void;
-  onUpdate: () => void;
 }
 
-function PostCard({ post, onDelete, onUpdate }: PostCardProps) {
+function PostCard({ post, onDelete }: PostCardProps) {
   return (
     <NormalContainer className="hover:border-primary max-w-full shadow-md">
       <Link href={"/post/" + post._id} className=" no-underline">
@@ -26,13 +24,14 @@ function PostCard({ post, onDelete, onUpdate }: PostCardProps) {
             {timeFormatter(post.createdAt!)}
           </div>
           <p
-            className={"text-sm break-words " + style.fadeOutBottom}
-            style={{ maxHeight: "120px" }}
+            className={
+              "text-sm whitespace-nowrap overflow-hidden overflow-ellipsis"
+            }
           >
             {post.body}
           </p>
         </div>
-        <PostControl post={post} onDelete={onDelete} onUpdate={onUpdate}/>
+        <PostControl post={post} onDelete={onDelete} />
       </Link>
     </NormalContainer>
   );
