@@ -14,7 +14,7 @@ import placeholder from "/public/user-placeholder.jpg";
 import { deleteAllPosts, getUserPosts } from "@/lib/actions-client";
 
 function ProfilePage() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
   const [deleteCount, setDeleteCount] = React.useState(3);
 
@@ -79,7 +79,6 @@ function ProfilePage() {
                   key={`post-${post._id}`}
                   post={post}
                   onDelete={refetch}
-                 
                 />
               );
             })}
@@ -88,6 +87,14 @@ function ProfilePage() {
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className=" absolute start-1/2 bottom-1/2 -translate-x-1/2 -translate-y-1/2 prose">
+        <LoadingDiv />
+      </div>
+    );
+  }
 
   if (!user) {
     return (
@@ -191,10 +198,10 @@ function ProfilePage() {
           </p>
           <div className="text-xs font-bold">Note: Press delete 3 times.</div>
           <div className="modal-action">
-            <button className="btn btn-error" onClick={deleteHandler}>
+            <button className="btn btn-error btn-sm" onClick={deleteHandler}>
               Delete ({deleteCount})
             </button>
-            <button className="btn" onClick={closeModal}>
+            <button className="btn btn-sm" onClick={closeModal}>
               Cancel
             </button>
           </div>

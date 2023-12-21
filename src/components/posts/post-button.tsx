@@ -142,10 +142,10 @@ function PostButton({ onPost }: PostButtonProps) {
                 </button>
               </div>
               <div className="flex gap-2">
-                <button className="btn btn-accent" onClick={handlePost}>
+                <button className="btn btn-accent btn-sm" onClick={handlePost}>
                   Post
                 </button>
-                <button className="btn" onClick={closeModal}>
+                <button className="btn btn-sm" onClick={closeModal}>
                   Cancel
                 </button>
               </div>
