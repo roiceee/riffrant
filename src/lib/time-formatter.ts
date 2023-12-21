@@ -1,6 +1,3 @@
-// i want a function that formats a timestamp to "weeks, days, hours or minutes ago like in facebook"
-// the timestamp is in iso 8601 format
-
 function timeFormatter(timestamp: string): string {
   const converted = Date.parse(timestamp);
 

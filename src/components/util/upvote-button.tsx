@@ -1,10 +1,18 @@
 interface Props {
   active?: boolean;
+  onClick: () => void;
 }
 
-function UpvoteButton({ active }: Props) {
+function UpvoteButton({ active, onClick }: Props) {
   return (
-    <button className="btn btn-primary btn-outline border-0 btn-sm px-2 ">
+    <button
+      className="btn btn-primary btn-outline border-0 btn-sm px-2 "
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+    >
       {active && (
         <svg
           xmlns="http://www.w3.org/2000/svg"

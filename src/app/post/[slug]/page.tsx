@@ -1,21 +1,13 @@
 import PostControl from "@/components/posts/post-control";
 import PostPageControlWrapper from "@/components/posts/post-page-control-wrapper";
 import BackButton from "@/components/util/back-button";
-import { timeFormatter } from "@/lib/scripts/time-formatter";
+import { getSinglePost } from "@/lib/actions-server";
+import { timeFormatter } from "@/lib/time-formatter";
 import Post from "@/types/post";
 
 async function PostPage({ params }: { params: { slug: string } }) {
-  const getPost = async () => {
-    const res = await fetch(
-      `${process.env.AUTH0_BASE_URL}/api/post/${params.slug}`
-    );
-
-    const data = await res.json();
-
-    return data;
-  };
-
-  const data = await getPost();
+  
+  const data = await getSinglePost({ params });
 
   if (!data) {
     return (
@@ -40,7 +32,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
         <BackButton />
       </div>
       {
-        <section className="border rounded-lg p-4 shadow-lg break-words">
+        <section className="rounded-lg p-4 shadow-lg bg-neutral break-words">
           <div className="prose">
             <div>
               <div className="font-semibold opacity-80 text-xs">
@@ -51,7 +43,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
             <div className="font-semibold opacity-80 text-xs">
               {timeFormatter(post.createdAt!)}
             </div>
-            <p>{post.body}</p>
+            <p className="mb-16">{post.body}</p>
           </div>
           <PostPageControlWrapper post={post} />
         </section>

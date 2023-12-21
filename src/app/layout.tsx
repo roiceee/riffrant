@@ -7,11 +7,12 @@ import { UserProvider } from "@auth0/nextjs-auth0/client";
 import QueryProvider from "@/components/query-provider";
 import GlobalAlertModal from "@/components/util/global-alert";
 
+
 const font = Montserrat({ style: "normal", weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Usepinion",
-  description: "A place where USepians can share their thoughts.",
+  title: "RiffRant",
+  description: "A place where peop  1le can share their thoughts.",
 };
 
 export default function RootLayout({
@@ -29,6 +30,7 @@ export default function RootLayout({
               <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-60">
                 {children}
               </div>
+              
               <ScrollToTopButton />
             </GlobalAlertModal>
           </body>

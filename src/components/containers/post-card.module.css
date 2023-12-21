@@ -10,6 +10,6 @@
   left: 0;
   width: 100%;
   height: 10px; /* Adjust the height based on your preference */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #2a303c);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #1c212b);
   pointer-events: none;
 }

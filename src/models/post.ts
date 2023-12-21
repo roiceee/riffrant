@@ -28,9 +28,20 @@ const postSchema = new mongoose.Schema(
     },
 
     upvotes: {
+      type: Array<String>,
+      default: [],
+    },
+
+    downvotes: {
+      type: Array<String>,
+      default: [],
+    },
+
+    score: {
       type: Number,
       default: 0,
     },
+    
   },
   { timestamps: true }
 );
