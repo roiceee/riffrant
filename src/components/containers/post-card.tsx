@@ -1,6 +1,6 @@
 "use client";
 
-import { timeFormatter } from "@/lib/scripts/time-formatter";
+import { timeFormatter } from "@/lib/time-formatter";
 import Post from "@/types/post";
 import NormalContainer from "./normal-container";
 import style from "./post-card.module.css";

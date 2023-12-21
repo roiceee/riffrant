@@ -36,6 +36,12 @@ const postSchema = new mongoose.Schema(
       type: Array<String>,
       default: [],
     },
+
+    score: {
+      type: Number,
+      default: 0,
+    },
+    
   },
   { timestamps: true }
 );

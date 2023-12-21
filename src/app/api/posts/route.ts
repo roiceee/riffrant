@@ -3,10 +3,10 @@ import { PostModel } from "@/models/post";
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
 
+//public, get all posts
 export async function GET(req: NextRequest) {
-  //get posts from database
-
   const query = req.nextUrl.searchParams.get("cursor");
+  const sortBy = req.nextUrl.searchParams.get("sortBy");
   const userId = req.nextUrl.searchParams.get("id");
 
   if (!query) {
@@ -20,16 +20,35 @@ export async function GET(req: NextRequest) {
 
   let posts;
 
-  if (!userId) {
-    posts = await PostModel.find({})
-      .sort({ createdAt: -1 })
-      .skip(skips)
-      .limit(pageSize);
-  } else {
-    posts = await PostModel.find({ creatorId: userId })
-      .sort({ createdAt: -1 })
-      .skip(skips)
-      .limit(pageSize);
+  if (sortBy === "recent") {
+    if (!userId) {
+      posts = await PostModel.find({})
+        .sort({ createdAt: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    } else {
+      posts = await PostModel.find({ creatorId: userId })
+        .sort({ createdAt: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    }
+  }
+
+  if (sortBy === "popular") {
+    //sort first by length of upvotes array, and then length of downvotes array
+    //the top should be the post with most upvotes and least downvotes
+
+    if (!userId) {
+      posts = await PostModel.find({})
+        .sort({ score: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    } else {
+      posts = await PostModel.find({ creatorId: userId })
+        .sort({ score: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    }
   }
 
   if (!posts) {
@@ -46,6 +65,7 @@ export async function GET(req: NextRequest) {
   );
 }
 
+//private, deletes all posts of a user
 export async function DELETE(req: NextRequest, res: NextResponse) {
   try {
     const session = await getSession();

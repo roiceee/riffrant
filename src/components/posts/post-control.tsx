@@ -7,50 +7,46 @@ import LoadingDiv from "../util/loading";
 import { GlobalAlertContext } from "@/context/global-alert";
 import DownvoteButton from "../util/downvote-button";
 import UpvoteButton from "../util/upvote-button";
+import { deleteUserPost, downvotePost, upvotePost } from "@/lib/actions-client";
 
 interface Props {
   post: Post;
   onDelete: () => void;
-  onUpdate: () => void;
 }
 
-function PostControl({ post, onDelete, onUpdate }: Props) {
+function PostControl({ post, onDelete }: Props) {
   const user = useUser();
 
   const { showAlert } = useContext(GlobalAlertContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleUpvote = async () => {
-    const res = await fetch(`/api/post/upvote/${post._id}`, {
-      method: "POST",
-    });
+  const [postState, setPostState] = useState(post);
 
-    if (res.status === 202) {
-      onUpdate();
+  const handleUpvote = async () => {
+    const data = await upvotePost(post._id!);
+
+    if (data) {
+      setPostState(data);
       return;
     }
     showAlert("Error Upvoting Post");
   };
 
   const handleDownvote = async () => {
-    const res = await fetch(`/api/post/downvote/${post._id}`, {
-      method: "POST",
-    });
+    const data = await downvotePost(post._id!);
 
-    if (res.status === 202) {
-      onUpdate();
+    if (data) {
+      setPostState(data);
       return;
     }
     showAlert("Error Downvoting Post");
   };
 
   const handleDelete = async () => {
-    const res = await fetch(`/api/post/${post._id}`, {
-      method: "DELETE",
-    });
+    const data = await deleteUserPost(post._id!);
 
-    if (res.status === 202) {
+    if (data) {
       onDelete();
       showAlert("Post Deleted");
       return;
@@ -122,14 +118,14 @@ function PostControl({ post, onDelete, onUpdate }: Props) {
           <div className="border flex items-center p-1 rounded-lg gap-2">
             <UpvoteButton
               onClick={handleUpvote}
-              active={post.upvotes?.includes(user.user.sub!)}
+              active={postState.upvotes!.includes(user.user.sub!)}
             />
             <span className=" text-sm">
-              <b>{post.upvotes?.length! - post.downvotes?.length!}</b>
+              <b>{postState.score}</b>
             </span>
             <DownvoteButton
               onClick={handleDownvote}
-              active={post.downvotes?.includes(user.user.sub!)}
+              active={postState.downvotes!.includes(user.user.sub!)}
             />
           </div>
         </div>

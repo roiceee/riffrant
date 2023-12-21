@@ -24,7 +24,7 @@ export async function POST(
   if (post.upvotes.includes(session.user.sub)) {
     const result = await PostModel.findOneAndUpdate(
       { _id: params.slug },
-      { $pull: { upvotes: session.user.sub } },
+      { $pull: { upvotes: session.user.sub }, $inc: { score: -1 } },
       { new: true }
     );
   }
@@ -32,18 +32,19 @@ export async function POST(
   if (post.downvotes.includes(session.user.sub)) {
     const result = await PostModel.findOneAndUpdate(
       { _id: params.slug },
-      { $pull: { downvotes: session.user.sub } },
+      { $pull: { downvotes: session.user.sub }, $inc: { score: 1 } },
       { new: true }
     );
     if (!result) {
       return NextResponse.json(null, { status: 500 });
     }
+
     return NextResponse.json(result, { status: 202 });
   }
 
   const result = await PostModel.findOneAndUpdate(
     { _id: params.slug },
-    { $addToSet: { downvotes: session.user.sub } },
+    { $addToSet: { downvotes: session.user.sub }, $inc: { score: -1 } },
     { new: true }
   );
 

@@ -11,29 +11,12 @@ import Link from "next/link";
 import React from "react";
 import { useInfiniteQuery } from "react-query";
 import placeholder from "/public/user-placeholder.jpg";
+import { deleteAllPosts, getUserPosts } from "@/lib/actions-client";
 
 function ProfilePage() {
   const { user } = useUser();
 
   const [deleteCount, setDeleteCount] = React.useState(3);
-
-  const getPosts = async ({ pageParam = 0 }) => {
-    const res = await fetch(`/api/posts?id=${user?.sub}&cursor=${pageParam}`, {
-      method: "GET",
-    });
-
-    const data = await res.json();
-    return data;
-  };
-
-  const deleteAllPosts = async () => {
-    const res = await fetch(`/api/posts`, {
-      method: "DELETE",
-    });
-
-    const data = await res.json();
-    return data;
-  };
 
   const deleteHandler = async () => {
     if (deleteCount > 1) {
@@ -71,7 +54,8 @@ function ProfilePage() {
     refetch,
   } = useInfiniteQuery({
     queryKey: ["posts"],
-    queryFn: getPosts,
+    queryFn: ({ pageParam }) =>
+      getUserPosts({ pageParam }, "recent", user?.sub!),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     enabled: !!user,
   });
@@ -95,6 +79,7 @@ function ProfilePage() {
                   key={`post-${post._id}`}
                   post={post}
                   onDelete={refetch}
+                  onUpdate={refetch}
                 />
               );
             })}
@@ -147,7 +132,7 @@ function ProfilePage() {
               <b>Posts: </b>0
             </div>
             <div>
-              <b>Upvotes: </b>0
+              <b>Rant Score: </b>0
             </div>
           </div>
         </div>

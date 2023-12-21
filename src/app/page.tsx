@@ -7,7 +7,7 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import placeholder from "/public/user-placeholder.jpg";
 import { useInfiniteQuery, useQuery } from "react-query";
 import Post from "@/types/post";
@@ -16,18 +16,11 @@ import ScrollButton from "@/components/posts/scroll-button";
 import ErrorDiv from "@/components/util/error-div";
 import LoadingDiv from "@/components/util/loading";
 import SortDiv from "@/components/posts/sort-div";
+import { getPosts } from "@/lib/actions-client";
 
 export default function Home() {
   const { user } = useUser();
-
-  const getPosts = async ({ pageParam = 0 }) => {
-    const res = await fetch("/api/posts?cursor=" + pageParam, {
-      method: "GET",
-    });
-
-    const data = await res.json();
-    return data;
-  };
+  const [filter, setFilter] = useState<"recent" | "popular">("recent");
 
   const {
     data,
@@ -39,20 +32,18 @@ export default function Home() {
     status,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["projects"],
-    queryFn: getPosts,
+    queryKey: ["projects", filter],
+    queryFn: ({ pageParam = 0 }) => getPosts({ pageParam }, filter),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
 
-  const [filter, setFilter] = useState<"recent" | "popular">("recent");
-
-  const changeFilter = (filter: "recent" | "popular") => {
+  const changeFilter = useCallback((filter: "recent" | "popular") => {
     setFilter(filter);
     const elem: any = document.activeElement;
     if (elem) {
       elem.blur();
     }
-  };
+  }, []);
 
   const renderPosts = () => {
     if (status === "loading") {
