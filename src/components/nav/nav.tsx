@@ -36,7 +36,7 @@ function Navbar() {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-11 rounded-full">
+            <div className="w-10 rounded-full">
               <Image
                 alt="profile"
                 src={user ? user.picture! : placeholder}

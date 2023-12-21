@@ -91,13 +91,13 @@ export default function Home() {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-12 rounded-full">
+              <div className="w-10 rounded-full">
                 <Link href={"/profile"}>
                   <Image
                     alt="profile"
                     src={user.picture ? user.picture : placeholder}
-                    width={70}
-                    height={70}
+                    width={60}
+                    height={60}
                   />
                 </Link>
               </div>
