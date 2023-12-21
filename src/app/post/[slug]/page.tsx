@@ -2,7 +2,7 @@ import PostControl from "@/components/posts/post-control";
 import PostPageControlWrapper from "@/components/posts/post-page-control-wrapper";
 import BackButton from "@/components/util/back-button";
 import { getSinglePost } from "@/lib/actions-server";
-import { timeFormatter } from "@/lib/time-formatter";
+import { timeFormatter } from "@/lib/util";
 import Post from "@/types/post";
 
 async function PostPage({ params }: { params: { slug: string } }) {

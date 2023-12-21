@@ -69,7 +69,7 @@ function PostControl({ post, onDelete }: Props) {
   }
 
   return (
-    <div className="mt-3 pt-2 border-t">
+    <div className="mt-3 pt-2 border-t border-base-100">
       {!isDeleting && (
         <div className="flex items-center justify-end gap-4">
           {user.user.sub === post.creatorId && (
@@ -115,7 +115,7 @@ function PostControl({ post, onDelete }: Props) {
               </button>
             </div>
           )}
-          <div className="border flex items-center p-1 rounded-lg gap-2">
+          <div className="border border-base-100 flex items-center p-1 rounded-lg gap-2">
             <UpvoteButton
               onClick={handleUpvote}
               active={postState.upvotes!.includes(user.user.sub!)}

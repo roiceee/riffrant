@@ -1,4 +1,4 @@
-function timeFormatter(timestamp: string): string {
+export function timeFormatter(timestamp: string): string {
   const converted = Date.parse(timestamp);
 
   const now = Date.now();
@@ -45,4 +45,12 @@ function timeFormatter(timestamp: string): string {
   }
 }
 
-export { timeFormatter };
+export function truncate(string: string, maxLength: number, omission: string) {
+  let trimmedString = string.substring(0, maxLength);
+  return (
+    trimmedString.substring(
+      0,
+      Math.min(trimmedString.length, trimmedString.lastIndexOf(" "))
+    ) + omission
+  );
+}

@@ -64,7 +64,6 @@ export default function Home() {
                   key={`post-${post._id}`}
                   post={post}
                   onDelete={refetch}
-                  onUpdate={refetch}
                 />
               );
             })}

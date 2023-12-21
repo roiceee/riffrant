@@ -79,7 +79,7 @@ function ProfilePage() {
                   key={`post-${post._id}`}
                   post={post}
                   onDelete={refetch}
-                  onUpdate={refetch}
+                 
                 />
               );
             })}
