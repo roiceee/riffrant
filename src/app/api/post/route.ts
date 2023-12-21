@@ -5,24 +5,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 //add post
 export async function POST(req: NextRequest, res: NextResponse) {
-  const { creatorId, creatorName, title, body, upvotes, createdAt } =
-    await req.json();
+  const { title, body } = await req.json();
 
   await connectMongoDB();
 
   const session = await getSession();
 
-  if (creatorId !== session!.user.sub) {
-    return NextResponse.json(null, { status: 401 });
-  }
+  const creatorId = session?.user.sub;
+
+  const creatorName = session?.user.name;
 
   const post = await PostModel.create({
     creatorId,
     creatorName,
     title,
     body,
-    upvotes,
-    createdAt,
   });
 
   if (!post) {

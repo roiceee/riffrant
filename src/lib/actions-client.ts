@@ -1,3 +1,18 @@
+import Post from "@/types/post";
+
+export async function addPost(post: Post) {
+  const res = await fetch("/api/post", {
+    method: "POST",
+    body: JSON.stringify({
+      title: post.title,
+      body: post.body,
+    }),
+  });
+
+  const data = await res.json();
+
+  return data; 
+}
 export async function getPosts({ pageParam = 0 }, sortBy: string) {
   const res = await fetch(
     `/api/posts?cursor=${pageParam}&sortBy=${sortBy ? sortBy : "recent"}`,

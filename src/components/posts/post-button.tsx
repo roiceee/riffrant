@@ -1,4 +1,5 @@
 "use client";
+import { addPost } from "@/lib/actions-client";
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
@@ -16,35 +17,22 @@ function PostButton({ onPost }: PostButtonProps) {
     body: "",
   });
 
-  const post = async () => {
-    if (postContent.title?.trim() === "") {
-      return;
-    }
-
-    const res = await fetch("/api/post", {
-      method: "POST",
-      body: JSON.stringify({
-        creatorId: user.user?.sub,
-        creatorName: user.user?.name,
-        title: postContent.title,
-        body: postContent.body,
-      }),
-    });
-
-    const data = await res.json();
-
-    return data;
-  };
-
   const resetPostContent = () => {
     setPostContent({ title: "", body: "" });
   };
 
   const { status, data, refetch } = useQuery({
     queryKey: ["posts", postContent.title, postContent.body],
-    queryFn: post,
+    queryFn: () => addPost(postContent),
     enabled: false,
   });
+
+  const handlePost = () => {
+    if (postContent.title?.trim() === "") {
+      return;
+    }
+    refetch();
+  };
 
   const titleChange = (e: any) => {
     if (checkTitleLength(e.target.value)) {
@@ -154,7 +142,7 @@ function PostButton({ onPost }: PostButtonProps) {
                 </button>
               </div>
               <div className="flex gap-2">
-                <button className="btn btn-accent" onClick={() => refetch()}>
+                <button className="btn btn-accent" onClick={handlePost}>
                   Post
                 </button>
                 <button className="btn" onClick={closeModal}>
