@@ -17,7 +17,7 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 border-b px-4 lg:px-60 mb-12">
+    <div className="navbar sticky top-0 z-50 bg-base-100 border-b px-4 lg:px-60 mb-12">
       <div className="flex-1 gap-2">
         <Link href={"/"}>
           <Image src={logo} height={50} width={50} alt="logo" />
