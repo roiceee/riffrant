@@ -14,6 +14,19 @@ export async function addPost(post: Post) {
   return data;
 }
 
+export const getSinglePost = async ({
+  params,
+}: {
+  params: { slug: string };
+}) => {
+  const res = await fetch(`/api/post/${params.slug}`);
+
+  const data = await res.json();
+
+  return data;
+};
+
+
 export async function editPost(post: Post) {
   const res = await fetch(`/api/post`, {
     method: "PUT",

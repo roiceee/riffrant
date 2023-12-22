@@ -1,4 +1,6 @@
+"use client";
 import _ from "lodash";
+import { useQueryClient } from "react-query";
 
 interface Props {
   filter: string;
@@ -7,6 +9,7 @@ interface Props {
 }
 
 export default function SortDiv({ filter, changeFilter, refetch }: Props) {
+ 
   return (
     <div className="ml-2 flex items-center justify-between my-1">
       <div className="flex items-center">
@@ -55,7 +58,7 @@ export default function SortDiv({ filter, changeFilter, refetch }: Props) {
           </ul>
         </div>
       </div>
-      <button className="btn btn-sm" onClick={() => refetch()}>
+      <button className="btn btn-sm" onClick={refetch}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

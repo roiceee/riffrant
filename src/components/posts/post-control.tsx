@@ -11,6 +11,7 @@ import { deleteUserPost, downvotePost, upvotePost } from "@/lib/actions-client";
 import Link from "next/link";
 import PostControlContainer from "../containers/post-control-container";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "react-query";
 
 interface Props {
   post: Post;
@@ -31,6 +32,16 @@ function PostControl({ post, onDelete }: Props) {
   //i want to render upvote and downvote in advance so that the user can see the change in score immediately
 
   const toggleUpvoteState = () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        downvotes: postState.downvotes!.filter(
+          (downvote) => downvote !== user.user!.sub!
+        ),
+        score: postState.score! + 1,
+      });
+    }
+
     if (postState.upvotes!.includes(user.user!.sub!)) {
       setPostState({
         ...postState,
@@ -49,6 +60,16 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   const toggleDownvoteState = () => {
+    if (postState.upvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        upvotes: postState.upvotes!.filter(
+          (upvote) => upvote !== user.user!.sub!
+        ),
+        score: postState.score! - 1,
+      });
+    }
+
     if (postState.downvotes!.includes(user.user!.sub!)) {
       setPostState({
         ...postState,
@@ -67,9 +88,6 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   const handleUpvote = async () => {
-    if (postState.downvotes!.includes(user.user!.sub!)) {
-      toggleDownvoteState();
-    }
     toggleUpvoteState();
 
     const data = await upvotePost(post._id!);
@@ -83,9 +101,6 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   const handleDownvote = async () => {
-    if (postState.downvotes!.includes(user.user!.sub!)) {
-      toggleDownvoteState();
-    }
     toggleDownvoteState();
     const data = await downvotePost(post._id!);
 
