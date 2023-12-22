@@ -17,6 +17,7 @@ import {
   getUserPosts,
 } from "@/lib/actions-client";
 import { useRouter } from "next/navigation";
+import PostButton from "@/components/posts/post-button";
 
 function ProfilePage() {
   const { user, isLoading } = useUser();
@@ -170,6 +171,10 @@ function ProfilePage() {
           </button>
         </div>
         <hr className="my-6" />
+
+        <div>
+            <PostButton onPost={refetch}/>
+        </div>
 
         <div>
           <PostCardContainer>{user && renderPosts()}</PostCardContainer>
