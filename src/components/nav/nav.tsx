@@ -18,10 +18,14 @@ function Navbar() {
 
   return (
     <div className="navbar bg-base-100 border-b px-4 lg:px-60 mb-12">
-      <div className="flex-1">
-        <Image src={logo} height={50} width={50} alt="logo" />
+      <div className="flex-1 gap-2">
+        <Link href={"/"}>
+          <Image src={logo} height={50} width={50} alt="logo" />
+        </Link>
         <div className="hidden sm:inline">
-          <Link href={"/"} className="btn btn-ghost text-xl">RiffRant</Link>
+          <Link href={"/"} className="font-bold text-xl">
+            RiffRant
+          </Link>
         </div>
       </div>
       <div className="flex-none">
