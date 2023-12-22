@@ -19,7 +19,7 @@ import SortDiv from "@/components/posts/sort-div";
 import { getPosts } from "@/lib/actions-client";
 
 export default function Home() {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
 
   const {
@@ -76,7 +76,7 @@ export default function Home() {
   return (
     <main className="">
       <NormalContainer>
-        {!user && (
+        {!user && !isLoading && (
           <b>
             <a href={"api/auth/login"}>
               <button className="btn btn-primary">Login</button>
@@ -84,6 +84,7 @@ export default function Home() {
             to share your thoughts!
           </b>
         )}
+        {isLoading && <LoadingDiv />}
         {user && (
           <div className="flex gap-1">
             <div
@@ -91,13 +92,13 @@ export default function Home() {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-12 rounded-full">
+              <div className="w-10 rounded-full">
                 <Link href={"/profile"}>
                   <Image
                     alt="profile"
                     src={user.picture ? user.picture : placeholder}
-                    width={70}
-                    height={70}
+                    width={60}
+                    height={60}
                   />
                 </Link>
               </div>

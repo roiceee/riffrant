@@ -8,6 +8,9 @@ import { GlobalAlertContext } from "@/context/global-alert";
 import DownvoteButton from "../util/downvote-button";
 import UpvoteButton from "../util/upvote-button";
 import { deleteUserPost, downvotePost, upvotePost } from "@/lib/actions-client";
+import Link from "next/link";
+import PostControlContainer from "../containers/post-control-container";
+import { useRouter } from "next/navigation";
 
 interface Props {
   post: Post;
@@ -17,29 +20,80 @@ interface Props {
 function PostControl({ post, onDelete }: Props) {
   const user = useUser();
 
+  const router = useRouter();
+
   const { showAlert } = useContext(GlobalAlertContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [postState, setPostState] = useState(post);
 
+  //i want to render upvote and downvote in advance so that the user can see the change in score immediately
+
+  const toggleUpvoteState = () => {
+    if (postState.upvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        upvotes: postState.upvotes!.filter(
+          (upvote) => upvote !== user.user!.sub!
+        ),
+        score: postState.score! - 1,
+      });
+    } else {
+      setPostState({
+        ...postState,
+        upvotes: [...postState.upvotes!, user.user!.sub!],
+        score: postState.score! + 1,
+      });
+    }
+  };
+
+  const toggleDownvoteState = () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        downvotes: postState.downvotes!.filter(
+          (downvote) => downvote !== user.user!.sub!
+        ),
+        score: postState.score! + 1,
+      });
+    } else {
+      setPostState({
+        ...postState,
+        downvotes: [...postState.downvotes!, user.user!.sub!],
+        score: postState.score! - 1,
+      });
+    }
+  };
+
   const handleUpvote = async () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      toggleDownvoteState();
+    }
+    toggleUpvoteState();
+
     const data = await upvotePost(post._id!);
 
     if (data) {
       setPostState(data);
       return;
     }
+
     showAlert("Error Upvoting Post");
   };
 
   const handleDownvote = async () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      toggleDownvoteState();
+    }
+    toggleDownvoteState();
     const data = await downvotePost(post._id!);
 
     if (data) {
       setPostState(data);
       return;
     }
+
     showAlert("Error Downvoting Post");
   };
 
@@ -69,7 +123,7 @@ function PostControl({ post, onDelete }: Props) {
   }
 
   return (
-    <div className="mt-3 pt-2 border-t border-base-100">
+    <PostControlContainer>
       {!isDeleting && (
         <div className="flex items-center justify-end gap-4">
           {user.user.sub === post.creatorId && (
@@ -97,7 +151,15 @@ function PostControl({ post, onDelete }: Props) {
                   />
                 </svg>
               </button>
-              <button className="btn btn-sm text-xs">
+
+              <button
+                className="btn btn-sm text-xs"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(`/post/${post._id}/edit`);
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -115,7 +177,7 @@ function PostControl({ post, onDelete }: Props) {
               </button>
             </div>
           )}
-          <div className="border border-base-100 flex items-center p-1 rounded-lg gap-2">
+          <div className="border border-base-200 flex items-center p-1 rounded-lg gap-2">
             <UpvoteButton
               onClick={handleUpvote}
               active={postState.upvotes!.includes(user.user.sub!)}
@@ -157,7 +219,7 @@ function PostControl({ post, onDelete }: Props) {
           </button>
         </div>
       )}
-    </div>
+    </PostControlContainer>
   );
 }
 

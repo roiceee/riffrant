@@ -9,13 +9,19 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import placeholder from "/public/user-placeholder.jpg";
-import { deleteAllPosts, getUserPosts } from "@/lib/actions-client";
+import {
+  deleteAllPosts,
+  getPostsMetadata,
+  getUserPosts,
+} from "@/lib/actions-client";
+import { useRouter } from "next/navigation";
+import PostButton from "@/components/posts/post-button";
 
 function ProfilePage() {
-  const { user } = useUser();
-
+  const { user, isLoading } = useUser();
+  const router = useRouter();
   const [deleteCount, setDeleteCount] = React.useState(3);
 
   const deleteHandler = async () => {
@@ -42,6 +48,11 @@ function ProfilePage() {
     const elem: any = document.getElementById("modal-delete")!;
     elem.close();
   };
+
+  const metadataQuery = useQuery({
+    queryKey: ["metadata"],
+    queryFn: getPostsMetadata,
+  });
 
   const {
     data,
@@ -79,7 +90,6 @@ function ProfilePage() {
                   key={`post-${post._id}`}
                   post={post}
                   onDelete={refetch}
-                 
                 />
               );
             })}
@@ -89,18 +99,17 @@ function ProfilePage() {
     }
   };
 
-  if (!user) {
+  if (isLoading) {
     return (
       <div className=" absolute start-1/2 bottom-1/2 -translate-x-1/2 -translate-y-1/2 prose">
-        <h2>
-          Please{" "}
-          <Link href={"api/auth/login"}>
-            <button className="btn">Login</button>
-          </Link>{" "}
-          to configure profile.
-        </h2>
+        <LoadingDiv />
       </div>
     );
+  }
+
+  if (!user) {
+    router.replace("/api/auth/login");
+    return <></>;
   }
 
   return (
@@ -128,12 +137,25 @@ function ProfilePage() {
             <div>
               <b>Email: </b> {user.email}
             </div>
-            <div>
-              <b>Posts: </b>0
-            </div>
-            <div>
-              <b>Rant Score: </b>0
-            </div>
+            {metadataQuery.isError && (
+              <div className="text-red-500">Error fetching data</div>
+            )}
+            {!metadataQuery.isError && (
+              <>
+                <div>
+                  <b>Posts: </b>
+                  {metadataQuery.isLoading
+                    ? "---"
+                    : metadataQuery.data.metadata[0].totalPosts}
+                </div>
+                <div>
+                  <b>Riff Score: </b>
+                  {metadataQuery.isLoading
+                    ? "---"
+                    : metadataQuery.data.metadata[0].totalScore}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -149,6 +171,10 @@ function ProfilePage() {
           </button>
         </div>
         <hr className="my-6" />
+
+        <div>
+            <PostButton onPost={refetch}/>
+        </div>
 
         <div>
           <PostCardContainer>{user && renderPosts()}</PostCardContainer>
@@ -191,10 +217,10 @@ function ProfilePage() {
           </p>
           <div className="text-xs font-bold">Note: Press delete 3 times.</div>
           <div className="modal-action">
-            <button className="btn btn-error" onClick={deleteHandler}>
+            <button className="btn btn-error btn-sm" onClick={deleteHandler}>
               Delete ({deleteCount})
             </button>
-            <button className="btn" onClick={closeModal}>
+            <button className="btn btn-sm" onClick={closeModal}>
               Cancel
             </button>
           </div>
