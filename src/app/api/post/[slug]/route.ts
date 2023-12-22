@@ -1,6 +1,7 @@
 import { connectMongoDB } from "@/lib/mongo";
 import { PostModel } from "@/models/post";
 import { getSession } from "@auth0/nextjs-auth0";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 //get single post
@@ -11,6 +12,8 @@ export async function GET(
   await connectMongoDB();
 
   const post = await PostModel.findOne({ _id: params.slug });
+
+  revalidatePath("/post/[slug]", 'page')
 
   if (!post) {
     return NextResponse.json(null, { status: 400 });

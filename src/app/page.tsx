@@ -9,7 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import placeholder from "/public/user-placeholder.jpg";
-import { useInfiniteQuery, useQuery } from "react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "react-query";
 import Post from "@/types/post";
 import React from "react";
 import ScrollButton from "@/components/posts/scroll-button";
@@ -21,6 +21,7 @@ import { getPosts } from "@/lib/actions-client";
 export default function Home() {
   const { user, isLoading } = useUser();
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
+  const queryClient = useQueryClient();
 
   const {
     data,
@@ -32,9 +33,10 @@ export default function Home() {
     status,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["projects", filter],
+    queryKey: ["infinite-posts-main", filter],
     queryFn: ({ pageParam = 0 }) => getPosts({ pageParam }, filter),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    refetchOnMount: "always",
   });
 
   const changeFilter = useCallback((filter: "recent" | "popular") => {
@@ -72,6 +74,10 @@ export default function Home() {
       });
     }
   };
+
+  useEffect(() => {
+    refetch();
+  }, [])
 
   return (
     <main className="">
@@ -112,7 +118,9 @@ export default function Home() {
         <SortDiv
           filter={filter}
           changeFilter={changeFilter}
-          refetch={() => refetch({ refetchPage: (page, index) => index === 0 })}
+          refetch={() =>
+            queryClient.refetchQueries({queryKey: ["infinite-posts-main"]})
+          }
         />
         <hr />
       </section>

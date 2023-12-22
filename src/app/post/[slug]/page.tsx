@@ -1,20 +1,25 @@
-import PostControl from "@/components/posts/post-control";
+"use client";
 import PostPageControlWrapper from "@/components/posts/post-page-control-wrapper";
-import BackButton from "@/components/util/back-button";
-import { getSinglePost } from "@/lib/actions-server";
+import LoadingDiv from "@/components/util/loading";
+import { getSinglePost } from "@/lib/actions-client";
 import { timeFormatter } from "@/lib/util";
 import Post from "@/types/post";
+import { useQuery } from "react-query";
 
-async function PostPage({ params }: { params: { slug: string } }) {
-  const data = await getSinglePost({ params });
+function PostPage({ params }: { params: { slug: string } }) {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["post-page", params],
+    queryFn: () => getSinglePost({ params }),
+    cacheTime: 0
+  });
+
+  if (isLoading) {
+    return <LoadingDiv />;
+  }
 
   if (!data) {
     return (
       <section>
-        <div className="mb-2">
-          <BackButton />
-        </div>
-
         <div className="text-center">
           <h1 className="text-3xl">404</h1>
           <p className="text-sm">Post not found</p>
