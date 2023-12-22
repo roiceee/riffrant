@@ -11,8 +11,23 @@ export async function addPost(post: Post) {
 
   const data = await res.json();
 
-  return data; 
+  return data;
 }
+
+export async function editPost(post: Post) {
+  const res = await fetch(`/api/post`, {
+    method: "PUT",
+    body: JSON.stringify({
+      body: post.body,
+      _id: post._id,
+    }),
+  });
+
+  const data = await res.json();
+
+  return data;
+}
+
 export async function getPosts({ pageParam = 0 }, sortBy: string) {
   const res = await fetch(
     `/api/posts?cursor=${pageParam}&sortBy=${sortBy ? sortBy : "recent"}`,

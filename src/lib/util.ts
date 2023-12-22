@@ -54,3 +54,12 @@ export function truncate(string: string, maxLength: number, omission: string) {
     ) + omission
   );
 }
+
+export function isBodyLengthMax(body: string) {
+    return body.length === 500;
+}
+
+export function isTitleLengthMax(title: string) {
+  return title.length === 40;
+}
+

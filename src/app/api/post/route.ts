@@ -34,3 +34,32 @@ export async function POST(req: NextRequest, res: NextResponse) {
     { status: 201 }
   );
 }
+
+//edit post
+export async function PUT(req: NextRequest) {
+  const { _id, body } = await req.json();
+
+  await connectMongoDB();
+
+  const session = await getSession();
+
+  //update post with new body
+  const post = await PostModel.findOneAndUpdate(
+    { _id: _id, creatorId: session!.user.sub },
+    { body: body }
+  );
+
+  if (!post) {
+    return NextResponse.json(null, { status: 400 });
+  }
+
+ 
+
+  //return post alongside status code
+  return NextResponse.json(
+    {
+      post,
+    },
+    { status: 201 }
+  );
+}

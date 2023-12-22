@@ -1,5 +1,6 @@
 "use client";
 import { addPost } from "@/lib/actions-client";
+import { isBodyLengthMax, isTitleLengthMax } from "@/lib/util";
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
@@ -35,31 +36,17 @@ function PostButton({ onPost }: PostButtonProps) {
   };
 
   const titleChange = (e: any) => {
-    if (checkTitleLength(e.target.value)) {
+    if (isTitleLengthMax(e.target.value)) {
       return;
     }
     setPostContent({ ...postContent, title: e.target.value });
   };
 
   const bodyChange = (e: any) => {
-    if (checkBodyLength(e.target.value)) {
+    if (isBodyLengthMax(e.target.value)) {
       return;
     }
     setPostContent({ ...postContent, body: e.target.value });
-  };
-
-  const checkTitleLength = (title: string) => {
-    if (title.length > 40) {
-      return true;
-    }
-    return false;
-  };
-
-  const checkBodyLength = (body: string) => {
-    if (body.length > 500) {
-      return true;
-    }
-    return false;
   };
 
   const clearBody = () => {
