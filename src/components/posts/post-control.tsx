@@ -28,7 +28,47 @@ function PostControl({ post, onDelete }: Props) {
 
   const [postState, setPostState] = useState(post);
 
+  //i want to render upvote and downvote in advance so that the user can see the change in score immediately
+
+  const toggleUpvoteState = () => {
+    if (postState.upvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        upvotes: postState.upvotes!.filter(
+          (upvote) => upvote !== user.user!.sub!
+        ),
+        score: postState.score! - 1,
+      });
+    } else {
+      setPostState({
+        ...postState,
+        upvotes: [...postState.upvotes!, user.user!.sub!],
+        score: postState.score! + 1,
+      });
+    }
+  };
+
+  const toggleDownvoteState = () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      setPostState({
+        ...postState,
+        downvotes: postState.downvotes!.filter(
+          (downvote) => downvote !== user.user!.sub!
+        ),
+        score: postState.score! + 1,
+      });
+    } else {
+      setPostState({
+        ...postState,
+        downvotes: [...postState.downvotes!, user.user!.sub!],
+        score: postState.score! - 1,
+      });
+    }
+  };
+
   const handleUpvote = async () => {
+    toggleUpvoteState();
+
     const data = await upvotePost(post._id!);
 
     if (data) {
@@ -39,6 +79,7 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   const handleDownvote = async () => {
+    toggleDownvoteState();
     const data = await downvotePost(post._id!);
 
     if (data) {
