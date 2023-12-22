@@ -18,6 +18,7 @@ import {
 } from "@/lib/actions-client";
 import { useRouter } from "next/navigation";
 import PostButton from "@/components/posts/post-button";
+import NormalContainer from "@/components/containers/normal-container";
 
 function ProfilePage() {
   const { user, isLoading } = useUser();
@@ -114,8 +115,8 @@ function ProfilePage() {
 
   return (
     <main className="prose mx-auto">
-      <section>
-        <h3>Profile</h3>
+      <NormalContainer>
+        <h3 className="mt-0">Profile</h3>
         <div className="sm:flex gap-14">
           <div className="">
             <Image
@@ -158,51 +159,49 @@ function ProfilePage() {
             )}
           </div>
         </div>
-      </section>
-
-      <section className="mt-12">
-        <div className="flex items-center justify-between">
-          <h3 className="my-0">Posts</h3>
-          <button
-            className="btn btn-outline btn-error btn-sm"
-            onClick={showModal}
-          >
-            Delete all posts
-          </button>
-        </div>
-        <hr className="my-6" />
 
         <div>
-            <PostButton onPost={refetch}/>
+          <hr className="my-4" />
+          <PostButton onPost={refetch} />
         </div>
+      </NormalContainer>
 
-        <div>
-          <PostCardContainer>{user && renderPosts()}</PostCardContainer>
-        </div>
+      <div className="flex items-center justify-between px-4 mt-4">
+        <h3 className="my-2">Posts</h3>
+        <button
+          className="btn btn-outline btn-error btn-sm"
+          onClick={showModal}
+        >
+          Delete all posts
+        </button>
+      </div>
+      
+      <div>
+        <PostCardContainer>{user && renderPosts()}</PostCardContainer>
+      </div>
 
-        <section>
-          {status !== "loading" && status !== "error" && (
-            <div className="mt-4">
-              <div className="text-center">
-                <ScrollButton
-                  onClick={() => {
-                    if (!hasNextPage || isFetchingNextPage) {
-                      return;
-                    }
-                    fetchNextPage();
-                  }}
-                  disabled
-                >
-                  {isFetchingNextPage ? (
-                    <LoadingDiv />
-                  ) : (
-                    "Oops! You've reached the end."
-                  )}
-                </ScrollButton>
-              </div>
+      <section>
+        {status !== "loading" && status !== "error" && (
+          <div>
+            <div className="text-center">
+              <ScrollButton
+                onClick={() => {
+                  if (!hasNextPage || isFetchingNextPage) {
+                    return;
+                  }
+                  fetchNextPage();
+                }}
+                disabled
+              >
+                {isFetchingNextPage ? (
+                  <LoadingDiv />
+                ) : (
+                  "Oops! You've reached the end."
+                )}
+              </ScrollButton>
             </div>
-          )}
-        </section>
+          </div>
+        )}
       </section>
       <dialog id="modal-delete" className="modal">
         <div className="modal-box">

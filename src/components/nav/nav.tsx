@@ -5,6 +5,7 @@ import logo from "/public/icon-100.png";
 import MenuList from "./menulist";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import ThemeToggler from "./theme-toggler";
 
 function Navbar() {
   const { user } = useUser();
@@ -17,7 +18,7 @@ function Navbar() {
   };
 
   return (
-    <div className="navbar bg-base-100 border-b px-4 lg:px-60 mb-12">
+    <div className="navbar sticky top-0 z-50 bg-base-100 border-b px-4 lg:px-60 mb-12">
       <div className="flex-1 gap-2">
         <Link href={"/"}>
           <Image src={logo} height={50} width={50} alt="logo" />
@@ -55,20 +56,28 @@ function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             {!user && (
-              <li>
-                <Link href={"api/auth/login"}>Login</Link>
-              </li>
+              <>
+                <li>
+                  <Link href={"api/auth/login"}>Login</Link>
+                </li>
+                <li>
+                  <ThemeToggler />
+                </li>
+              </>
             )}
             {user && (
               <>
                 <li>
-                  <a
+                  <Link
                     href={"/profile"}
                     className="justify-between"
                     onClick={closeOnClick}
                   >
                     Profile
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <ThemeToggler />
                 </li>
                 <li>
                   <a

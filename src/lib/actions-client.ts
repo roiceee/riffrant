@@ -104,6 +104,5 @@ export async function getPostsMetadata() {
 
   const data = await res.json();
 
-  console.log(data);
   return data;
 }
