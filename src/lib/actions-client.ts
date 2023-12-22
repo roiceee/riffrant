@@ -96,3 +96,14 @@ export async function downvotePost(postId: string) {
 
   return data;
 }
+
+export async function getPostsMetadata() {
+  const res = await fetch(`/api/posts/metadata`, {
+    method: "GET",
+  });
+
+  const data = await res.json();
+
+  console.log(data);
+  return data;
+}

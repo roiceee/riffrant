@@ -9,9 +9,13 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import placeholder from "/public/user-placeholder.jpg";
-import { deleteAllPosts, getUserPosts } from "@/lib/actions-client";
+import {
+  deleteAllPosts,
+  getPostsMetadata,
+  getUserPosts,
+} from "@/lib/actions-client";
 import { useRouter } from "next/navigation";
 
 function ProfilePage() {
@@ -43,6 +47,11 @@ function ProfilePage() {
     const elem: any = document.getElementById("modal-delete")!;
     elem.close();
   };
+
+  const metadataQuery = useQuery({
+    queryKey: ["metadata"],
+    queryFn: getPostsMetadata,
+  });
 
   const {
     data,
@@ -98,7 +107,7 @@ function ProfilePage() {
   }
 
   if (!user) {
-    router.replace("/api/auth/login")
+    router.replace("/api/auth/login");
     return <></>;
   }
 
@@ -127,12 +136,25 @@ function ProfilePage() {
             <div>
               <b>Email: </b> {user.email}
             </div>
-            <div>
-              <b>Posts: </b>0
-            </div>
-            <div>
-              <b>Riff Score: </b>0
-            </div>
+            {metadataQuery.isError && (
+              <div className="text-red-500">Error fetching data</div>
+            )}
+            {!metadataQuery.isError && (
+              <>
+                <div>
+                  <b>Posts: </b>
+                  {metadataQuery.isLoading
+                    ? "---"
+                    : metadataQuery.data.metadata[0].totalPosts}
+                </div>
+                <div>
+                  <b>Riff Score: </b>
+                  {metadataQuery.isLoading
+                    ? "---"
+                    : metadataQuery.data.metadata[0].totalScore}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
