@@ -25,9 +25,12 @@ export default function EditPost({ post }: Props) {
     mutationFn: (postContent: Post) => {
       return editPost(postContent);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data) {
+        showAlert("Error editing post");
+      }
       showAlert("Post edited successfully");
-      router.push(`/post/${post._id}`);
+      router.back();
       router.refresh();
     },
     onError: () => {
