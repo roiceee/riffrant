@@ -7,7 +7,6 @@ import EditPostControl from "./edit-post-control";
 import { useMutation } from "react-query";
 import { editPost } from "@/lib/actions-client";
 import { useRouter } from "next/navigation";
-import GlobalAlertModal from "../util/global-alert";
 import { GlobalAlertContext } from "@/context/global-alert";
 
 interface Props {
@@ -30,7 +29,7 @@ export default function EditPost({ post }: Props) {
         showAlert("Error editing post");
       }
       showAlert("Post edited successfully");
-      router.back();
+      router.replace(`/post/${post._id}`);
       router.refresh();
     },
     onError: () => {

@@ -67,25 +67,33 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   const handleUpvote = async () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      toggleDownvoteState();
+    }
     toggleUpvoteState();
 
     const data = await upvotePost(post._id!);
 
     if (data) {
+      setPostState(data);
       return;
     }
-    toggleUpvoteState();
+
     showAlert("Error Upvoting Post");
   };
 
   const handleDownvote = async () => {
+    if (postState.downvotes!.includes(user.user!.sub!)) {
+      toggleDownvoteState();
+    }
     toggleDownvoteState();
     const data = await downvotePost(post._id!);
 
     if (data) {
+      setPostState(data);
       return;
     }
-    toggleDownvoteState();
+
     showAlert("Error Downvoting Post");
   };
 

@@ -12,10 +12,11 @@ import React from "react";
 import { useInfiniteQuery } from "react-query";
 import placeholder from "/public/user-placeholder.jpg";
 import { deleteAllPosts, getUserPosts } from "@/lib/actions-client";
+import { useRouter } from "next/navigation";
 
 function ProfilePage() {
   const { user, isLoading } = useUser();
-
+  const router = useRouter();
   const [deleteCount, setDeleteCount] = React.useState(3);
 
   const deleteHandler = async () => {
@@ -97,17 +98,8 @@ function ProfilePage() {
   }
 
   if (!user) {
-    return (
-      <div className=" absolute start-1/2 bottom-1/2 -translate-x-1/2 -translate-y-1/2 prose">
-        <h2>
-          Please{" "}
-          <Link href={"api/auth/login"}>
-            <button className="btn">Login</button>
-          </Link>{" "}
-          to configure profile.
-        </h2>
-      </div>
-    );
+    router.replace("/api/auth/login")
+    return <></>;
   }
 
   return (
@@ -139,7 +131,7 @@ function ProfilePage() {
               <b>Posts: </b>0
             </div>
             <div>
-              <b>Rant Score: </b>0
+              <b>Riff Score: </b>0
             </div>
           </div>
         </div>
