@@ -69,7 +69,7 @@ export default function EditPost({ post }: Props) {
           </div>
         </div>
         <textarea
-          className=" textarea textarea-bordered mt-12 w-full"
+          className=" textarea textarea-bordered mt-12 w-full h-60 scroll"
           value={postContent.body}
           onChange={bodyChange}
         />
