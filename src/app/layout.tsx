@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="dim" className=" bg-base-200">
+    <html lang="en" className=" bg-base-200">
       <UserProvider>
         <QueryProvider>
           <body className={font.className + " mb-4"}>

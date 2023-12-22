@@ -13,6 +13,7 @@ const config: Config = {
 
   daisyui: {
     themes: ["dim", "light"],
+    darkTheme: "dim"
   }
 }
 export default config

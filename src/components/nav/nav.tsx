@@ -5,6 +5,7 @@ import logo from "/public/icon-100.png";
 import MenuList from "./menulist";
 import Link from "next/link";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import ThemeToggler from "./theme-toggler";
 
 function Navbar() {
   const { user } = useUser();
@@ -55,20 +56,28 @@ function Navbar() {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             {!user && (
-              <li>
-                <Link href={"api/auth/login"}>Login</Link>
-              </li>
+              <>
+                <li>
+                  <Link href={"api/auth/login"}>Login</Link>
+                </li>
+                <li>
+                  <ThemeToggler />
+                </li>
+              </>
             )}
             {user && (
               <>
                 <li>
-                  <a
+                  <Link
                     href={"/profile"}
                     className="justify-between"
                     onClick={closeOnClick}
                   >
                     Profile
-                  </a>
+                  </Link>
+                </li>
+                <li>
+                  <ThemeToggler />
                 </li>
                 <li>
                   <a
