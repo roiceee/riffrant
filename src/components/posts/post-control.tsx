@@ -72,9 +72,9 @@ function PostControl({ post, onDelete }: Props) {
     const data = await upvotePost(post._id!);
 
     if (data) {
-      setPostState(data);
       return;
     }
+    toggleUpvoteState();
     showAlert("Error Upvoting Post");
   };
 
@@ -83,9 +83,9 @@ function PostControl({ post, onDelete }: Props) {
     const data = await downvotePost(post._id!);
 
     if (data) {
-      setPostState(data);
       return;
     }
+    toggleDownvoteState();
     showAlert("Error Downvoting Post");
   };
 
