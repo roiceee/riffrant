@@ -74,7 +74,7 @@ function PostButton({ onPost }: PostButtonProps) {
   return (
     <div className="w-full">
       <button
-        className="p-3 rounded-badge overflow-hidden overflow-ellipsis text-left font-semibold text-sm sm:text-md w-full bg-base-200 hover:bg-base-100 border border-base-100"
+        className="p-3 rounded-badge overflow-hidden overflow-ellipsis text-left font-semibold text-sm sm:text-md w-full bg-base-200 hover:bg-base-100 border-2 border-base-100"
         onClick={openModal}
         contentEditable={false}
       >

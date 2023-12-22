@@ -27,7 +27,7 @@ async function PostPage({ params }: { params: { slug: string } }) {
 
   return (
     <section>
-      <section className="rounded-lg p-4 shadow-lg bg-neutral break-words">
+      <section className="rounded-lg p-4 shadow-lg bg-base-100 break-words">
         <div className="prose">
           <div>
             <div className="font-semibold opacity-80 text-xs">

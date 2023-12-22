@@ -177,7 +177,7 @@ function PostControl({ post, onDelete }: Props) {
               </button>
             </div>
           )}
-          <div className="border border-base-100 flex items-center p-1 rounded-lg gap-2">
+          <div className="border border-base-200 flex items-center p-1 rounded-lg gap-2">
             <UpvoteButton
               onClick={handleUpvote}
               active={postState.upvotes!.includes(user.user.sub!)}
