@@ -6,8 +6,12 @@ import react from "/public/react.png";
 import tailwind from "/public/tailwind.png";
 import html from "/public/html.png";
 import css from "/public/css.png";
+import NextImage from "@/components/about/next-image";
 
 function AboutPage() {
+
+  
+
   return (
     <main className="prose mx-auto p-4">
       <section>
@@ -23,13 +27,7 @@ function AboutPage() {
           <div className="flex flex-row flex-wrap items-center justify-center text-md gap-6">
 
             <div className="flex flex-col items-center justify-center">
-              <Image
-                className="m-0"
-                src={nextjs}
-                width={70}
-                height={70}
-                alt="no image"
-              />
+              <NextImage/>
               <p className="m-1">Next.Js</p>
               
             </div>

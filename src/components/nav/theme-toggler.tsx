@@ -1,36 +1,21 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { themeChange } from "theme-change";
+import { ThemeContext } from "@/context/theme-context";
 
 function ThemeToggler() {
-  const [activeTheme, setActiveTheme] = useState<string>();
+  
+  const { theme, changeTheme } = useContext(ThemeContext);
 
   const toggleTheme = () => {
-    if (activeTheme === "dark") {
+    if (theme === "dark") {
       changeTheme("light");
       return;
     }
     changeTheme("dark");
   };
 
-  const changeTheme = (str: string) => {
-    localStorage.setItem("riffrant-theme", str);
-    document.documentElement.setAttribute("data-theme", str);
-    setActiveTheme(str);
-  };
-
-  useEffect(() => {
-    const theme = localStorage.getItem("riffrant-theme");
-    if (!theme) {
-      changeTheme("dark");
-      return;
-    }
-    changeTheme(theme);
-  }, []);
-
-  useEffect(() => {
-    themeChange(false);
-  }, []);
+  console.log(theme);
 
   return (
     <div className="form-control" data-choose-theme>
@@ -39,7 +24,7 @@ function ThemeToggler() {
         <input
           type="checkbox"
           className="toggle"
-          checked={activeTheme === "dark"}
+          checked={theme === "dark"}
           data-act-class="ACTIVECLASS"
           onChange={toggleTheme}
         />
