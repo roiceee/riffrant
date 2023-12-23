@@ -21,7 +21,6 @@ import { getPosts } from "@/lib/actions-client";
 export default function Home() {
   const { user, isLoading } = useUser();
   const [filter, setFilter] = useState<"recent" | "popular">("recent");
-  const queryClient = useQueryClient();
 
   const {
     data,
@@ -75,10 +74,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    refetch();
-  }, [])
-
   return (
     <main className="">
       <NormalContainer>
@@ -118,9 +113,7 @@ export default function Home() {
         <SortDiv
           filter={filter}
           changeFilter={changeFilter}
-          refetch={() =>
-            queryClient.refetchQueries({queryKey: ["infinite-posts-main"]})
-          }
+          refetch={refetch}
         />
         <hr />
       </section>

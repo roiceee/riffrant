@@ -6,6 +6,7 @@ import ScrollToTopButton from "@/components/scroll-to-top-button";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import QueryProvider from "@/components/query-provider";
 import GlobalAlertModal from "@/components/util/global-alert";
+import ThemeProvider from "@/components/util/theme-provider";
 
 const font = Montserrat({ style: "normal", weight: "400", subsets: ["latin"] });
 
@@ -21,20 +22,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className=" bg-base-200">
-      <UserProvider>
-        <QueryProvider>
-          <body className={font.className + " mb-4"}>
-            <GlobalAlertModal>
-              <Navbar />
-              <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-60">
-                {children}
-              </div>
+      <ThemeProvider>
+        <UserProvider>
+          <QueryProvider>
+            <body className={font.className + " mb-4"}>
+              <GlobalAlertModal>
+                <Navbar />
+                <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-60">
+                  {children}
+                </div>
 
-              <ScrollToTopButton />
-            </GlobalAlertModal>
-          </body>
-        </QueryProvider>
-      </UserProvider>
+                <ScrollToTopButton />
+              </GlobalAlertModal>
+            </body>
+          </QueryProvider>
+        </UserProvider>
+      </ThemeProvider>
     </html>
   );
 }
