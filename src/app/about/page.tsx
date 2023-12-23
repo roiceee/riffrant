@@ -1,5 +1,5 @@
 import Image from "next/image";
-import nextjs from "/public/nextjs1.png";
+import nextjs from "/public/nextjs2.png";
 import typescript from "/public/typescript1.png";
 import mongodb from "/public/mongodb.png";
 import react from "/public/react.png";
