@@ -11,15 +11,9 @@ function AboutPage() {
   return (
     <main className="prose mx-auto p-4">
       <section>
-        <h2 className="font-bold text-center">Welcome to USePinion</h2>
+        <h2 className="font-bold text-center">Welcome to RiffRant</h2>
         <p className="text-justify m-4">
-          Where student opinions take center stage! Our web-based platform is
-          all about letting students freely share their thoughts on various
-          topics. USePinion uses smart hash maps to keep things organized and
-          user-friendly. It&apos;s not just a place to express opinions;
-          it&apos;s a vibrant community where every voice matters. Join us in
-          making opinions heard and discussions lively. USePinion: Your space,
-          your voice, your opinions!
+        Welcome to RiffRant, where diverse opinions thrive in a respectful community. Express yourself responsibly with a limited number of posts to ensure a high-quality experience and prevent spam. Access your profile for reflection, but engage with the community by posting directly on personal profiles. Our advanced spam tracker, using hash mapping, ensures a spam-free space. Users have control, with the ability to delete posts that are automatically removed from their profile view. Administrators uphold a positive atmosphere, blocking accounts that violate guidelines. Join RiffRant to contribute to dynamic discussions through comments and be part of a community that values and elevates diverse opinions. Let&apos;s redefine online conversations together!
         </p>
       </section>
 
