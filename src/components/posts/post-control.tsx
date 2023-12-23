@@ -2,7 +2,7 @@
 
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import LoadingDiv from "../util/loading";
 import { GlobalAlertContext } from "@/context/global-alert";
 import DownvoteButton from "../util/downvote-button";
@@ -122,6 +122,10 @@ function PostControl({ post, onDelete }: Props) {
     }
     showAlert("Error Deleting Post");
   };
+
+  useEffect(() => {
+    setPostState(post)
+  }, [post])
 
   if (user.isLoading) {
     return <LoadingDiv />;

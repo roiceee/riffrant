@@ -14,7 +14,7 @@ function NextImage() {
       src={theme === "dark" ? white : black}
       width={70}
       height={70}
-      alt="no image"
+      alt="NextJs"
     />
   );
 }
