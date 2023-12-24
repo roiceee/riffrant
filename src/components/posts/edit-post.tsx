@@ -60,16 +60,14 @@ export default function EditPost({ post }: Props) {
         <div className="prose">
           <div>
             <div className="font-semibold opacity-80 text-xs">
-              Posted by: {post.creatorName}
+              Posted by: {post.creatorName} • {timeFormatter(post.createdAt!)}
             </div>
           </div>
           <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
-          <div className="font-semibold opacity-80 text-xs">
-            {timeFormatter(post.createdAt!)}
-          </div>
+          
         </div>
         <textarea
-          className=" textarea textarea-bordered mt-12 w-full h-60 scroll"
+          className=" textarea textarea-bordered mt-10 w-full h-60 scroll"
           value={postContent.body}
           onChange={bodyChange}
         />
