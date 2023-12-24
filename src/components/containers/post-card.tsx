@@ -17,12 +17,10 @@ function PostCard({ post, onDelete }: PostCardProps) {
       <Link href={"/post/" + post._id} className=" no-underline">
         <div className="prose">
           <div className="font-semibold opacity-80 text-xs">
-            {post.creatorName}
+            {post.creatorName + " • " + timeFormatter(post.createdAt!)}
           </div>
           <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
-          <div className="font-semibold opacity-80 text-xs">
-            {timeFormatter(post.createdAt!)}
-          </div>
+          
           <p
             className={
               "text-sm whitespace-nowrap overflow-hidden overflow-ellipsis"
