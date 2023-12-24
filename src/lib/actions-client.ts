@@ -9,6 +9,12 @@ export async function addPost(post: Post) {
     }),
   });
 
+  if (res.status === 429) {
+    throw new Error(
+      "Draft saved. Post rate limit reached. Try again in a few minutes."
+    );
+  }
+
   const data = await res.json();
 
   return data;
@@ -25,7 +31,6 @@ export const getSinglePost = async ({
 
   return data;
 };
-
 
 export async function editPost(post: Post) {
   const res = await fetch(`/api/post`, {
@@ -95,6 +100,10 @@ export async function upvotePost(postId: string) {
     method: "POST",
   });
 
+  if (res.status === 429) {
+    throw new Error("Spam behavior detected. Try again in a few minutes.");
+  }
+
   const data = res.json();
 
   return data;
@@ -104,6 +113,10 @@ export async function downvotePost(postId: string) {
   const res = await fetch(`/api/post/downvote/${postId}`, {
     method: "POST",
   });
+
+  if (res.status === 429) {
+    throw new Error("Spam behavior detected. Try again in a few minutes.");
+  }
 
   const data = res.json();
 

@@ -90,26 +90,32 @@ function PostControl({ post, onDelete }: Props) {
   const handleUpvote = async () => {
     toggleUpvoteState();
 
-    const data = await upvotePost(post._id!);
+    try {
+      const data = await upvotePost(post._id!);
+      if (data) {
+        setPostState(data);
+        return;
+      }
 
-    if (data) {
-      setPostState(data);
-      return;
+      showAlert("Error Upvoting Post");
+    } catch (error: any) {
+      showAlert(error.message);
     }
-
-    showAlert("Error Upvoting Post");
   };
 
   const handleDownvote = async () => {
     toggleDownvoteState();
-    const data = await downvotePost(post._id!);
 
-    if (data) {
-      setPostState(data);
-      return;
+    try {
+      const data = await downvotePost(post._id!);
+      if (data) {
+        setPostState(data);
+        return;
+      }
+      showAlert("Error Downvoting Post");
+    } catch (error: any) {
+      showAlert(error.message);
     }
-
-    showAlert("Error Downvoting Post");
   };
 
   const handleDelete = async () => {
@@ -124,8 +130,8 @@ function PostControl({ post, onDelete }: Props) {
   };
 
   useEffect(() => {
-    setPostState(post)
-  }, [post])
+    setPostState(post);
+  }, [post]);
 
   if (user.isLoading) {
     return <LoadingDiv />;
