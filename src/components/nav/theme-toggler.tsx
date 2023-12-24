@@ -15,8 +15,6 @@ function ThemeToggler() {
     changeTheme("dark");
   };
 
-  console.log(theme);
-
   return (
     <div className="form-control" data-choose-theme>
       <label className="flex items-center justify-between cursor-pointer gap-5">

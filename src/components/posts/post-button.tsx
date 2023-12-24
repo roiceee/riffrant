@@ -1,10 +1,11 @@
 "use client";
+import { GlobalAlertContext } from "@/context/global-alert";
 import { addPost } from "@/lib/actions-client";
 import { isBodyLengthMax, isTitleLengthMax } from "@/lib/util";
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 
 interface PostButtonProps {
   onPost: () => void;
@@ -12,6 +13,7 @@ interface PostButtonProps {
 
 function PostButton({ onPost }: PostButtonProps) {
   const user = useUser();
+  const {showAlert} = useContext(GlobalAlertContext);
 
   const [postContent, setPostContent] = useState<Post>({
     title: "",
@@ -22,17 +24,26 @@ function PostButton({ onPost }: PostButtonProps) {
     setPostContent({ title: "", body: "" });
   };
 
-  const { status, data, refetch } = useQuery({
-    queryKey: ["posts", postContent.title, postContent.body],
-    queryFn: () => addPost(postContent),
-    enabled: false,
+  const mutation = useMutation({
+    mutationFn: (post: Post) => {
+      return addPost(post);
+    },
+    onSuccess: () => {
+      closeModal();
+      resetPostContent();
+      onPost();
+    },
+    onError: (error : Error) => {
+      showAlert(error.message)
+      closeModal();
+    }
   });
 
   const handlePost = () => {
     if (postContent.title?.trim() === "") {
       return;
     }
-    refetch();
+    mutation.mutate(postContent);
   };
 
   const titleChange = (e: any) => {
@@ -62,14 +73,6 @@ function PostButton({ onPost }: PostButtonProps) {
     const modal: any = document.getElementById("modal-post");
     modal.showModal();
   };
-
-  useEffect(() => {
-    if (status === "success") {
-      closeModal();
-      resetPostContent();
-      onPost();
-    }
-  }, [status, onPost]);
 
   return (
     <div className="w-full">
