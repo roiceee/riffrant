@@ -11,13 +11,12 @@ export default function PostTemplate({
 
   return (
     <section>
-      <div className="mb-2 flex">
-        <div>
-          <BackButton />
-        </div>
-        <div className="self-center mx-auto">
-          {pathname.includes("edit") ? "Edit Post" : "View Post"}
-        </div>
+      <div>
+        <BackButton />
+      </div>
+
+      <div className="mx-auto w-fit mb-2">
+        {pathname.includes("edit") ? "Edit Post" : "View Post"}
       </div>
       {children}
     </section>
