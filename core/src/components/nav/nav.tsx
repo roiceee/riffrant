@@ -58,7 +58,7 @@ function Navbar() {
             {!user && (
               <>
                 <li>
-                  <Link href={"api/auth/login"}>Login</Link>
+                  <Link href={"/api/auth/login"}>Login</Link>
                 </li>
                 <li>
                   <ThemeToggler />
