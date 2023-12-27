@@ -31,7 +31,7 @@ function AboutPage() {
 
         <h2 className="flex items-center justify-center m-0 p-0">Features</h2>
 
-        <div className="flex items-center justify-center flex-wrap-reverse my-10" >
+        <div className="flex items-center justify-center flex-wrap-reverse my-10 gap-10" >
 
           <Image
                   className=" flex-1 m-0"
@@ -49,7 +49,7 @@ function AboutPage() {
             </div>
           </div>
 
-        <div className="flex items-center justify-center flex-wrap my-10" >
+        <div className="flex items-center justify-center flex-wrap my-10 gap-10" >
 
         <div className="flex-1 m-0">
             <h4>Filter Posts</h4>
@@ -67,7 +67,7 @@ function AboutPage() {
               />
         </div>
 
-        <div className="flex items-center justify-center flex-wrap-reverse my-10" >
+        <div className="flex items-center justify-center flex-wrap-reverse my-10 gap-10" >
 
         <Image
                 className=" flex-1 m-0"
@@ -85,7 +85,7 @@ function AboutPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-center flex-wrap my-10" >
+        <div className="flex items-center justify-center flex-wrap my-10 gap-10" >
 
             <div className="flex-1 m-0">
                 <h4>Delete Posts</h4>
@@ -103,7 +103,7 @@ function AboutPage() {
                   />
           </div>
 
-          <div className="flex items-center justify-center flex-wrap-reverse my-10" >
+          <div className="flex items-center justify-center flex-wrap-reverse my-10 gap-10" >
 
               <Image
                       className=" flex-1 m-0"
@@ -121,7 +121,7 @@ function AboutPage() {
                 </div>
           </div>
 
-        <div className="flex items-center justify-center flex-wrap my-10" >
+        <div className="flex items-center justify-center flex-wrap my-10 gap-10" >
 
           <div className="flex-1 m-0">
             <h4>Light and Dark Mode</h4>
