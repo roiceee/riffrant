@@ -12,6 +12,8 @@ import filter from "/public/filter.svg";
 import edit from "/public/edit.svg";
 import deletePost from "/public/delete.svg";
 import vote from "/public/vote.svg";
+import spring from "/public/spring.png";
+import java from "/public/java.png";
 import NextImage from "@/components/about/next-image";
 
 function AboutPage() {
@@ -217,6 +219,28 @@ function AboutPage() {
                 alt="no image"
               />
               <p className="m-1">CSS</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={spring}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">SpringBoot</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center">
+              <Image
+                className="m-0"
+                src={java}
+                width={70}
+                height={70}
+                alt="no image"
+              />
+              <p className="m-1">Java</p>
             </div>
           </div>
         </div>
