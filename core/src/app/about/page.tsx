@@ -31,7 +31,7 @@ function AboutPage() {
 
         <h2 className="flex items-center justify-center m-0 p-0">Features</h2>
 
-        <div className="flex items-center justify-center flex-wrap-reverse mt-0 mb-10" >
+        <div className="flex items-center justify-center flex-wrap-reverse my-10" >
 
           <Image
                   className=" flex-1 m-0"
