@@ -2,9 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 
 interface Props {
-  username: string;
+ 
 }
-export default function CommentTextarea({ username }: Props) {
+export default function CommentTextarea({ }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
   const [value, setValue] = useState("");
@@ -27,7 +27,7 @@ export default function CommentTextarea({ username }: Props) {
 
   return (
     <div className="mt-8 text-sm w-full">
-      <h6 className="mb-2">Comment as {username}</h6>
+      <h6 className="mb-2">Comment</h6>
       <textarea
         ref={ref}
         className="textarea textarea-bordered w-full overflow-y-hidden resize-none"
