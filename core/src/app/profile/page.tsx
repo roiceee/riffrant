@@ -1,29 +1,34 @@
 "use client";
-import PostCard from "@/components/containers/post-card";
-import PostCardContainer from "@/components/containers/post-card-container";
-import ScrollButton from "@/components/posts/scroll-button";
-import ErrorDiv from "@/components/util/error-div";
+import NormalContainer from "@/components/containers/normal-container";
+import PostButton from "@/components/posts/post-button";
+import PostFeed from "@/components/posts/postfeed";
 import LoadingDiv from "@/components/util/loading";
-import Post from "@/types/post";
-import { useUser } from "@auth0/nextjs-auth0/client";
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
-import { useInfiniteQuery, useQuery } from "react-query";
-import placeholder from "/public/user-placeholder.jpg";
 import {
   deleteAllPosts,
   getPostsMetadata,
   getUserPosts,
 } from "@/lib/actions-client";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import PostButton from "@/components/posts/post-button";
-import NormalContainer from "@/components/containers/normal-container";
+import React, { useCallback, useState } from "react";
+import { useInfiniteQuery, useQuery } from "react-query";
+import placeholder from "/public/user-placeholder.jpg";
 
 function ProfilePage() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const [deleteCount, setDeleteCount] = React.useState(3);
+
+  const [filter, setFilter] = useState<"recent" | "popular">("recent");
+
+  const changeFilter = useCallback((filter: "recent" | "popular") => {
+    setFilter(filter);
+    const elem: any = document.activeElement;
+    if (elem) {
+      elem.blur();
+    }
+  }, []);
 
   const deleteHandler = async () => {
     if (deleteCount > 1) {
@@ -50,11 +55,6 @@ function ProfilePage() {
     elem.close();
   };
 
-  const metadataQuery = useQuery({
-    queryKey: ["metadata"],
-    queryFn: getPostsMetadata,
-  });
-
   const {
     data,
     error,
@@ -65,40 +65,16 @@ function ProfilePage() {
     status,
     refetch,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
-    queryFn: ({ pageParam }) =>
-      getUserPosts({ pageParam }, "recent", user?.sub!),
+    queryKey: ["posts", filter],
+    queryFn: ({ pageParam }) => getUserPosts({ pageParam }, filter, user?.sub!),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     enabled: !!user,
   });
 
-  const renderPosts = () => {
-    if (status === "loading") {
-      return <LoadingDiv />;
-    }
-
-    if (status === "error") {
-      return <ErrorDiv />;
-    }
-
-    if (status === "success") {
-      return data.pages.map((group, i) => {
-        return (
-          <React.Fragment key={i}>
-            {group.data.map((post: Post) => {
-              return (
-                <PostCard
-                  key={`post-${post._id}`}
-                  post={post}
-                  onDelete={refetch}
-                />
-              );
-            })}
-          </React.Fragment>
-        );
-      });
-    }
-  };
+  const metadataQuery = useQuery({
+    queryKey: ["metadata"],
+    queryFn: getPostsMetadata,
+  });
 
   if (isLoading) {
     return (
@@ -114,59 +90,60 @@ function ProfilePage() {
   }
 
   return (
-    <main className="prose mx-auto">
+    <main className="mx-auto">
       <NormalContainer>
-        <h3 className="mt-0">Profile</h3>
-        <div className="sm:flex gap-14">
-          <div className="">
-            <Image
-              src={user.picture ? user.picture : placeholder}
-              alt="profile"
-              height={70}
-              width={70}
-              className=" rounded-full my-0 border"
-            />
-          </div>
-          <div className="w-full">
-            <div className="mb-3">
-              <div className="flex items-center justify-between">
-                <h5>
-                  <b>{user.name}</b>
-                </h5>
+        <div className="prose">
+          <h3 className="mt-0">Profile</h3>
+          <div className="sm:flex gap-14">
+            <div className="">
+              <Image
+                src={user.picture ? user.picture : placeholder}
+                alt="profile"
+                height={70}
+                width={70}
+                className=" rounded-full my-0 border"
+              />
+            </div>
+            <div className="w-full">
+              <div className="mb-3">
+                <div className="flex items-center justify-between">
+                  <h5>
+                    <b>{user.name}</b>
+                  </h5>
+                </div>
               </div>
+              <div>
+                <b>Email: </b> {user.email}
+              </div>
+              {metadataQuery.isError && (
+                <div className="text-red-500">Error fetching data</div>
+              )}
+              {!metadataQuery.isError && (
+                <>
+                  <div>
+                    <b>Posts: </b>
+                    {metadataQuery.isLoading
+                      ? "---"
+                      : metadataQuery.data.metadata[0].totalPosts}
+                  </div>
+                  <div>
+                    <b>Riff Score: </b>
+                    {metadataQuery.isLoading
+                      ? "---"
+                      : metadataQuery.data.metadata[0].totalScore}
+                  </div>
+                </>
+              )}
             </div>
-            <div>
-              <b>Email: </b> {user.email}
-            </div>
-            {metadataQuery.isError && (
-              <div className="text-red-500">Error fetching data</div>
-            )}
-            {!metadataQuery.isError && (
-              <>
-                <div>
-                  <b>Posts: </b>
-                  {metadataQuery.isLoading
-                    ? "---"
-                    : metadataQuery.data.metadata[0].totalPosts}
-                </div>
-                <div>
-                  <b>Riff Score: </b>
-                  {metadataQuery.isLoading
-                    ? "---"
-                    : metadataQuery.data.metadata[0].totalScore}
-                </div>
-              </>
-            )}
           </div>
         </div>
 
-        <div>
-          <hr className="my-4" />
-          <PostButton onPost={refetch} />
+        <div className="mt-4">
+          <PostButton />
         </div>
       </NormalContainer>
 
-      <div className="flex items-center justify-between px-4 mt-4">
+      <div className="flex items-center justify-between px-4 mt-4 prose">
         <h3 className="my-2">Posts</h3>
         <button
           className="btn btn-outline btn-error btn-sm"
@@ -175,34 +152,18 @@ function ProfilePage() {
           Delete all posts
         </button>
       </div>
-      
-      <div>
-        <PostCardContainer>{user && renderPosts()}</PostCardContainer>
-      </div>
 
-      <section>
-        {status !== "loading" && status !== "error" && (
-          <div>
-            <div className="text-center">
-              <ScrollButton
-                onClick={() => {
-                  if (!hasNextPage || isFetchingNextPage) {
-                    return;
-                  }
-                  fetchNextPage();
-                }}
-                disabled
-              >
-                {isFetchingNextPage ? (
-                  <LoadingDiv />
-                ) : (
-                  "Oops! You've reached the end."
-                )}
-              </ScrollButton>
-            </div>
-          </div>
-        )}
-      </section>
+      <PostFeed
+        filter={filter}
+        changeFilter={changeFilter}
+        refetch={refetch}
+        status={status}
+        data={data}
+        isFetchingNextPage={isFetchingNextPage}
+        hasNextPage={hasNextPage}
+        fetchNextPage={fetchNextPage}
+      />
+
       <dialog id="modal-delete" className="modal">
         <div className="modal-box">
           <form method="dialog">

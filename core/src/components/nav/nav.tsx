@@ -82,7 +82,7 @@ function Navbar() {
                 <li>
                   <a
                     href={
-                      "api/auth/logout?returnTo=" +
+                      "/api/auth/logout?returnTo=" +
                       process.env.NEXT_PUBLIC_LOGOUT_REDIRECT
                     }
                     onClick={closeOnClick}

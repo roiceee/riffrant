@@ -63,3 +63,7 @@ export function isTitleLengthMax(title: string) {
   return title.length === 40;
 }
 
+export function isTooManyRequests(status: number) {
+  return status === 429;
+}
+

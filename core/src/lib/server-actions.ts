@@ -30,20 +30,24 @@ export async function checkPostRateLimit(
 export async function checkVoteRateLimit(
   key: string
 ): Promise<LimiterStatus | undefined> {
-  const res = await fetch(
-    `${process.env.RATE_LIMITER_URL}/vote`,
+  try {
+    const res = await fetch(
+      `${process.env.RATE_LIMITER_URL}/vote`,
 
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        creatorId: key,
-      }),
-    }
-  );
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          creatorId: key,
+        }),
+      }
+    );
 
-  const data = await res.json();
-  return data;
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    return undefined;
+  }
 }

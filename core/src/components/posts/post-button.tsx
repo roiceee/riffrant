@@ -4,16 +4,14 @@ import { addPost } from "@/lib/actions-client";
 import { isBodyLengthMax, isTitleLengthMax } from "@/lib/util";
 import Post from "@/types/post";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
-interface PostButtonProps {
-  onPost: () => void;
-}
-
-function PostButton({ onPost }: PostButtonProps) {
+function PostButton() {
   const user = useUser();
-  const {showAlert} = useContext(GlobalAlertContext);
+  const { showAlert } = useContext(GlobalAlertContext);
+  const router = useRouter();
 
   const [postContent, setPostContent] = useState<Post>({
     title: "",
@@ -28,15 +26,16 @@ function PostButton({ onPost }: PostButtonProps) {
     mutationFn: (post: Post) => {
       return addPost(post);
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       closeModal();
       resetPostContent();
-      onPost();
+      showAlert("Post Created!");
+      router.push(`/post/${data.post._id}`);
     },
-    onError: (error : Error) => {
-      showAlert(error.message)
+    onError: (error: Error) => {
+      showAlert(error.message);
       closeModal();
-    }
+    },
   });
 
   const handlePost = () => {
