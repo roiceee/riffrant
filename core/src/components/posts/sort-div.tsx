@@ -11,9 +11,7 @@ import {
 interface Props {
   filter: string;
   changeFilter: (filter: "recent" | "popular") => void;
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-  ) => Promise<QueryObserverResult<InfiniteData<any>, unknown>>;
+  refetch: () => void;
 }
 
 export default function SortDiv({ filter, changeFilter, refetch }: Props) {

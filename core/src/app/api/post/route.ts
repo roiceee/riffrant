@@ -1,5 +1,6 @@
 import { connectMongoDB } from "@/lib/mongo";
 import { checkPostRateLimit } from "@/lib/server-actions";
+import { isTooManyRequests } from "@/lib/util";
 import { PostModel } from "@/models/post";
 import { getSession } from "@auth0/nextjs-auth0";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const limitData = await checkPostRateLimit(creatorId);
 
   if (limitData) {
-    if (limitData.status === 429) {
+    if (isTooManyRequests(limitData.status)) {
       return NextResponse.json(
         {
           message: limitData.message,
