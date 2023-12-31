@@ -247,9 +247,9 @@ function PostControl({ post, onDelete }: Props) {
           </button>
         </div>
       )}
-      {user && pathname.includes("/post") && (
+      {/* {user && pathname.includes("/post") && (
         <CommentTextarea />
-      )}
+      )} */}
     </PostControlContainer>
   );
 }
