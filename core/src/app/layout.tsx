@@ -28,7 +28,7 @@ export default function RootLayout({
             <body className={font.className + " mb-4"}>
               <GlobalAlertModal>
                 <Navbar />
-                <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-60">
+                <div className="container mx-auto px-4 sm:px-16 md:px-24 lg:px-48 xl:px-60 2xl:px-80">
                   {children}
                 </div>
 

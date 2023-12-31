@@ -1,12 +1,5 @@
 "use client";
 import _ from "lodash";
-import {
-  InfiniteData,
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useQueryClient,
-} from "react-query";
 
 interface Props {
   filter: string;

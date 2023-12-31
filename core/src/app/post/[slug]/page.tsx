@@ -10,7 +10,7 @@ function PostPage({ params }: { params: { slug: string } }) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["post-page", params],
     queryFn: () => getSinglePost({ params }),
-    cacheTime: 0
+    cacheTime: 0,
   });
 
   if (isLoading) {
@@ -31,19 +31,17 @@ function PostPage({ params }: { params: { slug: string } }) {
   const post: Post = data.post;
 
   return (
-    <section>
-      <section className="rounded-lg p-4 shadow-lg bg-base-100 break-words">
-        <div className="prose">
-          <div>
-            <div className="font-semibold opacity-80 text-xs">
-              Posted by: {post.creatorName} • {timeFormatter(post.createdAt!)}
-            </div>
+    <section className="rounded-lg p-4 md:p-8 shadow-lg bg-base-100 break-words">
+      <div className="prose">
+        <div>
+          <div className="font-semibold opacity-80 text-xs">
+            Posted by: {post.creatorName} • {timeFormatter(post.createdAt!)}
           </div>
-          <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
-          <p className="mb-16">{post.body}</p>
         </div>
-        <PostPageControlWrapper post={post} />
-      </section>
+        <h3 className="mb-0 mt-2 break-words">{post.title}</h3>
+        <p className="mb-16">{post.body}</p>
+      </div>
+      <PostPageControlWrapper post={post} />
     </section>
   );
 }
