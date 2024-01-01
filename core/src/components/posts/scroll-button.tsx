@@ -5,10 +5,12 @@ const ScrollButton = ({
   onClick,
   children,
   disabled,
+  disconnect,
 }: {
   onClick: () => void;
   children: React.ReactNode;
   disabled?: boolean;
+  disconnect?: boolean;
 }) => {
   let buttonRef = useRef(null);
 
@@ -32,10 +34,14 @@ const ScrollButton = ({
       observer.observe(buttonRef.current);
     }
 
+    if (disconnect) {
+      observer.disconnect();
+    }
+
     return () => {
       observer.disconnect();
     };
-  }, [handleIntersection]);
+  }, [handleIntersection, disconnect]);
 
   return (
     <button ref={buttonRef} onClick={onClick} disabled={disabled}>

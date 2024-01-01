@@ -1,3 +1,4 @@
+import Comment from "@/types/comment";
 import Post from "@/types/post";
 
 export async function addPost(post: Post) {
@@ -34,7 +35,7 @@ export const getSinglePost = async ({
 
 export async function editPost(post: Post) {
   const res = await fetch(`/api/post`, {
-    method: "PUT",
+    method: "PATCH",
     body: JSON.stringify({
       body: post.body,
       _id: post._id,
@@ -126,6 +127,55 @@ export async function downvotePost(postId: string) {
 export async function getPostsMetadata() {
   const res = await fetch(`/api/posts/metadata`, {
     method: "GET",
+  });
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function addPostComment(postId: string, comment: string) {
+  const res = await fetch(`/api/post/${postId}/comment`, {
+    method: "POST",
+    body: JSON.stringify({
+      body: comment,
+    }),
+  });
+
+  if (res.status === 429) {
+    throw new Error("Comment rate limit reached. Try again in a few minutes.");
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function getComments({ pageParam = 0 }, postId: string) {
+  const res = await fetch(`/api/post/${postId}/comments?cursor=${pageParam}`, {
+    method: "GET",
+  });
+
+  const data = await res.json();
+  return data;
+}
+
+export async function deletePostComment(commentId: string) {
+  const res = await fetch(`/api/comment/${commentId}`, {
+    method: "DELETE",
+  });
+
+  const data = await res.json();
+
+  return data;
+}
+
+export async function editPostComment(comment: Comment) {
+  const res = await fetch(`/api/comment/${comment._id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      body: comment.body,
+    }),
   });
 
   const data = await res.json();

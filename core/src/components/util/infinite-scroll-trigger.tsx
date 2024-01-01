@@ -2,18 +2,23 @@ import ScrollButton from "../posts/scroll-button";
 import LoadingDiv from "./loading";
 
 interface Props {
-    isFetchingNextPage: boolean;
-    hasNextPage: boolean | undefined;
-    fetchNextPage: () => void;
-    status: string;
+  isFetchingNextPage: boolean;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
+  status: string;
 }
 
-export default function InfiniteScrollTrigger({ isFetchingNextPage, hasNextPage, fetchNextPage, status }: Props) {
+export default function InfiniteScrollTrigger({
+  isFetchingNextPage,
+  hasNextPage,
+  fetchNextPage,
+  status,
+}: Props) {
   return (
     <section>
       {status !== "loading" && status !== "error" && (
         <div className="mt-4">
-          <div className="text-center">
+          <div className="text-center text-sm opacity-80">
             <ScrollButton
               onClick={() => {
                 if (!hasNextPage || isFetchingNextPage) {
@@ -23,11 +28,7 @@ export default function InfiniteScrollTrigger({ isFetchingNextPage, hasNextPage,
               }}
               disabled
             >
-              {isFetchingNextPage ? (
-                <LoadingDiv />
-              ) : (
-                "Oops! You've reached the end."
-              )}
+              {isFetchingNextPage ? <LoadingDiv /> : "You've reached the end."}
             </ScrollButton>
           </div>
         </div>

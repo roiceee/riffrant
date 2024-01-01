@@ -51,7 +51,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 }
 
 //edit post
-export async function PUT(req: NextRequest) {
+export async function PATCH(req: NextRequest) {
   const { _id, body } = await req.json();
 
   await connectMongoDB();

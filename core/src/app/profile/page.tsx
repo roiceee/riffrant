@@ -143,8 +143,8 @@ function ProfilePage() {
         </div>
       </NormalContainer>
 
-      <div className="flex items-center justify-between px-4 mt-4 prose">
-        <h3 className="my-2">Posts</h3>
+      <div className="flex items-center justify-between px-4 mt-4">
+        <h3 className="my-2 text-lg font-bold">Posts</h3>
         <button
           className="btn btn-outline btn-error btn-sm"
           onClick={showModal}

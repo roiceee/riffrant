@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 
 interface Props {
   post: Post;
+  onAddComment?: () => void;
 }
 
-function PostPageControlWrapper({ post }: Props) {
+function PostPageControlWrapper({ post, onAddComment }: Props) {
   const router = useRouter();
 
   return (
@@ -15,6 +16,7 @@ function PostPageControlWrapper({ post }: Props) {
       onDelete={() => {
         router.back();
       }}
+      onAddComment={onAddComment}
       post={post}
     />
   );

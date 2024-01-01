@@ -1,44 +1,40 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 interface Props {
- 
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
-export default function CommentTextarea({ }: Props) {
+
+export default function CommentTextarea({ value, onChange }: Props) {
   const ref = useRef<HTMLTextAreaElement>(null);
 
-  const [value, setValue] = useState("");
-
-  const set = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
-  };
-
-  const autoResize = () => {
+  const autoResize = useCallback(() => {
     if (!ref.current) {
       return;
     }
     ref.current.style.height = "auto"; // Reset height to auto
     ref.current.style.height = ref.current.scrollHeight + "px"; // Set the height to the scrollHeight
-  };
+  }, []);
 
   useEffect(() => {
     autoResize();
-  }, [ref]);
+  }, [ref, autoResize]);
+
+  useEffect(() => {
+    if (value === "") {
+      autoResize();
+    }
+  }, [value, autoResize]);
 
   return (
-    <div className="mt-8 text-sm w-full">
-      <h6 className="mb-2">Comment</h6>
-      <textarea
-        ref={ref}
-        className="textarea textarea-bordered w-full overflow-y-hidden resize-none"
-        placeholder="What are your thoughts?"
-        onInput={autoResize}
-        onChange={set}
-        value={value}
-      />
-      <div className="text-right">
-        <button className="btn btn-sm mt-2">Comment</button>
-      </div>
-    </div>
+    <textarea
+      ref={ref}
+      className="textarea textarea-bordered w-full overflow-y-hidden resize-none border-2"
+      placeholder="What are your thoughts?"
+      onInput={autoResize}
+      onChange={onChange}
+      value={value}
+    />
   );
 }
