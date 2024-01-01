@@ -150,7 +150,7 @@ function PostControl({ post, onDelete, onAddComment }: Props) {
   if (!user.user) {
     return (
       <div>
-        <p className="text-sm text-center mt-3">
+        <p className="text-xs text-center mt-8 opacity-70">
           You must be logged in to vote or comment.
         </p>
       </div>
@@ -232,7 +232,9 @@ function PostControl({ post, onDelete, onAddComment }: Props) {
           </button>
         </div>
       )}
-      {user && pathname.includes("/post") && <AddComment postId={post._id!} onAddComment={onAddComment}/>}
+      {user && pathname.includes("/post") && (
+        <AddComment postId={post._id!} onAddComment={onAddComment} />
+      )}
     </PostControlContainer>
   );
 }
