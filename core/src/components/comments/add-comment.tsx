@@ -36,6 +36,9 @@ export default function AddComment({ postId, onAddComment }: Props) {
   });
 
   const onSubmit = () => {
+    if (value.trim() === "") {
+      return;
+    }
     mutation.mutate({ postId, value });
   };
 
