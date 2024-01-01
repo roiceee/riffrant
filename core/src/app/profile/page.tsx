@@ -69,6 +69,7 @@ function ProfilePage() {
     queryFn: ({ pageParam }) => getUserPosts({ pageParam }, filter, user?.sub!),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     enabled: !!user,
+    refetchOnMount: "always",
   });
 
   const metadataQuery = useQuery({
