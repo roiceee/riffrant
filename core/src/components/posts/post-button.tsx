@@ -90,56 +90,71 @@ function PostButton() {
             </button>
           </form>
           <h3 className="font-bold text-lg">What&apos;s on your mind?</h3>
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Title</span>
-              <span className="label-text">
-                {postContent.title ? postContent.title.length : 0}/40
-              </span>
-            </div>
-            <input
-              type="text"
-              placeholder="Enter Title"
-              className="input input-bordered w-full"
-              onChange={titleChange}
-              value={postContent.title}
-              required
-            />
-          </label>
 
-          <label className="form-control w-full">
-            <div className="label">
-              <span className="label-text">Body</span>
-              <span className="label-text">
-                {postContent.body ? postContent.body.length : 0}/500
-              </span>
-            </div>
-            <textarea
-              placeholder="Enter Body"
-              className="textarea textarea-bordered textarea-sm w-full"
-              style={{ minHeight: "200px" }}
-              onChange={bodyChange}
-              value={postContent.body}
-              required
-            />
-          </label>
-          <div className="modal-action">
-            <div className="flex w-full justify-between">
-              <div>
-                <button className="btn btn-sm" onClick={clearBody}>
-                  Clear Body
-                </button>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handlePost();
+            }}
+          >
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Title</span>
+                <span className="label-text">
+                  {postContent.title ? postContent.title.length : 0}/40
+                </span>
               </div>
-              <div className="flex gap-2">
-                <button className="btn btn-accent btn-sm" onClick={handlePost}>
-                  Post
-                </button>
-                <button className="btn btn-sm" onClick={closeModal}>
-                  Cancel
-                </button>
+              <input
+                type="text"
+                placeholder="Enter Title (Required)"
+                className="input input-bordered w-full"
+                onChange={titleChange}
+                value={postContent.title}
+                required
+              />
+            </label>
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text">Body</span>
+                <span className="label-text">
+                  {postContent.body ? postContent.body.length : 0}/500
+                </span>
+              </div>
+              <textarea
+                placeholder="Enter Body"
+                className="textarea textarea-bordered textarea-sm w-full"
+                style={{ minHeight: "200px" }}
+                onChange={bodyChange}
+                value={postContent.body}
+                required
+              />
+            </label>
+            <div className="modal-action">
+              <div className="flex w-full justify-between">
+                <div>
+                  <button
+                    className="btn btn-sm"
+                    onClick={clearBody}
+                    type="button"
+                  >
+                    Clear Body
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <button className="btn btn-accent btn-sm" type="submit">
+                    Post
+                  </button>
+                  <button
+                    className="btn btn-sm"
+                    onClick={closeModal}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </dialog>
     </div>
