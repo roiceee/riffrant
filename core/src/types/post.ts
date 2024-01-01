@@ -4,6 +4,7 @@ type Post = {
   creatorName?: string;
   title?: string;
   body?: string;
+  comments?: number;
   upvotes?: Array<string>;
   downvotes?: Array<string>;
   score?: number;

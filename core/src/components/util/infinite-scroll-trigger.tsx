@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function InfiniteScrollTrigger({ isFetchingNextPage, hasNextPage, fetchNextPage, status }: Props) {
+
   return (
     <section>
       {status !== "loading" && status !== "error" && (
@@ -26,7 +27,7 @@ export default function InfiniteScrollTrigger({ isFetchingNextPage, hasNextPage,
               {isFetchingNextPage ? (
                 <LoadingDiv />
               ) : (
-                "Oops! You've reached the end."
+                "You've reached the end"
               )}
             </ScrollButton>
           </div>

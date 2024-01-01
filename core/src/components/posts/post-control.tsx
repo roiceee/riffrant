@@ -12,18 +12,21 @@ import Link from "next/link";
 import PostControlContainer from "../containers/post-control-container";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryClient } from "react-query";
-import CommentButton from "./comment-button";
+import CommentButton from "../comments/comment-button";
 import EditButton from "./edit-button";
 import DeleteButton from "./delete-button";
 import CommentTextarea from "../comments/comment-textarea";
 import path from "path";
+import KebabButton from "./kebab-button";
+import AddComment from "../comments/add-comment";
 
 interface Props {
   post: Post;
   onDelete: () => void;
+  onAddComment?: () => void;
 }
 
-function PostControl({ post, onDelete }: Props) {
+function PostControl({ post, onDelete, onAddComment }: Props) {
   const user = useUser();
 
   const router = useRouter();
@@ -171,47 +174,29 @@ function PostControl({ post, onDelete }: Props) {
               active={postState.downvotes!.includes(user.user.sub!)}
             />
           </div>
+          <CommentButton comments={post.comments} />
           {user.user.sub === post.creatorId && (
             <div className="dropdown">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-sm btn-ghost p-0"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-                  />
-                </svg>
-              </div>
+              <KebabButton />
               <ul
                 tabIndex={0}
                 className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-fit border"
               >
-                <li>
-                  <DeleteButton
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setIsDeleting(true);
-                    }}
-                  />
-                </li>
                 <li>
                   <EditButton
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       router.push(`/post/${post._id}/edit`);
+                    }}
+                  />
+                </li>
+                <li>
+                  <DeleteButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDeleting(true);
                     }}
                   />
                 </li>
@@ -247,9 +232,7 @@ function PostControl({ post, onDelete }: Props) {
           </button>
         </div>
       )}
-      {/* {user && pathname.includes("/post") && (
-        <CommentTextarea />
-      )} */}
+      {user && pathname.includes("/post") && <AddComment postId={post._id!} onAddComment={onAddComment}/>}
     </PostControlContainer>
   );
 }

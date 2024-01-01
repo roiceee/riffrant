@@ -1,38 +1,28 @@
-import { getPosts } from "@/lib/actions-client";
-import Post from "@/types/post";
-import React, { useCallback, useMemo, useState } from "react";
-import { useInfiniteQuery } from "react-query";
-import PostCard from "../containers/post-card";
-import PostCardContainer from "../containers/post-card-container";
+import Comment from "@/types/comment";
+import React, { useMemo } from "react";
 import ErrorDiv from "../util/error-div";
 import InfiniteScrollTrigger from "../util/infinite-scroll-trigger";
 import LoadingDiv from "../util/loading";
-import SortDiv from "./sort-div";
+import CommentCard from "./comment-card";
 
 interface Props {
-  filter: "recent" | "popular";
-  changeFilter: (filter: "recent" | "popular") => void;
-  refetch: () => void;
   status: string;
   data: any;
   isFetchingNextPage: boolean;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
+  onDeleteAttempt: (id: string) => void;
 }
 
 export default function PostFeed({
-  filter,
-  changeFilter,
-  refetch,
   status,
   data,
   isFetchingNextPage,
   hasNextPage,
   fetchNextPage,
+  onDeleteAttempt,
 }: Props) {
-
-
-  const renderPosts = useMemo(() => {
+  const renderComments = useMemo(() => {
     if (status === "loading") {
       return <LoadingDiv />;
     }
@@ -45,12 +35,12 @@ export default function PostFeed({
       return data.pages.map((group: any, i: any) => {
         return (
           <React.Fragment key={i}>
-            {group.data.map((post: Post) => {
+            {group.data.map((comment: Comment) => {
               return (
-                <PostCard
-                  key={`post-${post._id}`}
-                  post={post}
-                  onDelete={refetch}
+                <CommentCard
+                  key={`comment-${comment._id}`}
+                  comment={comment}
+                  onDeleteAttempt={onDeleteAttempt}
                 />
               );
             })}
@@ -58,20 +48,16 @@ export default function PostFeed({
         );
       });
     }
-  }, [data, refetch, status]);
+  }, [data, status, onDeleteAttempt]);
 
   return (
     <section>
-      <div className="mt-4">
-        <SortDiv
-          filter={filter}
-          changeFilter={changeFilter}
-          refetch={refetch}
-        />
-        <hr />
+      <div>
+        <h5 className="my-0">Comments</h5>
+        <hr className="my-2" />
       </div>
 
-      <PostCardContainer>{renderPosts}</PostCardContainer>
+      <div className=" flex flex-col">{renderComments}</div>
 
       <InfiniteScrollTrigger
         isFetchingNextPage={isFetchingNextPage}

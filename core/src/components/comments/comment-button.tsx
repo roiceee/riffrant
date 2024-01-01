@@ -1,6 +1,6 @@
 export default function CommentButton({ comments }: { comments?: number }) {
   return (
-    <button className="btn btn-sm">
+    <button className="btn btn-sm btn-ghost">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

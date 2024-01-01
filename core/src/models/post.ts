@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
@@ -18,6 +17,12 @@ const postSchema = new mongoose.Schema(
       required: true,
       maxLength: 40,
       trim: true,
+    },
+
+    comments: {
+      type: Number,
+      required: false,
+      default: 0,
     },
 
     body: {
@@ -41,7 +46,6 @@ const postSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    
   },
   { timestamps: true }
 );
