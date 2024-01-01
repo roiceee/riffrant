@@ -52,6 +52,9 @@ export default function CommentCard({ comment, onDeleteAttempt }: Props) {
       toggleEdit();
       return;
     }
+    if (commentState.body.trim() === "") {
+      return;
+    }
     editMutation.mutate(commentState);
   };
 
