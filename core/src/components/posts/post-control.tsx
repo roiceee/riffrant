@@ -149,26 +149,14 @@ function PostControl({ post, onDelete, onAddComment }: Props) {
 
   if (!user.user) {
     return (
-      <PostControlContainer>
-        <div className="mb-1">
-          <span className="btn btn-sm btn-outline" onClick={(e) => {
-            e.preventDefault();
-            router.push("/api/auth/login")
-          }}>
-            Login to vote or comment
-          </span>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="border border-base-200 flex items-center p-1 rounded-lg gap-2">
-            <UpvoteButton />
-            <span className=" text-sm">
-              <b>{postState.score}</b>
-            </span>
-            <DownvoteButton />
-          </div>
-          <CommentButton comments={post.comments} />
-        </div>
-      </PostControlContainer>
+      <div>
+        <p className="text-xs text-center mt-8 opacity-70">
+          <a href="/api/auth/login">
+            <button className="btn btn-sm btn-outline">Login</button>
+          </a>{" "}
+          to vote or comment.
+        </p>
+      </div>
     );
   }
 
