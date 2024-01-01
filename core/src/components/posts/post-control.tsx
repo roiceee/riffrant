@@ -151,7 +151,10 @@ function PostControl({ post, onDelete, onAddComment }: Props) {
     return (
       <div>
         <p className="text-xs text-center mt-8 opacity-70">
-          You must be logged in to vote or comment.
+          <a href="/api/auth/login">
+            <button className="btn btn-sm btn-outline">Login</button>
+          </a>{" "}
+          to vote or comment.
         </p>
       </div>
     );
