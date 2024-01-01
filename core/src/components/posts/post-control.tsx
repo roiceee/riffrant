@@ -151,10 +151,15 @@ function PostControl({ post, onDelete, onAddComment }: Props) {
     return (
       <div>
         <p className="text-xs text-center mt-8 opacity-70">
-          <a href="/api/auth/login">
-            <button className="btn btn-sm btn-outline">Login</button>
-          </a>{" "}
-          to vote or comment.
+          <span
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/api/auth/login");
+            }}
+          >
+            <button className="btn btn-sm btn-outline">Login</button> to vote or
+            comment.
+          </span>
         </p>
       </div>
     );
