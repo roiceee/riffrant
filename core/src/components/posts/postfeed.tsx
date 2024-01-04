@@ -8,10 +8,11 @@ import ErrorDiv from "../util/error-div";
 import InfiniteScrollTrigger from "../util/infinite-scroll-trigger";
 import LoadingDiv from "../util/loading";
 import SortDiv from "./sort-div";
+import PostFilters from "@/types/post-filters";
 
 interface Props {
-  filter: "recent" | "popular";
-  changeFilter: (filter: "recent" | "popular") => void;
+  filter: PostFilters;
+  changeFilter: (filter: PostFilters) => void;
   refetch: () => void;
   status: string;
   data: any;
