@@ -78,7 +78,11 @@ export default function CommentCard({ comment, onDeleteAttempt }: Props) {
         {!isEditing && <div className="text-sm mt-2">{comment.body}</div>}
         {isEditing && (
           <div className="m-1">
-            <CommentTextarea value={commentState.body} onChange={onChange} />
+            <CommentTextarea
+              value={commentState.body}
+              onChange={onChange}
+              label="Edit Comment"
+            />
 
             <div className="flex items-center justify-end gap-4 text-xs">
               <button
@@ -105,7 +109,7 @@ export default function CommentCard({ comment, onDeleteAttempt }: Props) {
           </div>
         )}
       </div>
-      {(!isEditing && user.user?.sub === comment.creatorId) && (
+      {!isEditing && user.user?.sub === comment.creatorId && (
         <div className="dropdown dropdown-end self-start">
           <KebabButton />
           <ul
