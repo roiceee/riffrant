@@ -14,15 +14,16 @@ import { useRouter } from "next/navigation";
 import React, { useCallback, useState } from "react";
 import { useInfiniteQuery, useQuery } from "react-query";
 import placeholder from "/public/user-placeholder.jpg";
+import PostFilters from "@/types/post-filters";
 
 function ProfilePage() {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const [deleteCount, setDeleteCount] = React.useState(3);
 
-  const [filter, setFilter] = useState<"recent" | "popular">("recent");
+  const [filter, setFilter] = useState<PostFilters>("recent");
 
-  const changeFilter = useCallback((filter: "recent" | "popular") => {
+  const changeFilter = useCallback((filter: PostFilters) => {
     setFilter(filter);
     const elem: any = document.activeElement;
     if (elem) {
