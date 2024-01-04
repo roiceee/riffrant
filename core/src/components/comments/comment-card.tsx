@@ -8,6 +8,7 @@ import CommentTextarea from "./comment-textarea";
 import { useMutation } from "react-query";
 import { editPostComment } from "@/lib/actions-client";
 import { GlobalAlertContext } from "@/context/global-alert";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 interface Props {
   comment: Comment;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function CommentCard({ comment, onDeleteAttempt }: Props) {
+  const user = useUser();
   const [commentState, setCommentState] = useState<Comment>(comment);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -76,7 +78,11 @@ export default function CommentCard({ comment, onDeleteAttempt }: Props) {
         {!isEditing && <div className="text-sm mt-2">{comment.body}</div>}
         {isEditing && (
           <div className="m-1">
-            <CommentTextarea value={commentState.body} onChange={onChange} />
+            <CommentTextarea
+              value={commentState.body}
+              onChange={onChange}
+              label="Edit Comment"
+            />
 
             <div className="flex items-center justify-end gap-4 text-xs">
               <button
@@ -103,7 +109,7 @@ export default function CommentCard({ comment, onDeleteAttempt }: Props) {
           </div>
         )}
       </div>
-      {!isEditing && (
+      {!isEditing && user.user?.sub === comment.creatorId && (
         <div className="dropdown dropdown-end self-start">
           <KebabButton />
           <ul

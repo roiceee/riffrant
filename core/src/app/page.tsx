@@ -10,13 +10,14 @@ import placeholder from "/public/user-placeholder.jpg";
 import { useCallback, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { getPosts } from "@/lib/actions-client";
+import PostFilters from "@/types/post-filters";
 
 export default function Home() {
   const { user, isLoading } = useUser();
 
-  const [filter, setFilter] = useState<"recent" | "popular">("recent");
+  const [filter, setFilter] = useState<PostFilters>("recent");
 
-  const changeFilter = useCallback((filter: "recent" | "popular") => {
+  const changeFilter = useCallback((filter: PostFilters) => {
     setFilter(filter);
     const elem: any = document.activeElement;
     if (elem) {

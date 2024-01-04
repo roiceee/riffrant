@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
   const sortBy = req.nextUrl.searchParams.get("sortBy");
   const userId = req.nextUrl.searchParams.get("id");
 
+  console.log(query);
   if (!query) {
     return NextResponse.json(null, { status: 400 });
   }
@@ -34,8 +35,7 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  if (sortBy === "popular") {
-    //sort first by length of upvotes array, and then length of downvotes array
+  if (sortBy === "most upvoted") {
     //the top should be the post with most upvotes and least downvotes
 
     if (!userId) {
@@ -46,6 +46,22 @@ export async function GET(req: NextRequest) {
     } else {
       posts = await PostModel.find({ creatorId: userId })
         .sort({ score: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    }
+  }
+
+  if (sortBy === "most discussed") {
+    //the top should be the post with most upvotes and least downvotes
+
+    if (!userId) {
+      posts = await PostModel.find({})
+        .sort({ comments: -1 })
+        .skip(skips)
+        .limit(pageSize);
+    } else {
+      posts = await PostModel.find({ creatorId: userId })
+        .sort({ comments: -1 })
         .skip(skips)
         .limit(pageSize);
     }

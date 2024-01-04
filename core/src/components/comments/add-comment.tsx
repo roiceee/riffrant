@@ -56,8 +56,7 @@ export default function AddComment({ postId, onAddComment }: Props) {
 
   return (
     <div className="mt-8 text-sm w-full">
-      <h6 className="mb-2">Comment</h6>
-      <CommentTextarea onChange={onChange} value={value} />
+      <CommentTextarea onChange={onChange} value={value} label={"Add Comment"}/>
       <div className="text-right">
         <button
           className="btn btn-outline btn-primary btn-sm mt-2"

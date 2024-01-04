@@ -1,7 +1,6 @@
-import { getPosts } from "@/lib/actions-client";
 import Post from "@/types/post";
-import React, { useCallback, useMemo, useState } from "react";
-import { useInfiniteQuery } from "react-query";
+import PostFilters from "@/types/post-filters";
+import React, { useMemo } from "react";
 import PostCard from "../containers/post-card";
 import PostCardContainer from "../containers/post-card-container";
 import ErrorDiv from "../util/error-div";
@@ -10,8 +9,8 @@ import LoadingDiv from "../util/loading";
 import SortDiv from "./sort-div";
 
 interface Props {
-  filter: "recent" | "popular";
-  changeFilter: (filter: "recent" | "popular") => void;
+  filter: PostFilters;
+  changeFilter: (filter: PostFilters) => void;
   refetch: () => void;
   status: string;
   data: any;

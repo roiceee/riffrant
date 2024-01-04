@@ -1,9 +1,10 @@
 "use client";
+import PostFilters from "@/types/post-filters";
 import _ from "lodash";
 
 interface Props {
   filter: string;
-  changeFilter: (filter: "recent" | "popular") => void;
+  changeFilter: (filter: PostFilters) => void;
   refetch: () => void;
 }
 
@@ -50,8 +51,11 @@ export default function SortDiv({ filter, changeFilter, refetch }: Props) {
             <li onClick={() => changeFilter("recent")}>
               <a>Recent</a>
             </li>
-            <li onClick={() => changeFilter("popular")}>
-              <a>Popular</a>
+            <li onClick={() => changeFilter("most upvoted")}>
+              <a>Most Upvoted</a>
+            </li>
+            <li onClick={() => changeFilter("most discussed")}>
+              <a>Most Discussed</a>
             </li>
           </ul>
         </div>
