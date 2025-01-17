@@ -8,8 +8,8 @@ import Image from "next/image";
 import Link from "next/link";
 import placeholder from "/public/user-placeholder.jpg";
 import { useCallback, useState } from "react";
-import { useInfiniteQuery } from "react-query";
-import { getPosts } from "@/lib/actions-client";
+import { useInfiniteQuery, useQuery } from "react-query";
+import { getPosts, getPostsMetadata } from "@/lib/actions-client";
 import PostFilters from "@/types/post-filters";
 
 export default function Home() {
@@ -24,6 +24,11 @@ export default function Home() {
       elem.blur();
     }
   }, []);
+
+  const metadataQuery = useQuery({
+    queryKey: ["metadata"],
+    queryFn: getPostsMetadata,
+  });
 
   const {
     data,
@@ -42,50 +47,69 @@ export default function Home() {
   });
 
   return (
-    <main className="">
-      <NormalContainer>
-        {!user && !isLoading && (
-          <b>
-            <a href={"api/auth/login"}>
-              <button className="btn btn-primary">Login</button>
-            </a>{" "}
-            to share your thoughts!
-          </b>
-        )}
-        {isLoading && <LoadingDiv />}
-        {user && (
-          <div className="flex gap-1">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <Link href={"/profile"}>
-                  <Image
-                    alt="profile"
-                    src={user.picture ? user.picture : placeholder}
-                    width={60}
-                    height={60}
-                  />
-                </Link>
+    <main className="flex flex-col-reverse gap-4 xl:flex-row xl:gap-10">
+      <section className="xl:min-w-[800px]">
+        <PostFeed
+          filter={filter}
+          changeFilter={changeFilter}
+          refetch={refetch}
+          status={status}
+          data={data}
+          isFetchingNextPage={isFetchingNextPage}
+          hasNextPage={hasNextPage}
+          fetchNextPage={fetchNextPage}
+        />
+      </section>
+      <section>
+        <section>
+          <NormalContainer className="xl:fixed">
+            {!user && !isLoading && (
+              <b>
+                <a href={"api/auth/login"}>
+                  <button className="btn btn-primary btn-sm">Login</button>
+                </a>{" "}
+                to share your thoughts!
+              </b>
+            )}
+            {isLoading && <LoadingDiv />}
+            {user && (
+              <div>
+                <div className="flex gap-1">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="btn btn-ghost btn-circle avatar"
+                  >
+                    <div className="w-10 rounded-full">
+                      <Link href={"/profile"}>
+                        <Image
+                          alt="profile"
+                          src={user.picture ? user.picture : placeholder}
+                          width={60}
+                          height={60}
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                  <PostButton />
+                </div>
+                <div className="mt-3">
+                  <p className="text-sm">
+                    Riff Score:{" "}
+                    {metadataQuery.isLoading
+                      ? "---"
+                      : metadataQuery.data.metadata[0].totalScore}
+                  </p>
+                  <p className="text-xs">
+                    Note: Maintain a positive attitude and respect others&apos;
+                    opinions.
+                  </p>
+                </div>
               </div>
-            </div>
-            <PostButton />
-          </div>
-        )}
-      </NormalContainer>
-
-      <PostFeed
-        filter={filter}
-        changeFilter={changeFilter}
-        refetch={refetch}
-        status={status}
-        data={data}
-        isFetchingNextPage={isFetchingNextPage}
-        hasNextPage={hasNextPage}
-        fetchNextPage={fetchNextPage}
-      />
+            )}
+          </NormalContainer>
+        </section>
+      </section>
     </main>
   );
 }
