@@ -12,10 +12,6 @@ Riffrant is a social media app designed for users to express their thoughts and 
   - Spring Boot
   - MongoDB
 
-## License
-
-This project is licensed under the [Your License Name] - see the [LICENSE.md](LICENSE.md) file for details.
-
 ## Acknowledgements
 
 Kimzie Torres
