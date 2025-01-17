@@ -18,7 +18,7 @@ import NextImage from "@/components/about/next-image";
 
 function AboutPage() {
   return (
-    <main className="prose mx-auto">
+    <main className="prose mx-auto max-w-[1000px]">
       <section>
         <h1 className="font-bold text-center">RiffRant</h1>
         <p className="text-justify m-4">
